@@ -23,7 +23,7 @@ void string_parsing(string String,vector<string> & char_array){
 
 
 int main(){
-
+	int returnstatus;
 	vector<string> char_array;
 	vector<string> pars_array;
 	char *login_name;
@@ -37,16 +37,19 @@ int main(){
 	string usr_input2;	
 	
 
-
 	while(usr_input != "exit"){
+	beginning:
 	cout << login_name << "@" << host_name << "$"; 
 	getline(cin, usr_input);
-	char * token;
-	token = strtok(&usr_input[0], "#");
-	usr_input = token;
 	string usr_input2;
-
-		
+	if(usr_input.empty()){
+		goto beginning;
+		}
+			
+		char * token;
+		token = strtok(&usr_input[0], "#");
+		usr_input = token;
+	
 	int trav_str = usr_input.size();
 	int str_ctr  = 0;
 	for(str_ctr=0;str_ctr < trav_str;++str_ctr){
@@ -54,10 +57,12 @@ int main(){
 		
 		if(usr_input == "exit"){ 
 		cout << "Exiting..."<< endl;
+		char_array.clear();
+		pars_array.clear();
+		//break;
 		goto end_of_while;
 		}
-		
-		if(usr_input[str_ctr] == ';'){
+		else if(usr_input[str_ctr] == ';'){
 			token = strtok(&usr_input[0], ";");
 				while(token != NULL){
 					pars_array.push_back(token);
@@ -81,20 +86,20 @@ int main(){
 			argv[n] = NULL;
 			int pid = fork();
 			if(pid == -1){
-				perror("there was error with fork().");
+				perror("There was error with fork().");
 				exit(1);}
 			else if(pid == 0){
 				if(-1 == execvp(argv[0],argv)){
-					perror("there was an error");	
+					perror("There was an error");	
 				}
 				exit(1);
 			}	
 			else if(pid > 0){
-				if(-1 == wait(0)){perror("there was an error with wait().");}	
+				if(-1 == wait(0)){perror("There was an error with wait().");}	
 			}			
 			char_array.clear();
 			}
-
+		char_array.clear();
 		pars_array.clear();
 		goto end_of_while;
 		}
@@ -126,21 +131,30 @@ int main(){
 			argv[n] = NULL;
 			int pid = fork();
 			if(pid == -1){
-				perror("there was error with fork().");
+				perror("There was error with fork().");
 				exit(1);}
 			else if(pid == 0){
 				if(-1 == execvp(argv[0],argv)){
-					perror("there was an error");	
-					goto end_of_while;
+					perror("There was an error");	
 					}
-				exit(1);
 			}	
-			else if(pid > 0){
-				if(-1 == wait(0)){perror("there was an error with wait().");}	
+			{
+				if( -1 ==  wait(&returnstatus))
+			{cout << "failed"<<endl;
+				usr_input.clear();
+				usr_input2.clear();
+				char_array.clear();
+				pars_array.clear();
+				goto end_of_while;
+				pars_ctr = pars_size;
+				break;
+				}
+					
+					
 			}			
 			char_array.clear();
 			}
-
+		char_array.clear();
 		pars_array.clear();
 		goto end_of_while;
 		}
@@ -170,25 +184,32 @@ int main(){
 			argv[n] = NULL;
 			int pid = fork();
 			if(pid == -1){
-				perror("there was error with fork().");
+				perror("There was error with fork().");
 				exit(1);}
 			else if(pid == 0){
 				if(-1 == execvp(argv[0],argv)){
-					perror("there was an error");	
-				}
-				exit(1);
+					perror("There was an error");	
+					}
+					
 			}	
 			else if(pid > 0){
-				if(-1 == wait(0)){perror("there was an error with wait().");}	
+				if(-1 == wait(0)){perror("There was an error with wait().");
+					}
+				else{ 
+				usr_input.clear();
+				usr_input2.clear();
+				pars_array.clear();
+				char_array.clear();
+				goto end_of_while;}	
 			}			
 			char_array.clear();
 			}
-
+		char_array.clear();
 		pars_array.clear();
 		goto end_of_while;
 		}
 		}
-			string_parsing(usr_input,char_array);
+		if(!usr_input.empty()){		string_parsing(usr_input,char_array);
 		
 			i = char_array.size();
 			char * argv[100];
@@ -202,22 +223,25 @@ int main(){
 			argv[n] = NULL;
 			pid = fork();
 			if(pid == -1){
-				perror("there was error with fork().");
+				perror("There was error with fork().");
 				exit(1);}
 			else if(pid == 0){
 				if(-1 == execvp(argv[0],argv)){
-					perror("there was an error");	
-				}
+					perror("There was an error");	
+					}
 				exit(1);
 			}		
 			else if(pid > 0){
-				if(-1 == wait(0)){perror("there was an error with wait().");}
+				if(-1 == wait(0)){perror("There was an error with wait().");}
 			}
 			char_array.clear();
 			pars_array.clear();
+			}
 	end_of_while:
-	char_array.clear();
-	
+	if(char_array.size() > 0){
+	char_array.clear();}
+	if(pars_array.size() > 0){
+	pars_array.clear();}	
 }
 
 
