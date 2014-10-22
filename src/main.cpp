@@ -31,9 +31,6 @@ int main(){
 	int i;
 	int pid;
 	login_name = getlogin();
-	if(login_name == NULL){perror("getlogin");//check to see if we can obtain login info
-	strcpy(login_name,"");
-	}
 	char host_name[MAXHOSTNAMELEN];
 	if(gethostname(host_name,sizeof host_name) == -1){perror("hostname");//check to see if we can obtain host name.
 	strcpy(host_name,"");
@@ -44,7 +41,12 @@ int main(){
 
 	while(usr_input != "exit"){
 	beginning:
-	cout << login_name << "@" << host_name << "$"; // outputs $ and waits for user input.
+	if(!login_name){perror("getlogin");//check to see if we can obtain login info
+	}
+	else{
+	printf("%s",login_name);
+	}
+	cout  << "@" << host_name << "$"; // outputs $ and waits for user input.
 	getline(cin, usr_input);
 	string usr_input2;
 	if(usr_input.empty()){//Checks to see if user just clicked enter and not input anything.
