@@ -15,11 +15,11 @@
 #include <grp.h>
 #include <sys/sysmacros.h>
 
-#define GREEN	 "\e[1;32m"
-#define CYAN 	 "\e[1;36m"
-#define BLUE	 "\e[1;34m"
-#define GREYBG	 "\e[100m"
-#define RESET	 "\e[0m"
+#define GREEN	 "\033[1;32m"
+#define CYAN 	 "\033[1;36m"
+#define BLUE	 "\033[1;34m"
+#define GREYBG	 "\033[100m"
+#define RESET	 "\033[0m"
 
 using namespace std;
 
@@ -204,7 +204,7 @@ void print_dir(vector<string>args,vector<string>directories)
 	int R = 0;
 
 	//set a,l,R flags for future ifstatements.
-	for(int i = 0; i < args.size();i++)
+	for(unsigned int i = 0; i < args.size();i++)
 	{
 		if(args[i]=="l")
 		{
@@ -228,7 +228,6 @@ void print_dir(vector<string>args,vector<string>directories)
 	while(!directories.empty())
 	{
 		//this is the loop for where argument passed through was not a directory.
-		beginning:
 		string currentdir = directories.back();
 		struct stat s;
 		if(lstat(currentdir.c_str(),&s)<0)
@@ -317,7 +316,7 @@ void print_dir(vector<string>args,vector<string>directories)
 			int total_size = 0;
 			struct stat total;
 			//this will print out the "total" for the -l flag.
-			for(int n = 0; n < temp.size(); ++n)
+			for(unsigned int n = 0; n < temp.size(); ++n)
 			{
 				string temp_path = currentdir;
 				temp_path.append("/");
@@ -501,19 +500,17 @@ int main(int argc, char* argv[])
 	vector<string> args;
 	vector<string> directories;
 
-	int i = 0;
-	for( i ; i < argc ; i++){
+	for(int i = 0 ; i < argc ; i++){
 	arg_temp.push_back(argv[i]);
 	}
 
 	
 	//get arguments
-	i = 1;
-	for( i ; i < arg_temp.size(); i++)
+	for(unsigned int i = 1 ; i < arg_temp.size(); i++)
 	{
 		if(arg_temp[i].at(0) == '-')
 		{
-			for(int n = 1; n < arg_temp[i].size(); ++n)
+			for(unsigned int n = 1; n < arg_temp[i].size(); ++n)
 			{	
 				string t(1,arg_temp[i][n]);
 				args.push_back(t);
@@ -522,8 +519,7 @@ int main(int argc, char* argv[])
 	}
 	
 	//get directory
-	i = 1;
-	for( i ; i < arg_temp.size(); i++)
+	for(unsigned int i = 1 ; i < arg_temp.size(); i++)
 	{
 		if(arg_temp[i].at(0) != '-')
 		{
