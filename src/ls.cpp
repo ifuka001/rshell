@@ -227,13 +227,23 @@ void print_dir(vector<string>args,vector<string>directories)
 	//this is the loop to go through each directory.
 	while(!directories.empty())
 	{
+		beginning:
 		//this is the loop for where argument passed through was not a directory.
 		string currentdir = directories.back();
 		struct stat s;
 		if(lstat(currentdir.c_str(),&s)<0)
 		{
 			perror("Stat");
-			exit(0);
+			if(directories.size() == 1)
+			{
+				exit(0);
+			}
+			else
+			{
+				directories.pop_back();
+				goto beginning;
+			}
+		
 		}
 		if(S_ISREG(s.st_mode) || S_ISLNK(s.st_mode))
 		{
