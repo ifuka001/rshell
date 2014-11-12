@@ -1,0 +1,3153 @@
+Script started on Tue 11 Nov 2014 05:48:51 PM PST
+]0;ifuka001@ifuka001-UX32A: ~/rshell/testsifuka001@ifuka001-UX32A:~/rshell/tests$ cd ..
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ ls
+[0m[01;34mbin[0m  LICENSE  Makefile  README.md  [01;34msrc[0m  [01;34mtests[0m
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ make
+mkdir -p bin
+g++ -Wall -Werror -ansi -pedantic src/main.cpp -o bin/rshell
+g++ -Wall -Werror -ansi -pedantic src/cp.cpp -o bin/cp
+g++ -Wall -Werror -ansi -pedantic src/ls.cpp -o bin/ls
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ cpp[K[K[K#cppcheck th[K[K[K ls
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ cd src
+]0;ifuka001@ifuka001-UX32A: ~/rshell/srcifuka001@ifuka001-UX32A:~/rshell/src$ cppcheck ls.cpp
+Checking ls.cpp...
+]0;ifuka001@ifuka001-UX32A: ~/rshell/srcifuka001@ifuka001-UX32A:~/rshell/src$ #valgrind t[Kbin/ls
+]0;ifuka001@ifuka001-UX32A: ~/rshell/srcifuka001@ifuka001-UX32A:~/rshell/src$ cd ..
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ ls[K[Kcd bin
+]0;ifuka001@ifuka001-UX32A: ~/rshell/binifuka001@ifuka001-UX32A:~/rshell/bin$ valgrind ./a.[K[Kls
+==11528== Memcheck, a memory error detector
+==11528== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==11528== Using Valgrind-3.10.0.SVN and LibVEX; rerun with -h for copyright info
+==11528== Command: ./ls
+==11528== 
+[1;32mcp                  [0m[1;32mls                  [0m[1;32mrshell              [0m
+
+==11528== 
+==11528== HEAP SUMMARY:
+==11528==     in use at exit: 0 bytes in 0 blocks
+==11528==   total heap usage: 80 allocs, 80 frees, 34,999 bytes allocated
+==11528== 
+==11528== All heap blocks were freed -- no leaks are possible
+==11528== 
+==11528== For counts of detected and suppressed errors, rerun with: -v
+==11528== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+]0;ifuka001@ifuka001-UX32A: ~/rshell/binifuka001@ifuka001-UX32A:~/rshell/bin$ cd ..
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ ls
+[0m[01;34mbin[0m  LICENSE  Makefile  README.md  [01;34msrc[0m  [01;34mtests[0m
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ #simple ls
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls
+[1;34mbin                 [0mLICENSE             [0mMakefile            [0mREADME.md           [0m
+[1;34msrc                 [0m[1;34mtests               [0m
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ #sin[Kmple ls -a[1@l[1@s[1@ [1@-[1@a[1@ 
+[0m[01;34m.[0m  [01;34m..[0m  [01;34mbin[0m  [01;34m.git[0m  LICENSE  Makefile  README.md  [01;34msrc[0m  [01;34mtests[0m
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ #wrong call[C[C[C[1@w[1@a[1@s[1@ 
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls -a [K
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m[1;34mbin                 [0m[100m[1;34m.git                [0m[0m
+LICENSE             [0mMakefile            [0mREADME.md           [0m[1;34msrc                 [0m
+[1;34mtests               [0m
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ #simple ls -l call[1@b[1@i[1@n[1@/[1@l[1@s[1@ [1@-[1@l[1@ 
+total 24
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mbin[0m
+-rw-rw-r--   1 ifuka001 ifuka001  1484 Nov 11 14:50 LICENSE
+-rw-rw-r--   1 ifuka001 ifuka001   444 Nov 11 14:57 Makefile
+-rw-rw-r--   1 ifuka001 ifuka001  2174 Nov 11 14:50 README.md
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:35 [1;34msrc[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mtests[0m
+
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls -R #simple ls -R call
+.:
+[1;34mbin                 [0mLICENSE             [0mMakefile            [0mREADME.md           [0m
+[1;34msrc                 [0m[1;34mtests               [0m
+
+./bin:
+[1;32mcp                  [0m[1;32mls                  [0m[1;32mrshell              [0m
+
+./src:
+cp.cpp              [0mls.cpp              [0mmain.cpp            [0mTimer.h             [0m
+
+./tests:
+exec.script         [0mls.script           [0m
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls -a in[K[Kbin src #two arguments [K
+src:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mcp.cpp              [0mls.cpp              [0m
+[100m.ls.cpp.swp         [0m[0mmain.cpp            [0mTimer.h             [0m
+
+bin:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m[1;32mcp                  [0m[1;32mls                  [0m
+[1;32mrshell              [0m
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls -a bin #one argument
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m[1;32mcp                  [0m[1;32mls                  [0m
+[1;32mrshell              [0m
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls -la #two arguments long form
+total 36
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m.[0m
+drwxr-xr-x  28 ifuka001 ifuka001  4096 Nov 11 17:30 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mbin[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.git[0m
+-rw-rw-r--   1 ifuka001 ifuka001  1484 Nov 11 14:50 LICENSE
+-rw-rw-r--   1 ifuka001 ifuka001   444 Nov 11 14:57 Makefile
+-rw-rw-r--   1 ifuka001 ifuka001  2174 Nov 11 14:50 README.md
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:35 [1;34msrc[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mtests[0m
+
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ #sorry that was one
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls -la src bin #two arguments long form
+bin:
+total 116
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34m[100m.[0m
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m..[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 19814 Nov 11 17:48 [1;32mcp[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 56348 Nov 11 17:49 [1;32mls[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 32591 Nov 11 17:48 [1;32mrshell[0m
+
+
+src:
+total 64
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:35 [1;34m[100m.[0m
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001  5137 Nov 11 14:50 cp.cpp
+-rw-rw-r--   1 ifuka001 ifuka001 10059 Nov 11 17:35 ls.cpp
+-rw-r--r--   1 ifuka001 ifuka001 24576 Nov 11 17:35 [100m.ls.cpp.swp[0m
+-rw-rw-r--   1 ifuka001 ifuka001  6672 Nov 11 14:50 main.cpp
+-rw-rw-r--   1 ifuka001 ifuka001  2700 Nov 11 14:50 Timer.h
+
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls -al Makefile #simple file call
+-rw-rw-r--   1 ifuka001 ifuka001   444 Nov 11 14:57 Makefile
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls -la bin/ls #[KREADME.md #f[Kfile/s[Kdirectory call long form with 2 g[Karguments
+-rw-rw-r--   1 ifuka001 ifuka001  2174 Nov 11 14:50 README.md
+-rwxrwxr-x   1 ifuka001 ifuka001 56348 Nov 11 17:49 [1;32mbin/ls[0m
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls lala #no [K[K[Knon existant fie[Kle/directory
+Stat: No such file or directory
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls lala #non existant file/directory[C[C[C[C[C[1@ [1@t[1@e[1@s[1@t[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C with a correct direcotry[K[K[K[Ktory
+Stat: No such file or directory
+Stat: No such file or directory
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls lala test #non existant file/directory with a correct directory[C[C[1@s
+tests:
+exec.script         [0mls.script           [0m
+
+Stat: No such file or directory
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls -al -alal[K[K #calling arug[K[K[K[Kflag twice
+total 36
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m.[0m
+drwxr-xr-x  28 ifuka001 ifuka001  4096 Nov 11 17:30 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mbin[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.git[0m
+-rw-rw-r--   1 ifuka001 ifuka001  1484 Nov 11 14:50 LICENSE
+-rw-rw-r--   1 ifuka001 ifuka001   444 Nov 11 14:57 Makefile
+-rw-rw-r--   1 ifuka001 ifuka001  2174 Nov 11 14:50 README.md
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:35 [1;34msrc[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mtests[0m
+
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ #[Kbin/ls -la #flipping the a[Kflags
+total 36
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m.[0m
+drwxr-xr-x  28 ifuka001 ifuka001  4096 Nov 11 17:30 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mbin[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.git[0m
+-rw-rw-r--   1 ifuka001 ifuka001  1484 Nov 11 14:50 LICENSE
+-rw-rw-r--   1 ifuka001 ifuka001   444 Nov 11 14:57 Makefile
+-rw-rw-r--   1 ifuka001 ifuka001  2174 Nov 11 14:50 README.md
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:35 [1;34msrc[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mtests[0m
+
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls -R #now the recursive call
+.:
+[1;34mbin                 [0mLICENSE             [0mMakefile            [0mREADME.md           [0m
+[1;34msrc                 [0m[1;34mtests               [0m
+
+./bin:
+[1;32mcp                  [0m[1;32mls                  [0m[1;32mrshell              [0m
+
+./src:
+cp.cpp              [0mls.cpp              [0mmain.cpp            [0mTimer.h             [0m
+
+./tests:
+exec.script         [0mls.script           [0m
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls -R #now the recursive call[C[1@l[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C long form
+.:
+total 24
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mbin[0m
+-rw-rw-r--   1 ifuka001 ifuka001  1484 Nov 11 14:50 LICENSE
+-rw-rw-r--   1 ifuka001 ifuka001   444 Nov 11 14:57 Makefile
+-rw-rw-r--   1 ifuka001 ifuka001  2174 Nov 11 14:50 README.md
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:35 [1;34msrc[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mtests[0m
+
+
+./bin:
+total 108
+-rwxrwxr-x   1 ifuka001 ifuka001 19814 Nov 11 17:48 [1;32mcp[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 56348 Nov 11 17:49 [1;32mls[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 32591 Nov 11 17:48 [1;32mrshell[0m
+
+
+./src:
+total 32
+-rw-rw-r--   1 ifuka001 ifuka001  5137 Nov 11 14:50 cp.cpp
+-rw-rw-r--   1 ifuka001 ifuka001 10059 Nov 11 17:35 ls.cpp
+-rw-rw-r--   1 ifuka001 ifuka001  6672 Nov 11 14:50 main.cpp
+-rw-rw-r--   1 ifuka001 ifuka001  2700 Nov 11 14:50 Timer.h
+
+
+./tests:
+total 36
+-rw-rw-r--   1 ifuka001 ifuka001 25599 Nov 11 14:50 exec.script
+-rw-rw-r--   1 ifuka001 ifuka001  8192 Nov 11 17:54 ls.script
+
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls -Rl #now the recursive call long form[1P[1P[1@a[1P[1@R[1P[1@l[1@R[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C flipping flags
+.:
+total 24
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mbin[0m
+-rw-rw-r--   1 ifuka001 ifuka001  1484 Nov 11 14:50 LICENSE
+-rw-rw-r--   1 ifuka001 ifuka001   444 Nov 11 14:57 Makefile
+-rw-rw-r--   1 ifuka001 ifuka001  2174 Nov 11 14:50 README.md
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:35 [1;34msrc[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mtests[0m
+
+
+./bin:
+total 108
+-rwxrwxr-x   1 ifuka001 ifuka001 19814 Nov 11 17:48 [1;32mcp[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 56348 Nov 11 17:49 [1;32mls[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 32591 Nov 11 17:48 [1;32mrshell[0m
+
+
+./src:
+total 32
+-rw-rw-r--   1 ifuka001 ifuka001  5137 Nov 11 14:50 cp.cpp
+-rw-rw-r--   1 ifuka001 ifuka001 10059 Nov 11 17:35 ls.cpp
+-rw-rw-r--   1 ifuka001 ifuka001  6672 Nov 11 14:50 main.cpp
+-rw-rw-r--   1 ifuka001 ifuka001  2700 Nov 11 14:50 Timer.h
+
+
+./tests:
+total 40
+-rw-rw-r--   1 ifuka001 ifuka001 25599 Nov 11 14:50 exec.script
+-rw-rw-r--   1 ifuka001 ifuka001 12288 Nov 11 17:56 ls.script
+
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls -lR #now the recursive call long form flipping flags[1@ [1@-[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C separating the flags
+.:
+total 24
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mbin[0m
+-rw-rw-r--   1 ifuka001 ifuka001  1484 Nov 11 14:50 LICENSE
+-rw-rw-r--   1 ifuka001 ifuka001   444 Nov 11 14:57 Makefile
+-rw-rw-r--   1 ifuka001 ifuka001  2174 Nov 11 14:50 README.md
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:35 [1;34msrc[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mtests[0m
+
+
+./bin:
+total 108
+-rwxrwxr-x   1 ifuka001 ifuka001 19814 Nov 11 17:48 [1;32mcp[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 56348 Nov 11 17:49 [1;32mls[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 32591 Nov 11 17:48 [1;32mrshell[0m
+
+
+./src:
+total 32
+-rw-rw-r--   1 ifuka001 ifuka001  5137 Nov 11 14:50 cp.cpp
+-rw-rw-r--   1 ifuka001 ifuka001 10059 Nov 11 17:35 ls.cpp
+-rw-rw-r--   1 ifuka001 ifuka001  6672 Nov 11 14:50 main.cpp
+-rw-rw-r--   1 ifuka001 ifuka001  2700 Nov 11 14:50 Timer.h
+
+
+./tests:
+total 40
+-rw-rw-r--   1 ifuka001 ifuka001 25599 Nov 11 14:50 exec.script
+-rw-rw-r--   1 ifuka001 ifuka001 12288 Nov 11 17:56 ls.script
+
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ i[Kbin/ls -Ra #recursive call for hidden files.
+.:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m[1;34mbin                 [0m[100m[1;34m.git                [0m[0m
+LICENSE             [0mMakefile            [0mREADME.md           [0m[1;34msrc                 [0m
+[1;34mtests               [0m
+
+./bin:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m[1;32mcp                  [0m[1;32mls                  [0m
+[1;32mrshell              [0m
+
+./.git:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m[1;34mbranches            [0mCOMMIT_EDITMSG      [0m
+config              [0mdescription         [0mHEAD                [0m[1;34mhooks               [0m
+index               [0m[1;34minfo                [0m[1;34mlogs                [0m[1;34mobjects             [0m
+ORIG_HEAD           [0mpacked-refs         [0m[1;34mrefs                [0m
+
+./.git/branches:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m
+
+./.git/hooks:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m[1;32mapplypatch-msg.sample[0m[1;32mcommit-msg.sample   [0m
+[1;32mpost-update.sample  [0m[1;32mpre-applypatch.sample[0m[1;32mpre-commit.sample   [0m[1;32mpre-push.sample     [0m
+[1;32mpre-rebase.sample   [0m[1;32mprepare-commit-msg.sample[0m[1;32mupdate.sample       [0m
+
+./.git/info:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mexclude             [0m
+
+./.git/logs:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mHEAD                [0m[1;34mrefs                [0m
+
+./.git/logs/refs:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m[1;34mheads               [0m[1;34mremotes             [0m
+
+./.git/logs/refs/heads:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mls                  [0mmaster              [0m
+
+./.git/logs/refs/remotes:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m[1;34morigin              [0m
+
+./.git/logs/refs/remotes/origin:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mHEAD                [0mmaster              [0m
+
+./.git/objects:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m[1;34m03                  [0m[1;34m09                  [0m
+[1;34m0e                  [0m[1;34m13                  [0m[1;34m14                  [0m[1;34m16                  [0m
+[1;34m1a                  [0m[1;34m1b                  [0m[1;34m1d                  [0m[1;34m22                  [0m
+[1;34m23                  [0m[1;34m29                  [0m[1;34m2a                  [0m[1;34m2c                  [0m
+[1;34m2e                  [0m[1;34m30                  [0m[1;34m34                  [0m[1;34m3c                  [0m
+[1;34m3d                  [0m[1;34m44                  [0m[1;34m46                  [0m[1;34m47                  [0m
+[1;34m54                  [0m[1;34m55                  [0m[1;34m5b                  [0m[1;34m5d                  [0m
+[1;34m5f                  [0m[1;34m60                  [0m[1;34m67                  [0m[1;34m69                  [0m
+[1;34m6c                  [0m[1;34m6d                  [0m[1;34m6e                  [0m[1;34m71                  [0m
+[1;34m72                  [0m[1;34m78                  [0m[1;34m7a                  [0m[1;34m7d                  [0m
+[1;34m7f                  [0m[1;34m83                  [0m[1;34m85                  [0m[1;34m86                  [0m
+[1;34m89                  [0m[1;34m8b                  [0m[1;34m8d                  [0m[1;34m96                  [0m
+[1;34m97                  [0m[1;34m9b                  [0m[1;34ma3                  [0m[1;34ma9                  [0m
+[1;34maa                  [0m[1;34mb2                  [0m[1;34mb5                  [0m[1;34mb7                  [0m
+[1;34mb8                  [0m[1;34mba                  [0m[1;34mc0                  [0m[1;34mc5                  [0m
+[1;34mc6                  [0m[1;34mce                  [0m[1;34md0                  [0m[1;34md3                  [0m
+[1;34md6                  [0m[1;34mda                  [0m[1;34mdf                  [0m[1;34me4                  [0m
+[1;34me6                  [0m[1;34me9                  [0m[1;34mea                  [0m[1;34meb                  [0m
+[1;34mec                  [0m[1;34mf0                  [0m[1;34mf1                  [0m[1;34mf7                  [0m
+[1;34mf8                  [0m[1;34mf9                  [0m[1;34mfb                  [0m[1;34mfe                  [0m
+[1;34minfo                [0m[1;34mpack                [0m
+
+./.git/objects/03:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m915ad7fe94092c3d0086ea74b80c7751da3fe6[0m
+
+./.git/objects/09:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m3918d7a7ad7f7b0ce7e8decb51540996c5b0a5[0m
+
+./.git/objects/0e:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mbe15d457249fe883257255d6d2b07d0053b527[0m
+
+./.git/objects/13:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mea0576ac70fce99e6c7539e5d5062cb16f8f2a[0m
+
+./.git/objects/14:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m21b18e395f3a5d23df4d33fa21c9ccf0be90f3[0m
+
+./.git/objects/16:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m100f1fb28e8436be0b8977c4d0d51e6be43cbf[0m
+
+./.git/objects/1a:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mfa6b51d2643c143da33085ea0560deb58cc74a[0m
+
+./.git/objects/1b:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mf4bd470871ac5d272dd1bdefea78dab9baf0f0[0m
+
+./.git/objects/1d:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m3a3e9d528e85532523c68ecfc838a9f937c29c[0m
+
+./.git/objects/22:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m9eaf60507adfc80a6af441a53090b4b170f698[0m
+
+./.git/objects/23:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m2ee319b5e206f27cb1673ed2617fc6ce49c8a0[0m
+
+./.git/objects/29:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m9959ec6972c5374ffe6bfa19f51ab4be8c387e[0m
+
+./.git/objects/2a:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m7ea73f192000c62b727cfc9dcaa7e67a76e2e7[0m
+
+./.git/objects/2c:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m5e14db0cb23b63855621119344e7c1d9802eed[0m
+
+./.git/objects/2e:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m126299b6bcf8bdf613132fdbffb3ead8adafe1[0m
+
+./.git/objects/30:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mf9a3f46a89d337bb765b78088dd240d0877aa3[0m
+
+./.git/objects/34:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m30270841eca3f34004d95f0a4d4022980b444d[0m
+
+./.git/objects/3c:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m69a079682381fbdfba1c65bf619a5baeb007a1[0mc96432045ee876b4724d24939adf2c9e81e828[0m
+
+./.git/objects/3d:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m211e109c197f1cc649ad7569e3af532d67011c[0mba0119292d5e593440c204f660ed2a69fcf36b[0m
+
+./.git/objects/44:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0md8db9b7800466af7ba9d8df09259d73ad27f48[0m
+
+./.git/objects/46:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mbf631b1f6f6eed038bfcc0b489c971b1c9d1c3[0m
+
+./.git/objects/47:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m4d58a0f0e24a826b1b00560c463f22fb56af8a[0m715ad35e20f7db33ae30ee53ba93e7ec95ac67[0m
+
+./.git/objects/54:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m3b9bebdc6bd5c4b22136034a95dd097a57d3dd[0m
+
+./.git/objects/55:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m79c46136c645fa257ecc3d07bd02a59f470b6f[0m
+
+./.git/objects/5b:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m047db65097b7f2853a6952df6e10bc51eb99ab[0ma0c00cd14735684ba9f36a2872bd9737350796[0m
+
+./.git/objects/5d:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m42d92232e2f1c26e41e9610ccc1d0b5b6ae7f2[0mc4da710bcbd436c6085e512ed3649cec017d2e[0m
+
+./.git/objects/5f:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mb55d040177d7d701d37c6d154b248d86829b37[0m
+
+./.git/objects/60:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m28302ed2961782f6394233666ccaa1db9414b3[0m
+
+./.git/objects/67:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m508d4c18c8cec8b522551aef623d26b276b8cd[0m
+
+./.git/objects/69:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m76879efddcebfb1add3ada2188765d678bb2b0[0m
+
+./.git/objects/6c:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m19f5f62969fe38e61a96fddd784cd1359f2a73[0m
+
+./.git/objects/6d:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m7d6e378db0bc2bb7fd41532dec419fb191fbd5[0m
+
+./.git/objects/6e:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mabcbccbb0f63476aa74ae722a962bd89106241[0m
+
+./.git/objects/71:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m5e310660937e568c81b812b7fd56fe39e8a5e2[0m
+
+./.git/objects/72:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m2001674fa63dceb91bc3883ffde990968209b4[0m61dff79ae72a3dd0a2f393cc0fd133db9fa0f1[0m
+
+./.git/objects/78:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m1cc97b522b895740d63ecb212d3889e509e7e7[0m
+
+./.git/objects/7a:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mdd04361c0ec7a4c4088015e7cc38f96f3c1158[0m
+
+./.git/objects/7d:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mf7bc7309d182227990218f2b6c537a3055117e[0m
+
+./.git/objects/7f:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mc05c227a29930de51ca530833e15b9825fc88a[0m
+
+./.git/objects/83:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mba77afe80ee1862c15c2c92e6edaeb9ba368d7[0m
+
+./.git/objects/85:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mb930b25d9689eec47ea5f7356c8601d948fcc1[0m
+
+./.git/objects/86:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m2fe13b57d586244e0236cb5c40a5e327dd90b3[0m
+
+./.git/objects/89:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mce2d76c3dc18d9944de913c028bb5dc68b285b[0mfcd3aff9d7dfeb9c0e1cba34e8dfd55a612c01[0m
+
+./.git/objects/8b:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m7e731fae6f2b063ceb5f2eac684e31c65c3aa8[0m
+
+./.git/objects/8d:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m7ff4faec935627f0d8bd9e9f348355a172ad48[0m
+
+./.git/objects/96:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mc519d9ec681d98a98181d48c79cbf13d9b0a1c[0m
+
+./.git/objects/97:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0md4d5209b489878fdded00b446f7a055d8cc906[0m
+
+./.git/objects/9b:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m3c3fd56d5fa3f1383297820304b5bc0e07fd76[0m
+
+./.git/objects/a3:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mea99e4e513694223b7e3c5fcba7c3bf0a79309[0m
+
+./.git/objects/a9:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0ma41ba5e37b6bfea9ce99ced13ed40df7c4b602[0m
+
+./.git/objects/aa:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m2788e97eb4e5f1ae69724f5b5566c01d5cb9f6[0m
+
+./.git/objects/b2:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m11a32c0fb6f7c42f290450474d3b49e3a18d06[0m2a2a41e93de4b0ffebdb36de02d4612c908616[0m
+
+./.git/objects/b5:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0ma97ed6bcb36860a98f30afaad169c94155142f[0md8321e849c1dd0d61f743029af1bbc0b0fb972[0m
+
+./.git/objects/b7:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m99031d1a535204c9e0ab67c12cfbc0581dfb1f[0m
+
+./.git/objects/b8:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mf9ef8d7fd5c69681b6783536c9672767e3e291[0m
+
+./.git/objects/ba:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m20baba6cb0c73f46452e3d56a25ce377f36c10[0m
+
+./.git/objects/c0:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mc1dbf05626a5f28427fcbdbbcfa790e4bed397[0m
+
+./.git/objects/c5:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mf86ce0a78866882579097a1c3181b366855c64[0m
+
+./.git/objects/c6:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m8fddc625553cb1ddffc2f644c2d4ec9d208cc5[0m
+
+./.git/objects/ce:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mf0ea6c6a78ab17343e8d9e17f579707981f8ac[0m
+
+./.git/objects/d0:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m0a594fb4acdb58dff1110ee03459a77fe9980d[0m
+
+./.git/objects/d3:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m8dc11acee60f3b7863d8466d559e0803b67489[0m
+
+./.git/objects/d6:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m6316e04557463314a6888836fd09f22b07f165[0m
+
+./.git/objects/da:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m223bc92a3e0578d8a540164bea4d5b0e420b10[0m
+
+./.git/objects/df:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m172a8f1f4d40f551967e756469c3f1a12c6af2[0mc51949498025ee165e74aec8c69f2172c76197[0m
+
+./.git/objects/e4:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m647f3f55f5d4e20c13100868df8768ba98252f[0m
+
+./.git/objects/e6:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m309187d074c29a4e03a7a81aa30711b8f0bb24[0m4e1395c8c6b5d00d9c23ac4bb572790323aa4c[0m
+9de29bb2d1d6434b8b29ae775ad8c2e48c5391[0m
+
+./.git/objects/e9:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m7949b0420b533ffc30aef3056b066cac2bd6e9[0mc3d8806cf3d039777833f0bfe7cfc012ed1c3a[0m
+
+./.git/objects/ea:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mc4f4840d9be0306f20f30196746abbcbbe786b[0m
+
+./.git/objects/eb:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m74741647b176e2643c3a476016cdb06d66a643[0m
+
+./.git/objects/ec:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m2cade7346963cd3157c3e49bec9cacd929bd27[0mee53563043177039a61d4be303e0a740e3696c[0m
+
+./.git/objects/f0:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m7b89356cf7c3ecc81c403d10b7ed2cfdc1fac8[0m
+
+./.git/objects/f1:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m1428460fc22d4cf4b38c076596c14daead27b3[0m2aef40940d17f6619654d64f2a3b05846089fb[0m
+
+./.git/objects/f7:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0me55ee2abed40165f2c5daacd3c34c138f84c72[0m
+
+./.git/objects/f8:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m91dbd96e159dfb8c762eea5c6be5df767c9bb8[0m
+
+./.git/objects/f9:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m319f116f523708a9ceec064d65c375c8dda7ca[0m
+
+./.git/objects/fb:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m187dc2e239dbc2764b50b8c236cf6f5f8bbe84[0m84ec58d13331b0dcfd51606533c0a39f1f0889[0m
+
+./.git/objects/fe:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m7f7935fa81fb7f02968611b744205aa01ab52d[0m
+
+./.git/objects/info:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m
+
+./.git/objects/pack:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m
+
+./.git/refs:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m[1;34mheads               [0m[1;34mremotes             [0m
+[1;34mtags                [0m
+
+./.git/refs/heads:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mls                  [0mmaster              [0m
+
+./.git/refs/remotes:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m[1;34morigin              [0m
+
+./.git/refs/remotes/origin:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mHEAD                [0mmaster              [0m
+
+./.git/refs/tags:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0m
+
+./src:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mcp.cpp              [0mls.cpp              [0m
+[100m.ls.cpp.swp         [0m[0mmain.cpp            [0mTimer.h             [0m
+
+./tests:
+[100m[1;34m.                   [0m[0m[100m[1;34m..                  [0m[0mexec.script         [0mls.script           [0m
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls -A[KRal #calling all flags
+.:
+total 36
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m.[0m
+drwxr-xr-x  28 ifuka001 ifuka001  4096 Nov 11 17:30 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mbin[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.git[0m
+-rw-rw-r--   1 ifuka001 ifuka001  1484 Nov 11 14:50 LICENSE
+-rw-rw-r--   1 ifuka001 ifuka001   444 Nov 11 14:57 Makefile
+-rw-rw-r--   1 ifuka001 ifuka001  2174 Nov 11 14:50 README.md
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:35 [1;34msrc[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mtests[0m
+
+
+./bin:
+total 116
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34m[100m.[0m
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m..[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 19814 Nov 11 17:48 [1;32mcp[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 56348 Nov 11 17:49 [1;32mls[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 32591 Nov 11 17:48 [1;32mrshell[0m
+
+
+./.git:
+total 60
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34mbranches[0m
+-rw-rw-r--   1 ifuka001 ifuka001    41 Nov 11 15:17 COMMIT_EDITMSG
+-rw-rw-r--   1 ifuka001 ifuka001   259 Nov 11 14:52 config
+-rw-rw-r--   1 ifuka001 ifuka001    73 Nov 11 14:49 description
+-rw-rw-r--   1 ifuka001 ifuka001    23 Nov 11 14:54 HEAD
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34mhooks[0m
+-rw-rw-r--   1 ifuka001 ifuka001   648 Nov 11 15:16 index
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34minfo[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mlogs[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34mobjects[0m
+-rw-rw-r--   1 ifuka001 ifuka001    41 Nov 11 14:54 ORIG_HEAD
+-rw-rw-r--   1 ifuka001 ifuka001   228 Nov 11 14:50 packed-refs
+drwxrwxr-x   5 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mrefs[0m
+
+
+./.git/branches:
+total 8
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+
+
+./.git/hooks:
+total 48
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-rwxrwxr-x   1 ifuka001 ifuka001   452 Nov 11 14:49 [1;32mapplypatch-msg.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001   896 Nov 11 14:49 [1;32mcommit-msg.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001   189 Nov 11 14:49 [1;32mpost-update.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001   398 Nov 11 14:49 [1;32mpre-applypatch.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001  1642 Nov 11 14:49 [1;32mpre-commit.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001  1352 Nov 11 14:49 [1;32mpre-push.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001  4898 Nov 11 14:49 [1;32mpre-rebase.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001  1239 Nov 11 14:49 [1;32mprepare-commit-msg.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001  3611 Nov 11 14:49 [1;32mupdate.sample[0m
+
+
+./.git/info:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001   240 Nov 11 14:49 exclude
+
+
+./.git/logs:
+total 16
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001  1124 Nov 11 15:17 HEAD
+drwxrwxr-x   4 ifuka001 ifuka001  4096 Nov 11 14:52 [1;34mrefs[0m
+
+
+./.git/logs/refs:
+total 16
+drwxrwxr-x   4 ifuka001 ifuka001  4096 Nov 11 14:52 [1;34m[100m.[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34mheads[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mremotes[0m
+
+
+./.git/logs/refs/heads:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m[100m.[0m
+drwxrwxr-x   4 ifuka001 ifuka001  4096 Nov 11 14:52 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001   301 Nov 11 14:53 ls
+-rw-rw-r--   1 ifuka001 ifuka001  1008 Nov 11 15:17 master
+
+
+./.git/logs/refs/remotes:
+total 12
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x   4 ifuka001 ifuka001  4096 Nov 11 14:52 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34morigin[0m
+
+
+./.git/logs/refs/remotes/origin:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m[100m.[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001   174 Nov 11 14:50 HEAD
+-rw-rw-r--   1 ifuka001 ifuka001   284 Nov 11 15:17 master
+
+
+./.git/objects:
+total 328
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m03[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m09[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m0e[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m13[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m14[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m16[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m1a[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m1b[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m1d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m22[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m23[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m29[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m2a[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m2c[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m2e[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m30[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m34[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m3c[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:51 [1;34m3d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m44[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m46[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m47[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m54[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m55[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m5b[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m5d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m5f[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m60[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m67[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m69[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m6c[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m6d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m6e[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m71[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m72[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m78[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m7a[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m7d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m7f[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m83[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m85[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m86[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m89[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m8b[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m8d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m96[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m97[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m9b[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34ma3[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34ma9[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34maa[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mb2[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mb5[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mb7[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mb8[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mba[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34mc0[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mc5[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mc6[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mce[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34md0[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34md3[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34md6[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mda[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mdf[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34me4[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34me6[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34me9[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mea[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34meb[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mec[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mf0[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mf1[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mf7[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mf8[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34mf9[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34mfb[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mfe[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34minfo[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34mpack[0m
+
+
+./.git/objects/03:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    85 Nov 11 14:50 915ad7fe94092c3d0086ea74b80c7751da3fe6
+
+
+./.git/objects/09:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    49 Nov 11 14:50 3918d7a7ad7f7b0ce7e8decb51540996c5b0a5
+
+
+./.git/objects/0e:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   160 Nov 11 14:50 be15d457249fe883257255d6d2b07d0053b527
+
+
+./.git/objects/13:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 ea0576ac70fce99e6c7539e5d5062cb16f8f2a
+
+
+./.git/objects/14:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    85 Nov 11 14:50 21b18e395f3a5d23df4d33fa21c9ccf0be90f3
+
+
+./.git/objects/16:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    53 Nov 11 14:50 100f1fb28e8436be0b8977c4d0d51e6be43cbf
+
+
+./.git/objects/1a:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    53 Nov 11 14:50 fa6b51d2643c143da33085ea0560deb58cc74a
+
+
+./.git/objects/1b:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   140 Nov 11 14:53 f4bd470871ac5d272dd1bdefea78dab9baf0f0
+
+
+./.git/objects/1d:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    53 Nov 11 14:50 3a3e9d528e85532523c68ecfc838a9f937c29c
+
+
+./.git/objects/22:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   122 Nov 11 14:50 9eaf60507adfc80a6af441a53090b4b170f698
+
+
+./.git/objects/23:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   262 Nov 11 14:50 2ee319b5e206f27cb1673ed2617fc6ce49c8a0
+
+
+./.git/objects/29:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   117 Nov 11 14:50 9959ec6972c5374ffe6bfa19f51ab4be8c387e
+
+
+./.git/objects/2a:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   125 Nov 11 14:50 7ea73f192000c62b727cfc9dcaa7e67a76e2e7
+
+
+./.git/objects/2c:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   212 Nov 11 14:50 5e14db0cb23b63855621119344e7c1d9802eed
+
+
+./.git/objects/2e:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:53 126299b6bcf8bdf613132fdbffb3ead8adafe1
+
+
+./.git/objects/30:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 f9a3f46a89d337bb765b78088dd240d0877aa3
+
+
+./.git/objects/34:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   158 Nov 11 14:50 30270841eca3f34004d95f0a4d4022980b444d
+
+
+./.git/objects/3c:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   205 Nov 11 14:50 69a079682381fbdfba1c65bf619a5baeb007a1
+-r--r--r--   1 ifuka001 ifuka001  3173 Nov 11 15:16 c96432045ee876b4724d24939adf2c9e81e828
+
+
+./.git/objects/3d:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:51 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:50 211e109c197f1cc649ad7569e3af532d67011c
+-r--r--r--   1 ifuka001 ifuka001  3182 Nov 11 14:51 ba0119292d5e593440c204f660ed2a69fcf36b
+
+
+./.git/objects/44:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   140 Nov 11 15:17 d8db9b7800466af7ba9d8df09259d73ad27f48
+
+
+./.git/objects/46:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   813 Nov 11 14:50 bf631b1f6f6eed038bfcc0b489c971b1c9d1c3
+
+
+./.git/objects/47:
+total 20
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  5305 Nov 11 14:50 4d58a0f0e24a826b1b00560c463f22fb56af8a
+-r--r--r--   1 ifuka001 ifuka001   113 Nov 11 14:50 715ad35e20f7db33ae30ee53ba93e7ec95ac67
+
+
+./.git/objects/54:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    51 Nov 11 14:50 3b9bebdc6bd5c4b22136034a95dd097a57d3dd
+
+
+./.git/objects/55:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   811 Nov 11 14:50 79c46136c645fa257ecc3d07bd02a59f470b6f
+
+
+./.git/objects/5b:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    26 Nov 11 14:50 047db65097b7f2853a6952df6e10bc51eb99ab
+-r--r--r--   1 ifuka001 ifuka001   153 Nov 11 14:50 a0c00cd14735684ba9f36a2872bd9737350796
+
+
+./.git/objects/5d:
+total 28
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  6188 Nov 11 14:50 42d92232e2f1c26e41e9610ccc1d0b5b6ae7f2
+-r--r--r--   1 ifuka001 ifuka001 11477 Nov 11 14:50 c4da710bcbd436c6085e512ed3649cec017d2e
+
+
+./.git/objects/5f:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   158 Nov 11 14:50 b55d040177d7d701d37c6d154b248d86829b37
+
+
+./.git/objects/60:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 28302ed2961782f6394233666ccaa1db9414b3
+
+
+./.git/objects/67:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  1792 Nov 11 14:50 508d4c18c8cec8b522551aef623d26b276b8cd
+
+
+./.git/objects/69:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   152 Nov 11 14:50 76879efddcebfb1add3ada2188765d678bb2b0
+
+
+./.git/objects/6c:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   125 Nov 11 14:50 19f5f62969fe38e61a96fddd784cd1359f2a73
+
+
+./.git/objects/6d:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   807 Nov 11 14:50 7d6e378db0bc2bb7fd41532dec419fb191fbd5
+
+
+./.git/objects/6e:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   177 Nov 11 15:16 abcbccbb0f63476aa74ae722a962bd89106241
+
+
+./.git/objects/71:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   205 Nov 11 14:50 5e310660937e568c81b812b7fd56fe39e8a5e2
+
+
+./.git/objects/72:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   229 Nov 11 14:50 2001674fa63dceb91bc3883ffde990968209b4
+-r--r--r--   1 ifuka001 ifuka001  1089 Nov 11 14:50 61dff79ae72a3dd0a2f393cc0fd133db9fa0f1
+
+
+./.git/objects/78:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 1cc97b522b895740d63ecb212d3889e509e7e7
+
+
+./.git/objects/7a:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   229 Nov 11 14:50 dd04361c0ec7a4c4088015e7cc38f96f3c1158
+
+
+./.git/objects/7d:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   163 Nov 11 14:50 f7bc7309d182227990218f2b6c537a3055117e
+
+
+./.git/objects/7f:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   153 Nov 11 14:50 c05c227a29930de51ca530833e15b9825fc88a
+
+
+./.git/objects/83:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   149 Nov 11 14:50 ba77afe80ee1862c15c2c92e6edaeb9ba368d7
+
+
+./.git/objects/85:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   216 Nov 11 14:50 b930b25d9689eec47ea5f7356c8601d948fcc1
+
+
+./.git/objects/86:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   157 Nov 11 14:50 2fe13b57d586244e0236cb5c40a5e327dd90b3
+
+
+./.git/objects/89:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   156 Nov 11 14:50 ce2d76c3dc18d9944de913c028bb5dc68b285b
+-r--r--r--   1 ifuka001 ifuka001   177 Nov 11 15:17 fcd3aff9d7dfeb9c0e1cba34e8dfd55a612c01
+
+
+./.git/objects/8b:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 7e731fae6f2b063ceb5f2eac684e31c65c3aa8
+
+
+./.git/objects/8d:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    84 Nov 11 14:50 7ff4faec935627f0d8bd9e9f348355a172ad48
+
+
+./.git/objects/96:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   183 Nov 11 14:50 c519d9ec681d98a98181d48c79cbf13d9b0a1c
+
+
+./.git/objects/97:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:50 d4d5209b489878fdded00b446f7a055d8cc906
+
+
+./.git/objects/9b:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:50 3c3fd56d5fa3f1383297820304b5bc0e07fd76
+
+
+./.git/objects/a3:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   152 Nov 11 14:50 ea99e4e513694223b7e3c5fcba7c3bf0a79309
+
+
+./.git/objects/a9:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 a41ba5e37b6bfea9ce99ced13ed40df7c4b602
+
+
+./.git/objects/aa:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    85 Nov 11 14:50 2788e97eb4e5f1ae69724f5b5566c01d5cb9f6
+
+
+./.git/objects/b2:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  1139 Nov 11 14:50 11a32c0fb6f7c42f290450474d3b49e3a18d06
+-r--r--r--   1 ifuka001 ifuka001   229 Nov 11 14:50 2a2a41e93de4b0ffebdb36de02d4612c908616
+
+
+./.git/objects/b5:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   262 Nov 11 14:50 a97ed6bcb36860a98f30afaad169c94155142f
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:50 d8321e849c1dd0d61f743029af1bbc0b0fb972
+
+
+./.git/objects/b7:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   113 Nov 11 14:50 99031d1a535204c9e0ab67c12cfbc0581dfb1f
+
+
+./.git/objects/b8:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:50 f9ef8d7fd5c69681b6783536c9672767e3e291
+
+
+./.git/objects/ba:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   205 Nov 11 14:50 20baba6cb0c73f46452e3d56a25ce377f36c10
+
+
+./.git/objects/c0:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:53 c1dbf05626a5f28427fcbdbbcfa790e4bed397
+
+
+./.git/objects/c5:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    55 Nov 11 14:50 f86ce0a78866882579097a1c3181b366855c64
+
+
+./.git/objects/c6:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  1017 Nov 11 14:50 8fddc625553cb1ddffc2f644c2d4ec9d208cc5
+
+
+./.git/objects/ce:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   154 Nov 11 14:50 f0ea6c6a78ab17343e8d9e17f579707981f8ac
+
+
+./.git/objects/d0:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 0a594fb4acdb58dff1110ee03459a77fe9980d
+
+
+./.git/objects/d3:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   151 Nov 11 14:50 8dc11acee60f3b7863d8466d559e0803b67489
+
+
+./.git/objects/d6:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  2726 Nov 11 14:50 6316e04557463314a6888836fd09f22b07f165
+
+
+./.git/objects/da:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   158 Nov 11 14:50 223bc92a3e0578d8a540164bea4d5b0e420b10
+
+
+./.git/objects/df:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  1292 Nov 11 14:50 172a8f1f4d40f551967e756469c3f1a12c6af2
+-r--r--r--   1 ifuka001 ifuka001   199 Nov 11 14:50 c51949498025ee165e74aec8c69f2172c76197
+
+
+./.git/objects/e4:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   198 Nov 11 14:50 647f3f55f5d4e20c13100868df8768ba98252f
+
+
+./.git/objects/e6:
+total 20
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   147 Nov 11 14:50 309187d074c29a4e03a7a81aa30711b8f0bb24
+-r--r--r--   1 ifuka001 ifuka001   204 Nov 11 14:50 4e1395c8c6b5d00d9c23ac4bb572790323aa4c
+-r--r--r--   1 ifuka001 ifuka001    15 Nov 11 14:50 9de29bb2d1d6434b8b29ae775ad8c2e48c5391
+
+
+./.git/objects/e9:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   125 Nov 11 14:50 7949b0420b533ffc30aef3056b066cac2bd6e9
+-r--r--r--   1 ifuka001 ifuka001  1802 Nov 11 14:50 c3d8806cf3d039777833f0bfe7cfc012ed1c3a
+
+
+./.git/objects/ea:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  1140 Nov 11 14:50 c4f4840d9be0306f20f30196746abbcbbe786b
+
+
+./.git/objects/eb:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    60 Nov 11 14:50 74741647b176e2643c3a476016cdb06d66a643
+
+
+./.git/objects/ec:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   160 Nov 11 14:50 2cade7346963cd3157c3e49bec9cacd929bd27
+-r--r--r--   1 ifuka001 ifuka001   159 Nov 11 14:50 ee53563043177039a61d4be303e0a740e3696c
+
+
+./.git/objects/f0:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   758 Nov 11 14:50 7b89356cf7c3ecc81c403d10b7ed2cfdc1fac8
+
+
+./.git/objects/f1:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   148 Nov 11 14:50 1428460fc22d4cf4b38c076596c14daead27b3
+-r--r--r--   1 ifuka001 ifuka001   152 Nov 11 14:50 2aef40940d17f6619654d64f2a3b05846089fb
+
+
+./.git/objects/f7:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    48 Nov 11 14:50 e55ee2abed40165f2c5daacd3c34c138f84c72
+
+
+./.git/objects/f8:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    53 Nov 11 14:50 91dbd96e159dfb8c762eea5c6be5df767c9bb8
+
+
+./.git/objects/f9:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   154 Nov 11 15:16 319f116f523708a9ceec064d65c375c8dda7ca
+
+
+./.git/objects/fb:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   171 Nov 11 15:17 187dc2e239dbc2764b50b8c236cf6f5f8bbe84
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 15:16 84ec58d13331b0dcfd51606533c0a39f1f0889
+
+
+./.git/objects/fe:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   154 Nov 11 14:50 7f7935fa81fb7f02968611b744205aa01ab52d
+
+
+./.git/objects/info:
+total 8
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+
+
+./.git/objects/pack:
+total 8
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+
+
+./.git/refs:
+total 20
+drwxrwxr-x   5 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34mheads[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mremotes[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34mtags[0m
+
+
+./.git/refs/heads:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x   5 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001    41 Nov 11 14:53 ls
+-rw-rw-r--   1 ifuka001 ifuka001    41 Nov 11 15:17 master
+
+
+./.git/refs/remotes:
+total 12
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x   5 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34morigin[0m
+
+
+./.git/refs/remotes/origin:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001    32 Nov 11 14:50 HEAD
+-rw-rw-r--   1 ifuka001 ifuka001    41 Nov 11 15:17 master
+
+
+./.git/refs/tags:
+total 8
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x   5 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+
+
+./src:
+total 64
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:35 [1;34m[100m.[0m
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001  5137 Nov 11 14:50 cp.cpp
+-rw-rw-r--   1 ifuka001 ifuka001 10059 Nov 11 17:35 ls.cpp
+-rw-r--r--   1 ifuka001 ifuka001 24576 Nov 11 17:35 [100m.ls.cpp.swp[0m
+-rw-rw-r--   1 ifuka001 ifuka001  6672 Nov 11 14:50 main.cpp
+-rw-rw-r--   1 ifuka001 ifuka001  2700 Nov 11 14:50 Timer.h
+
+
+./tests:
+total 100
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34m[100m.[0m
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001 25599 Nov 11 14:50 exec.script
+-rw-rw-r--   1 ifuka001 ifuka001 65536 Nov 11 17:57 ls.script
+
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls 0[K-R -A[Ka -l #calling flags separated
+.:
+total 36
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m.[0m
+drwxr-xr-x  28 ifuka001 ifuka001  4096 Nov 11 17:30 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mbin[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.git[0m
+-rw-rw-r--   1 ifuka001 ifuka001  1484 Nov 11 14:50 LICENSE
+-rw-rw-r--   1 ifuka001 ifuka001   444 Nov 11 14:57 Makefile
+-rw-rw-r--   1 ifuka001 ifuka001  2174 Nov 11 14:50 README.md
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:35 [1;34msrc[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mtests[0m
+
+
+./bin:
+total 116
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34m[100m.[0m
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m..[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 19814 Nov 11 17:48 [1;32mcp[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 56348 Nov 11 17:49 [1;32mls[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 32591 Nov 11 17:48 [1;32mrshell[0m
+
+
+./.git:
+total 60
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34mbranches[0m
+-rw-rw-r--   1 ifuka001 ifuka001    41 Nov 11 15:17 COMMIT_EDITMSG
+-rw-rw-r--   1 ifuka001 ifuka001   259 Nov 11 14:52 config
+-rw-rw-r--   1 ifuka001 ifuka001    73 Nov 11 14:49 description
+-rw-rw-r--   1 ifuka001 ifuka001    23 Nov 11 14:54 HEAD
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34mhooks[0m
+-rw-rw-r--   1 ifuka001 ifuka001   648 Nov 11 15:16 index
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34minfo[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mlogs[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34mobjects[0m
+-rw-rw-r--   1 ifuka001 ifuka001    41 Nov 11 14:54 ORIG_HEAD
+-rw-rw-r--   1 ifuka001 ifuka001   228 Nov 11 14:50 packed-refs
+drwxrwxr-x   5 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mrefs[0m
+
+
+./.git/branches:
+total 8
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+
+
+./.git/hooks:
+total 48
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-rwxrwxr-x   1 ifuka001 ifuka001   452 Nov 11 14:49 [1;32mapplypatch-msg.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001   896 Nov 11 14:49 [1;32mcommit-msg.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001   189 Nov 11 14:49 [1;32mpost-update.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001   398 Nov 11 14:49 [1;32mpre-applypatch.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001  1642 Nov 11 14:49 [1;32mpre-commit.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001  1352 Nov 11 14:49 [1;32mpre-push.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001  4898 Nov 11 14:49 [1;32mpre-rebase.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001  1239 Nov 11 14:49 [1;32mprepare-commit-msg.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001  3611 Nov 11 14:49 [1;32mupdate.sample[0m
+
+
+./.git/info:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001   240 Nov 11 14:49 exclude
+
+
+./.git/logs:
+total 16
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001  1124 Nov 11 15:17 HEAD
+drwxrwxr-x   4 ifuka001 ifuka001  4096 Nov 11 14:52 [1;34mrefs[0m
+
+
+./.git/logs/refs:
+total 16
+drwxrwxr-x   4 ifuka001 ifuka001  4096 Nov 11 14:52 [1;34m[100m.[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34mheads[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mremotes[0m
+
+
+./.git/logs/refs/heads:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m[100m.[0m
+drwxrwxr-x   4 ifuka001 ifuka001  4096 Nov 11 14:52 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001   301 Nov 11 14:53 ls
+-rw-rw-r--   1 ifuka001 ifuka001  1008 Nov 11 15:17 master
+
+
+./.git/logs/refs/remotes:
+total 12
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x   4 ifuka001 ifuka001  4096 Nov 11 14:52 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34morigin[0m
+
+
+./.git/logs/refs/remotes/origin:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m[100m.[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001   174 Nov 11 14:50 HEAD
+-rw-rw-r--   1 ifuka001 ifuka001   284 Nov 11 15:17 master
+
+
+./.git/objects:
+total 328
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m03[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m09[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m0e[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m13[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m14[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m16[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m1a[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m1b[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m1d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m22[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m23[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m29[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m2a[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m2c[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m2e[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m30[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m34[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m3c[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:51 [1;34m3d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m44[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m46[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m47[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m54[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m55[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m5b[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m5d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m5f[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m60[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m67[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m69[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m6c[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m6d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m6e[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m71[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m72[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m78[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m7a[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m7d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m7f[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m83[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m85[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m86[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m89[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m8b[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m8d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m96[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m97[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m9b[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34ma3[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34ma9[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34maa[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mb2[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mb5[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mb7[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mb8[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mba[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34mc0[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mc5[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mc6[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mce[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34md0[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34md3[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34md6[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mda[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mdf[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34me4[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34me6[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34me9[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mea[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34meb[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mec[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mf0[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mf1[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mf7[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mf8[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34mf9[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34mfb[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mfe[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34minfo[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34mpack[0m
+
+
+./.git/objects/03:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    85 Nov 11 14:50 915ad7fe94092c3d0086ea74b80c7751da3fe6
+
+
+./.git/objects/09:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    49 Nov 11 14:50 3918d7a7ad7f7b0ce7e8decb51540996c5b0a5
+
+
+./.git/objects/0e:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   160 Nov 11 14:50 be15d457249fe883257255d6d2b07d0053b527
+
+
+./.git/objects/13:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 ea0576ac70fce99e6c7539e5d5062cb16f8f2a
+
+
+./.git/objects/14:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    85 Nov 11 14:50 21b18e395f3a5d23df4d33fa21c9ccf0be90f3
+
+
+./.git/objects/16:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    53 Nov 11 14:50 100f1fb28e8436be0b8977c4d0d51e6be43cbf
+
+
+./.git/objects/1a:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    53 Nov 11 14:50 fa6b51d2643c143da33085ea0560deb58cc74a
+
+
+./.git/objects/1b:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   140 Nov 11 14:53 f4bd470871ac5d272dd1bdefea78dab9baf0f0
+
+
+./.git/objects/1d:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    53 Nov 11 14:50 3a3e9d528e85532523c68ecfc838a9f937c29c
+
+
+./.git/objects/22:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   122 Nov 11 14:50 9eaf60507adfc80a6af441a53090b4b170f698
+
+
+./.git/objects/23:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   262 Nov 11 14:50 2ee319b5e206f27cb1673ed2617fc6ce49c8a0
+
+
+./.git/objects/29:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   117 Nov 11 14:50 9959ec6972c5374ffe6bfa19f51ab4be8c387e
+
+
+./.git/objects/2a:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   125 Nov 11 14:50 7ea73f192000c62b727cfc9dcaa7e67a76e2e7
+
+
+./.git/objects/2c:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   212 Nov 11 14:50 5e14db0cb23b63855621119344e7c1d9802eed
+
+
+./.git/objects/2e:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:53 126299b6bcf8bdf613132fdbffb3ead8adafe1
+
+
+./.git/objects/30:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 f9a3f46a89d337bb765b78088dd240d0877aa3
+
+
+./.git/objects/34:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   158 Nov 11 14:50 30270841eca3f34004d95f0a4d4022980b444d
+
+
+./.git/objects/3c:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   205 Nov 11 14:50 69a079682381fbdfba1c65bf619a5baeb007a1
+-r--r--r--   1 ifuka001 ifuka001  3173 Nov 11 15:16 c96432045ee876b4724d24939adf2c9e81e828
+
+
+./.git/objects/3d:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:51 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:50 211e109c197f1cc649ad7569e3af532d67011c
+-r--r--r--   1 ifuka001 ifuka001  3182 Nov 11 14:51 ba0119292d5e593440c204f660ed2a69fcf36b
+
+
+./.git/objects/44:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   140 Nov 11 15:17 d8db9b7800466af7ba9d8df09259d73ad27f48
+
+
+./.git/objects/46:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   813 Nov 11 14:50 bf631b1f6f6eed038bfcc0b489c971b1c9d1c3
+
+
+./.git/objects/47:
+total 20
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  5305 Nov 11 14:50 4d58a0f0e24a826b1b00560c463f22fb56af8a
+-r--r--r--   1 ifuka001 ifuka001   113 Nov 11 14:50 715ad35e20f7db33ae30ee53ba93e7ec95ac67
+
+
+./.git/objects/54:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    51 Nov 11 14:50 3b9bebdc6bd5c4b22136034a95dd097a57d3dd
+
+
+./.git/objects/55:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   811 Nov 11 14:50 79c46136c645fa257ecc3d07bd02a59f470b6f
+
+
+./.git/objects/5b:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    26 Nov 11 14:50 047db65097b7f2853a6952df6e10bc51eb99ab
+-r--r--r--   1 ifuka001 ifuka001   153 Nov 11 14:50 a0c00cd14735684ba9f36a2872bd9737350796
+
+
+./.git/objects/5d:
+total 28
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  6188 Nov 11 14:50 42d92232e2f1c26e41e9610ccc1d0b5b6ae7f2
+-r--r--r--   1 ifuka001 ifuka001 11477 Nov 11 14:50 c4da710bcbd436c6085e512ed3649cec017d2e
+
+
+./.git/objects/5f:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   158 Nov 11 14:50 b55d040177d7d701d37c6d154b248d86829b37
+
+
+./.git/objects/60:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 28302ed2961782f6394233666ccaa1db9414b3
+
+
+./.git/objects/67:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  1792 Nov 11 14:50 508d4c18c8cec8b522551aef623d26b276b8cd
+
+
+./.git/objects/69:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   152 Nov 11 14:50 76879efddcebfb1add3ada2188765d678bb2b0
+
+
+./.git/objects/6c:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   125 Nov 11 14:50 19f5f62969fe38e61a96fddd784cd1359f2a73
+
+
+./.git/objects/6d:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   807 Nov 11 14:50 7d6e378db0bc2bb7fd41532dec419fb191fbd5
+
+
+./.git/objects/6e:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   177 Nov 11 15:16 abcbccbb0f63476aa74ae722a962bd89106241
+
+
+./.git/objects/71:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   205 Nov 11 14:50 5e310660937e568c81b812b7fd56fe39e8a5e2
+
+
+./.git/objects/72:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   229 Nov 11 14:50 2001674fa63dceb91bc3883ffde990968209b4
+-r--r--r--   1 ifuka001 ifuka001  1089 Nov 11 14:50 61dff79ae72a3dd0a2f393cc0fd133db9fa0f1
+
+
+./.git/objects/78:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 1cc97b522b895740d63ecb212d3889e509e7e7
+
+
+./.git/objects/7a:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   229 Nov 11 14:50 dd04361c0ec7a4c4088015e7cc38f96f3c1158
+
+
+./.git/objects/7d:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   163 Nov 11 14:50 f7bc7309d182227990218f2b6c537a3055117e
+
+
+./.git/objects/7f:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   153 Nov 11 14:50 c05c227a29930de51ca530833e15b9825fc88a
+
+
+./.git/objects/83:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   149 Nov 11 14:50 ba77afe80ee1862c15c2c92e6edaeb9ba368d7
+
+
+./.git/objects/85:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   216 Nov 11 14:50 b930b25d9689eec47ea5f7356c8601d948fcc1
+
+
+./.git/objects/86:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   157 Nov 11 14:50 2fe13b57d586244e0236cb5c40a5e327dd90b3
+
+
+./.git/objects/89:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   156 Nov 11 14:50 ce2d76c3dc18d9944de913c028bb5dc68b285b
+-r--r--r--   1 ifuka001 ifuka001   177 Nov 11 15:17 fcd3aff9d7dfeb9c0e1cba34e8dfd55a612c01
+
+
+./.git/objects/8b:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 7e731fae6f2b063ceb5f2eac684e31c65c3aa8
+
+
+./.git/objects/8d:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    84 Nov 11 14:50 7ff4faec935627f0d8bd9e9f348355a172ad48
+
+
+./.git/objects/96:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   183 Nov 11 14:50 c519d9ec681d98a98181d48c79cbf13d9b0a1c
+
+
+./.git/objects/97:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:50 d4d5209b489878fdded00b446f7a055d8cc906
+
+
+./.git/objects/9b:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:50 3c3fd56d5fa3f1383297820304b5bc0e07fd76
+
+
+./.git/objects/a3:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   152 Nov 11 14:50 ea99e4e513694223b7e3c5fcba7c3bf0a79309
+
+
+./.git/objects/a9:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 a41ba5e37b6bfea9ce99ced13ed40df7c4b602
+
+
+./.git/objects/aa:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    85 Nov 11 14:50 2788e97eb4e5f1ae69724f5b5566c01d5cb9f6
+
+
+./.git/objects/b2:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  1139 Nov 11 14:50 11a32c0fb6f7c42f290450474d3b49e3a18d06
+-r--r--r--   1 ifuka001 ifuka001   229 Nov 11 14:50 2a2a41e93de4b0ffebdb36de02d4612c908616
+
+
+./.git/objects/b5:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   262 Nov 11 14:50 a97ed6bcb36860a98f30afaad169c94155142f
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:50 d8321e849c1dd0d61f743029af1bbc0b0fb972
+
+
+./.git/objects/b7:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   113 Nov 11 14:50 99031d1a535204c9e0ab67c12cfbc0581dfb1f
+
+
+./.git/objects/b8:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:50 f9ef8d7fd5c69681b6783536c9672767e3e291
+
+
+./.git/objects/ba:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   205 Nov 11 14:50 20baba6cb0c73f46452e3d56a25ce377f36c10
+
+
+./.git/objects/c0:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:53 c1dbf05626a5f28427fcbdbbcfa790e4bed397
+
+
+./.git/objects/c5:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    55 Nov 11 14:50 f86ce0a78866882579097a1c3181b366855c64
+
+
+./.git/objects/c6:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  1017 Nov 11 14:50 8fddc625553cb1ddffc2f644c2d4ec9d208cc5
+
+
+./.git/objects/ce:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   154 Nov 11 14:50 f0ea6c6a78ab17343e8d9e17f579707981f8ac
+
+
+./.git/objects/d0:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 0a594fb4acdb58dff1110ee03459a77fe9980d
+
+
+./.git/objects/d3:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   151 Nov 11 14:50 8dc11acee60f3b7863d8466d559e0803b67489
+
+
+./.git/objects/d6:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  2726 Nov 11 14:50 6316e04557463314a6888836fd09f22b07f165
+
+
+./.git/objects/da:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   158 Nov 11 14:50 223bc92a3e0578d8a540164bea4d5b0e420b10
+
+
+./.git/objects/df:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  1292 Nov 11 14:50 172a8f1f4d40f551967e756469c3f1a12c6af2
+-r--r--r--   1 ifuka001 ifuka001   199 Nov 11 14:50 c51949498025ee165e74aec8c69f2172c76197
+
+
+./.git/objects/e4:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   198 Nov 11 14:50 647f3f55f5d4e20c13100868df8768ba98252f
+
+
+./.git/objects/e6:
+total 20
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   147 Nov 11 14:50 309187d074c29a4e03a7a81aa30711b8f0bb24
+-r--r--r--   1 ifuka001 ifuka001   204 Nov 11 14:50 4e1395c8c6b5d00d9c23ac4bb572790323aa4c
+-r--r--r--   1 ifuka001 ifuka001    15 Nov 11 14:50 9de29bb2d1d6434b8b29ae775ad8c2e48c5391
+
+
+./.git/objects/e9:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   125 Nov 11 14:50 7949b0420b533ffc30aef3056b066cac2bd6e9
+-r--r--r--   1 ifuka001 ifuka001  1802 Nov 11 14:50 c3d8806cf3d039777833f0bfe7cfc012ed1c3a
+
+
+./.git/objects/ea:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  1140 Nov 11 14:50 c4f4840d9be0306f20f30196746abbcbbe786b
+
+
+./.git/objects/eb:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    60 Nov 11 14:50 74741647b176e2643c3a476016cdb06d66a643
+
+
+./.git/objects/ec:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   160 Nov 11 14:50 2cade7346963cd3157c3e49bec9cacd929bd27
+-r--r--r--   1 ifuka001 ifuka001   159 Nov 11 14:50 ee53563043177039a61d4be303e0a740e3696c
+
+
+./.git/objects/f0:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   758 Nov 11 14:50 7b89356cf7c3ecc81c403d10b7ed2cfdc1fac8
+
+
+./.git/objects/f1:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   148 Nov 11 14:50 1428460fc22d4cf4b38c076596c14daead27b3
+-r--r--r--   1 ifuka001 ifuka001   152 Nov 11 14:50 2aef40940d17f6619654d64f2a3b05846089fb
+
+
+./.git/objects/f7:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    48 Nov 11 14:50 e55ee2abed40165f2c5daacd3c34c138f84c72
+
+
+./.git/objects/f8:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    53 Nov 11 14:50 91dbd96e159dfb8c762eea5c6be5df767c9bb8
+
+
+./.git/objects/f9:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   154 Nov 11 15:16 319f116f523708a9ceec064d65c375c8dda7ca
+
+
+./.git/objects/fb:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   171 Nov 11 15:17 187dc2e239dbc2764b50b8c236cf6f5f8bbe84
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 15:16 84ec58d13331b0dcfd51606533c0a39f1f0889
+
+
+./.git/objects/fe:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   154 Nov 11 14:50 7f7935fa81fb7f02968611b744205aa01ab52d
+
+
+./.git/objects/info:
+total 8
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+
+
+./.git/objects/pack:
+total 8
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+
+
+./.git/refs:
+total 20
+drwxrwxr-x   5 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34mheads[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mremotes[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34mtags[0m
+
+
+./.git/refs/heads:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x   5 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001    41 Nov 11 14:53 ls
+-rw-rw-r--   1 ifuka001 ifuka001    41 Nov 11 15:17 master
+
+
+./.git/refs/remotes:
+total 12
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x   5 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34morigin[0m
+
+
+./.git/refs/remotes/origin:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001    32 Nov 11 14:50 HEAD
+-rw-rw-r--   1 ifuka001 ifuka001    41 Nov 11 15:17 master
+
+
+./.git/refs/tags:
+total 8
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x   5 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+
+
+./src:
+total 64
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:35 [1;34m[100m.[0m
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001  5137 Nov 11 14:50 cp.cpp
+-rw-rw-r--   1 ifuka001 ifuka001 10059 Nov 11 17:35 ls.cpp
+-rw-r--r--   1 ifuka001 ifuka001 24576 Nov 11 17:35 [100m.ls.cpp.swp[0m
+-rw-rw-r--   1 ifuka001 ifuka001  6672 Nov 11 14:50 main.cpp
+-rw-rw-r--   1 ifuka001 ifuka001  2700 Nov 11 14:50 Timer.h
+
+
+./tests:
+total 136
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34m[100m.[0m
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001 25599 Nov 11 14:50 exec.script
+-rw-rw-r--   1 ifuka001 ifuka001 102400 Nov 11 17:57 ls.script
+
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls -Ra -l #calling l[Kall flags one[K[K[Kone with 2 a[Kflags and one with 1
+.:
+total 36
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m.[0m
+drwxr-xr-x  28 ifuka001 ifuka001  4096 Nov 11 17:30 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mbin[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.git[0m
+-rw-rw-r--   1 ifuka001 ifuka001  1484 Nov 11 14:50 LICENSE
+-rw-rw-r--   1 ifuka001 ifuka001   444 Nov 11 14:57 Makefile
+-rw-rw-r--   1 ifuka001 ifuka001  2174 Nov 11 14:50 README.md
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:35 [1;34msrc[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mtests[0m
+
+
+./bin:
+total 116
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34m[100m.[0m
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m..[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 19814 Nov 11 17:48 [1;32mcp[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 56348 Nov 11 17:49 [1;32mls[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 32591 Nov 11 17:48 [1;32mrshell[0m
+
+
+./.git:
+total 60
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34mbranches[0m
+-rw-rw-r--   1 ifuka001 ifuka001    41 Nov 11 15:17 COMMIT_EDITMSG
+-rw-rw-r--   1 ifuka001 ifuka001   259 Nov 11 14:52 config
+-rw-rw-r--   1 ifuka001 ifuka001    73 Nov 11 14:49 description
+-rw-rw-r--   1 ifuka001 ifuka001    23 Nov 11 14:54 HEAD
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34mhooks[0m
+-rw-rw-r--   1 ifuka001 ifuka001   648 Nov 11 15:16 index
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34minfo[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mlogs[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34mobjects[0m
+-rw-rw-r--   1 ifuka001 ifuka001    41 Nov 11 14:54 ORIG_HEAD
+-rw-rw-r--   1 ifuka001 ifuka001   228 Nov 11 14:50 packed-refs
+drwxrwxr-x   5 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mrefs[0m
+
+
+./.git/branches:
+total 8
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+
+
+./.git/hooks:
+total 48
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-rwxrwxr-x   1 ifuka001 ifuka001   452 Nov 11 14:49 [1;32mapplypatch-msg.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001   896 Nov 11 14:49 [1;32mcommit-msg.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001   189 Nov 11 14:49 [1;32mpost-update.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001   398 Nov 11 14:49 [1;32mpre-applypatch.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001  1642 Nov 11 14:49 [1;32mpre-commit.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001  1352 Nov 11 14:49 [1;32mpre-push.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001  4898 Nov 11 14:49 [1;32mpre-rebase.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001  1239 Nov 11 14:49 [1;32mprepare-commit-msg.sample[0m
+-rwxrwxr-x   1 ifuka001 ifuka001  3611 Nov 11 14:49 [1;32mupdate.sample[0m
+
+
+./.git/info:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001   240 Nov 11 14:49 exclude
+
+
+./.git/logs:
+total 16
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001  1124 Nov 11 15:17 HEAD
+drwxrwxr-x   4 ifuka001 ifuka001  4096 Nov 11 14:52 [1;34mrefs[0m
+
+
+./.git/logs/refs:
+total 16
+drwxrwxr-x   4 ifuka001 ifuka001  4096 Nov 11 14:52 [1;34m[100m.[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34mheads[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mremotes[0m
+
+
+./.git/logs/refs/heads:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m[100m.[0m
+drwxrwxr-x   4 ifuka001 ifuka001  4096 Nov 11 14:52 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001   301 Nov 11 14:53 ls
+-rw-rw-r--   1 ifuka001 ifuka001  1008 Nov 11 15:17 master
+
+
+./.git/logs/refs/remotes:
+total 12
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x   4 ifuka001 ifuka001  4096 Nov 11 14:52 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34morigin[0m
+
+
+./.git/logs/refs/remotes/origin:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m[100m.[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001   174 Nov 11 14:50 HEAD
+-rw-rw-r--   1 ifuka001 ifuka001   284 Nov 11 15:17 master
+
+
+./.git/objects:
+total 328
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m03[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m09[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m0e[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m13[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m14[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m16[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m1a[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m1b[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m1d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m22[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m23[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m29[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m2a[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m2c[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m2e[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m30[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m34[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m3c[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:51 [1;34m3d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m44[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m46[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m47[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m54[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m55[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m5b[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m5d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m5f[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m60[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m67[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m69[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m6c[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m6d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m6e[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m71[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m72[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m78[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m7a[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m7d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m7f[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m83[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m85[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m86[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m89[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m8b[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m8d[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m96[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m97[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m9b[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34ma3[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34ma9[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34maa[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mb2[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mb5[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mb7[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mb8[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mba[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34mc0[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mc5[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mc6[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mce[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34md0[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34md3[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34md6[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mda[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mdf[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34me4[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34me6[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34me9[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mea[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34meb[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mec[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mf0[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mf1[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mf7[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mf8[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34mf9[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34mfb[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mfe[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34minfo[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34mpack[0m
+
+
+./.git/objects/03:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    85 Nov 11 14:50 915ad7fe94092c3d0086ea74b80c7751da3fe6
+
+
+./.git/objects/09:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    49 Nov 11 14:50 3918d7a7ad7f7b0ce7e8decb51540996c5b0a5
+
+
+./.git/objects/0e:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   160 Nov 11 14:50 be15d457249fe883257255d6d2b07d0053b527
+
+
+./.git/objects/13:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 ea0576ac70fce99e6c7539e5d5062cb16f8f2a
+
+
+./.git/objects/14:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    85 Nov 11 14:50 21b18e395f3a5d23df4d33fa21c9ccf0be90f3
+
+
+./.git/objects/16:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    53 Nov 11 14:50 100f1fb28e8436be0b8977c4d0d51e6be43cbf
+
+
+./.git/objects/1a:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    53 Nov 11 14:50 fa6b51d2643c143da33085ea0560deb58cc74a
+
+
+./.git/objects/1b:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   140 Nov 11 14:53 f4bd470871ac5d272dd1bdefea78dab9baf0f0
+
+
+./.git/objects/1d:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    53 Nov 11 14:50 3a3e9d528e85532523c68ecfc838a9f937c29c
+
+
+./.git/objects/22:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   122 Nov 11 14:50 9eaf60507adfc80a6af441a53090b4b170f698
+
+
+./.git/objects/23:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   262 Nov 11 14:50 2ee319b5e206f27cb1673ed2617fc6ce49c8a0
+
+
+./.git/objects/29:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   117 Nov 11 14:50 9959ec6972c5374ffe6bfa19f51ab4be8c387e
+
+
+./.git/objects/2a:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   125 Nov 11 14:50 7ea73f192000c62b727cfc9dcaa7e67a76e2e7
+
+
+./.git/objects/2c:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   212 Nov 11 14:50 5e14db0cb23b63855621119344e7c1d9802eed
+
+
+./.git/objects/2e:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:53 126299b6bcf8bdf613132fdbffb3ead8adafe1
+
+
+./.git/objects/30:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 f9a3f46a89d337bb765b78088dd240d0877aa3
+
+
+./.git/objects/34:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   158 Nov 11 14:50 30270841eca3f34004d95f0a4d4022980b444d
+
+
+./.git/objects/3c:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   205 Nov 11 14:50 69a079682381fbdfba1c65bf619a5baeb007a1
+-r--r--r--   1 ifuka001 ifuka001  3173 Nov 11 15:16 c96432045ee876b4724d24939adf2c9e81e828
+
+
+./.git/objects/3d:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:51 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:50 211e109c197f1cc649ad7569e3af532d67011c
+-r--r--r--   1 ifuka001 ifuka001  3182 Nov 11 14:51 ba0119292d5e593440c204f660ed2a69fcf36b
+
+
+./.git/objects/44:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   140 Nov 11 15:17 d8db9b7800466af7ba9d8df09259d73ad27f48
+
+
+./.git/objects/46:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   813 Nov 11 14:50 bf631b1f6f6eed038bfcc0b489c971b1c9d1c3
+
+
+./.git/objects/47:
+total 20
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  5305 Nov 11 14:50 4d58a0f0e24a826b1b00560c463f22fb56af8a
+-r--r--r--   1 ifuka001 ifuka001   113 Nov 11 14:50 715ad35e20f7db33ae30ee53ba93e7ec95ac67
+
+
+./.git/objects/54:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    51 Nov 11 14:50 3b9bebdc6bd5c4b22136034a95dd097a57d3dd
+
+
+./.git/objects/55:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   811 Nov 11 14:50 79c46136c645fa257ecc3d07bd02a59f470b6f
+
+
+./.git/objects/5b:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    26 Nov 11 14:50 047db65097b7f2853a6952df6e10bc51eb99ab
+-r--r--r--   1 ifuka001 ifuka001   153 Nov 11 14:50 a0c00cd14735684ba9f36a2872bd9737350796
+
+
+./.git/objects/5d:
+total 28
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  6188 Nov 11 14:50 42d92232e2f1c26e41e9610ccc1d0b5b6ae7f2
+-r--r--r--   1 ifuka001 ifuka001 11477 Nov 11 14:50 c4da710bcbd436c6085e512ed3649cec017d2e
+
+
+./.git/objects/5f:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   158 Nov 11 14:50 b55d040177d7d701d37c6d154b248d86829b37
+
+
+./.git/objects/60:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 28302ed2961782f6394233666ccaa1db9414b3
+
+
+./.git/objects/67:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  1792 Nov 11 14:50 508d4c18c8cec8b522551aef623d26b276b8cd
+
+
+./.git/objects/69:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   152 Nov 11 14:50 76879efddcebfb1add3ada2188765d678bb2b0
+
+
+./.git/objects/6c:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   125 Nov 11 14:50 19f5f62969fe38e61a96fddd784cd1359f2a73
+
+
+./.git/objects/6d:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   807 Nov 11 14:50 7d6e378db0bc2bb7fd41532dec419fb191fbd5
+
+
+./.git/objects/6e:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   177 Nov 11 15:16 abcbccbb0f63476aa74ae722a962bd89106241
+
+
+./.git/objects/71:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   205 Nov 11 14:50 5e310660937e568c81b812b7fd56fe39e8a5e2
+
+
+./.git/objects/72:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   229 Nov 11 14:50 2001674fa63dceb91bc3883ffde990968209b4
+-r--r--r--   1 ifuka001 ifuka001  1089 Nov 11 14:50 61dff79ae72a3dd0a2f393cc0fd133db9fa0f1
+
+
+./.git/objects/78:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 1cc97b522b895740d63ecb212d3889e509e7e7
+
+
+./.git/objects/7a:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   229 Nov 11 14:50 dd04361c0ec7a4c4088015e7cc38f96f3c1158
+
+
+./.git/objects/7d:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   163 Nov 11 14:50 f7bc7309d182227990218f2b6c537a3055117e
+
+
+./.git/objects/7f:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   153 Nov 11 14:50 c05c227a29930de51ca530833e15b9825fc88a
+
+
+./.git/objects/83:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   149 Nov 11 14:50 ba77afe80ee1862c15c2c92e6edaeb9ba368d7
+
+
+./.git/objects/85:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   216 Nov 11 14:50 b930b25d9689eec47ea5f7356c8601d948fcc1
+
+
+./.git/objects/86:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   157 Nov 11 14:50 2fe13b57d586244e0236cb5c40a5e327dd90b3
+
+
+./.git/objects/89:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   156 Nov 11 14:50 ce2d76c3dc18d9944de913c028bb5dc68b285b
+-r--r--r--   1 ifuka001 ifuka001   177 Nov 11 15:17 fcd3aff9d7dfeb9c0e1cba34e8dfd55a612c01
+
+
+./.git/objects/8b:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 7e731fae6f2b063ceb5f2eac684e31c65c3aa8
+
+
+./.git/objects/8d:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    84 Nov 11 14:50 7ff4faec935627f0d8bd9e9f348355a172ad48
+
+
+./.git/objects/96:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   183 Nov 11 14:50 c519d9ec681d98a98181d48c79cbf13d9b0a1c
+
+
+./.git/objects/97:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:50 d4d5209b489878fdded00b446f7a055d8cc906
+
+
+./.git/objects/9b:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:50 3c3fd56d5fa3f1383297820304b5bc0e07fd76
+
+
+./.git/objects/a3:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   152 Nov 11 14:50 ea99e4e513694223b7e3c5fcba7c3bf0a79309
+
+
+./.git/objects/a9:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 a41ba5e37b6bfea9ce99ced13ed40df7c4b602
+
+
+./.git/objects/aa:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    85 Nov 11 14:50 2788e97eb4e5f1ae69724f5b5566c01d5cb9f6
+
+
+./.git/objects/b2:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  1139 Nov 11 14:50 11a32c0fb6f7c42f290450474d3b49e3a18d06
+-r--r--r--   1 ifuka001 ifuka001   229 Nov 11 14:50 2a2a41e93de4b0ffebdb36de02d4612c908616
+
+
+./.git/objects/b5:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   262 Nov 11 14:50 a97ed6bcb36860a98f30afaad169c94155142f
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:50 d8321e849c1dd0d61f743029af1bbc0b0fb972
+
+
+./.git/objects/b7:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   113 Nov 11 14:50 99031d1a535204c9e0ab67c12cfbc0581dfb1f
+
+
+./.git/objects/b8:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   150 Nov 11 14:50 f9ef8d7fd5c69681b6783536c9672767e3e291
+
+
+./.git/objects/ba:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   205 Nov 11 14:50 20baba6cb0c73f46452e3d56a25ce377f36c10
+
+
+./.git/objects/c0:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:53 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:53 c1dbf05626a5f28427fcbdbbcfa790e4bed397
+
+
+./.git/objects/c5:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    55 Nov 11 14:50 f86ce0a78866882579097a1c3181b366855c64
+
+
+./.git/objects/c6:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  1017 Nov 11 14:50 8fddc625553cb1ddffc2f644c2d4ec9d208cc5
+
+
+./.git/objects/ce:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   154 Nov 11 14:50 f0ea6c6a78ab17343e8d9e17f579707981f8ac
+
+
+./.git/objects/d0:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 14:50 0a594fb4acdb58dff1110ee03459a77fe9980d
+
+
+./.git/objects/d3:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   151 Nov 11 14:50 8dc11acee60f3b7863d8466d559e0803b67489
+
+
+./.git/objects/d6:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  2726 Nov 11 14:50 6316e04557463314a6888836fd09f22b07f165
+
+
+./.git/objects/da:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   158 Nov 11 14:50 223bc92a3e0578d8a540164bea4d5b0e420b10
+
+
+./.git/objects/df:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  1292 Nov 11 14:50 172a8f1f4d40f551967e756469c3f1a12c6af2
+-r--r--r--   1 ifuka001 ifuka001   199 Nov 11 14:50 c51949498025ee165e74aec8c69f2172c76197
+
+
+./.git/objects/e4:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   198 Nov 11 14:50 647f3f55f5d4e20c13100868df8768ba98252f
+
+
+./.git/objects/e6:
+total 20
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   147 Nov 11 14:50 309187d074c29a4e03a7a81aa30711b8f0bb24
+-r--r--r--   1 ifuka001 ifuka001   204 Nov 11 14:50 4e1395c8c6b5d00d9c23ac4bb572790323aa4c
+-r--r--r--   1 ifuka001 ifuka001    15 Nov 11 14:50 9de29bb2d1d6434b8b29ae775ad8c2e48c5391
+
+
+./.git/objects/e9:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   125 Nov 11 14:50 7949b0420b533ffc30aef3056b066cac2bd6e9
+-r--r--r--   1 ifuka001 ifuka001  1802 Nov 11 14:50 c3d8806cf3d039777833f0bfe7cfc012ed1c3a
+
+
+./.git/objects/ea:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001  1140 Nov 11 14:50 c4f4840d9be0306f20f30196746abbcbbe786b
+
+
+./.git/objects/eb:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    60 Nov 11 14:50 74741647b176e2643c3a476016cdb06d66a643
+
+
+./.git/objects/ec:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   160 Nov 11 14:50 2cade7346963cd3157c3e49bec9cacd929bd27
+-r--r--r--   1 ifuka001 ifuka001   159 Nov 11 14:50 ee53563043177039a61d4be303e0a740e3696c
+
+
+./.git/objects/f0:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   758 Nov 11 14:50 7b89356cf7c3ecc81c403d10b7ed2cfdc1fac8
+
+
+./.git/objects/f1:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   148 Nov 11 14:50 1428460fc22d4cf4b38c076596c14daead27b3
+-r--r--r--   1 ifuka001 ifuka001   152 Nov 11 14:50 2aef40940d17f6619654d64f2a3b05846089fb
+
+
+./.git/objects/f7:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    48 Nov 11 14:50 e55ee2abed40165f2c5daacd3c34c138f84c72
+
+
+./.git/objects/f8:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001    53 Nov 11 14:50 91dbd96e159dfb8c762eea5c6be5df767c9bb8
+
+
+./.git/objects/f9:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:16 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   154 Nov 11 15:16 319f116f523708a9ceec064d65c375c8dda7ca
+
+
+./.git/objects/fb:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   171 Nov 11 15:17 187dc2e239dbc2764b50b8c236cf6f5f8bbe84
+-r--r--r--   1 ifuka001 ifuka001   176 Nov 11 15:16 84ec58d13331b0dcfd51606533c0a39f1f0889
+
+
+./.git/objects/fe:
+total 12
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+-r--r--r--   1 ifuka001 ifuka001   154 Nov 11 14:50 7f7935fa81fb7f02968611b744205aa01ab52d
+
+
+./.git/objects/info:
+total 8
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+
+
+./.git/objects/pack:
+total 8
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x  82 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+
+
+./.git/refs:
+total 20
+drwxrwxr-x   5 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34mheads[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34mremotes[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34mtags[0m
+
+
+./.git/refs/heads:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x   5 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001    41 Nov 11 14:53 ls
+-rw-rw-r--   1 ifuka001 ifuka001    41 Nov 11 15:17 master
+
+
+./.git/refs/remotes:
+total 12
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m.[0m
+drwxrwxr-x   5 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34morigin[0m
+
+
+./.git/refs/remotes/origin:
+total 16
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.[0m
+drwxrwxr-x   3 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001    32 Nov 11 14:50 HEAD
+-rw-rw-r--   1 ifuka001 ifuka001    41 Nov 11 15:17 master
+
+
+./.git/refs/tags:
+total 8
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 14:49 [1;34m[100m.[0m
+drwxrwxr-x   5 ifuka001 ifuka001  4096 Nov 11 14:50 [1;34m[100m..[0m
+
+
+./src:
+total 64
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:35 [1;34m[100m.[0m
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001  5137 Nov 11 14:50 cp.cpp
+-rw-rw-r--   1 ifuka001 ifuka001 10059 Nov 11 17:35 ls.cpp
+-rw-r--r--   1 ifuka001 ifuka001 24576 Nov 11 17:35 [100m.ls.cpp.swp[0m
+-rw-rw-r--   1 ifuka001 ifuka001  6672 Nov 11 14:50 main.cpp
+-rw-rw-r--   1 ifuka001 ifuka001  2700 Nov 11 14:50 Timer.h
+
+
+./tests:
+total 172
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34m[100m.[0m
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m..[0m
+-rw-rw-r--   1 ifuka001 ifuka001 25599 Nov 11 14:50 exec.script
+-rw-rw-r--   1 ifuka001 ifuka001 139264 Nov 11 17:58 ls.script
+
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls -la[K[Klar[KR [K[Kr #inputting wrong argument
+total 36
+drwxrwxr-x   6 ifuka001 ifuka001  4096 Nov 11 14:58 [1;34m[100m.[0m
+drwxr-xr-x  28 ifuka001 ifuka001  4096 Nov 11 17:30 [1;34m[100m..[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mbin[0m
+drwxrwxr-x   8 ifuka001 ifuka001  4096 Nov 11 15:17 [1;34m[100m.git[0m
+-rw-rw-r--   1 ifuka001 ifuka001  1484 Nov 11 14:50 LICENSE
+-rw-rw-r--   1 ifuka001 ifuka001   444 Nov 11 14:57 Makefile
+-rw-rw-r--   1 ifuka001 ifuka001  2174 Nov 11 14:50 README.md
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:35 [1;34msrc[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mtests[0m
+
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ #wont use the r flag because not implemented.
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls -R -l #re[K[KR flag long form
+.:
+total 24
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mbin[0m
+-rw-rw-r--   1 ifuka001 ifuka001  1484 Nov 11 14:50 LICENSE
+-rw-rw-r--   1 ifuka001 ifuka001   444 Nov 11 14:57 Makefile
+-rw-rw-r--   1 ifuka001 ifuka001  2174 Nov 11 14:50 README.md
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:35 [1;34msrc[0m
+drwxrwxr-x   2 ifuka001 ifuka001  4096 Nov 11 17:48 [1;34mtests[0m
+
+
+./bin:
+total 108
+-rwxrwxr-x   1 ifuka001 ifuka001 19814 Nov 11 17:48 [1;32mcp[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 56348 Nov 11 17:49 [1;32mls[0m
+-rwxrwxr-x   1 ifuka001 ifuka001 32591 Nov 11 17:48 [1;32mrshell[0m
+
+
+./src:
+total 32
+-rw-rw-r--   1 ifuka001 ifuka001  5137 Nov 11 14:50 cp.cpp
+-rw-rw-r--   1 ifuka001 ifuka001 10059 Nov 11 17:35 ls.cpp
+-rw-rw-r--   1 ifuka001 ifuka001  6672 Nov 11 14:50 main.cpp
+-rw-rw-r--   1 ifuka001 ifuka001  2700 Nov 11 14:50 Timer.h
+
+
+./tests:
+total 168
+-rw-rw-r--   1 ifuka001 ifuka001 25599 Nov 11 14:50 exec.script
+-rw-rw-r--   1 ifuka001 ifuka001 139264 Nov 11 17:58 ls.script
+
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls .. #pass in .. 
+[1;34mdeja-dup            [0m[1;34mDesktop             [0m[1;34mDocuments           [0m[1;34mDownloads           [0m
+examples.desktop    [0m[1;34mMusic               [0m[1;34mPictures            [0m[1;34mPublic              [0m
+[1;34mrshell              [0m[1;34mTemplates           [0m[1;34mVideos              [0m
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls . #pass in .
+[1;34mbin                 [0mLICENSE             [0mMakefile            [0mREADME.md           [0m
+[1;34msrc                 [0m[1;34mtests               [0m
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/ls . -Ra #pass in 2[K. to [C[1P[C[C[C[C[C[C[C[C[C[C[C[C[C[C[CR flag
+.:
+[1;34mbin                 [0mLICENSE             [0mMakefile            [0mREADME.md           [0m
+[1;34msrc                 [0m[1;34mtests               [0m
+
+./bin:
+[1;32mcp                  [0m[1;32mls                  [0m[1;32mrshell              [0m
+
+./src:
+cp.cpp              [0mls.cpp              [0mmain.cpp            [0mTimer.h             [0m
+
+./tests:
+exec.script         [0mls.script           [0m
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ #end of script
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ exit
+exit
+
+Script done on Tue 11 Nov 2014 06:00:39 PM PST
