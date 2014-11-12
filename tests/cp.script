@@ -1,0 +1,96 @@
+Script started on Tue 11 Nov 2014 06:14:16 PM PST
+]0;ifuka001@ifuka001-UX32A: ~/rshell/testsifuka001@ifuka001-UX32A:~/rshell/tests$ cd ..
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ make
+mkdir -p bin
+g++ -Wall -Werror -ansi -pedantic src/main.cpp -o bin/rshell
+g++ -Wall -Werror -ansi -pedantic src/cp.cpp -o bin/cp
+g++ -Wall -Werror -ansi -pedantic src/ls.cpp -o bin/ls
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ ls
+[0m[01;34mbin[0m  LICENSE  Makefile  README.md  [01;34msrc[0m  [01;34mtests[0m
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ cp LICENSE test #we[Kill copy test to [K[K[K[K[K[K[K[KLICENSE to test
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ cat test
+Copyright (c) 2014, Itsuki Fukada
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of rshell nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE      
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ clear
+[H[2J]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/cp LICENSE test #will output error
+Desired output file already exists: File exists
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ rm -f test
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ ls
+[0m[01;34mbin[0m  LICENSE  Makefile  README.md  [01;34msrc[0m  [01;34mtests[0m
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ rm -F[Kf[K[K[K[K[Kc[Kbin/c [Kp Makefile test -fl[K[K[K-out #we did not add any flag requirement so flag can be anything but it has to be after th e source and destination of the files
+Method one: 
+Elapsed wallclock time: 0.000589
+Elapsed user time: 0
+Elapsed system time: 0.000584
+Method two: 
+Elapsed wallclock time: 0.002242
+Elapsed user time: 0
+Elapsed system time: 0.002205
+Method three: 
+Elapsed wallclock time: 4.6e-05
+Elapsed user time: 0
+Elapsed system time: 4.3e-05
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ #this wil i[Ku[Koutput 3 methods that we used and how long it took to run it
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/[K[K[K[Kcat test
+
+#The Compiler
+Compiler = g++
+
+
+#Compiler flags
+Flags = -Wall -Werror -ansi -pedantic
+
+all:
+	mkdir -p bin
+
+	$(Compiler) $(Flags) src/main.cpp -o bin/rshell
+	$(Compiler) $(Flags) src/cp.cpp -o bin/cp
+	$(Compiler) $(Flags) src/ls.cpp -o bin/ls
+	
+rshell:
+
+	mkdir -p bin
+	
+	$(Compiler) $(Flags) src/main.cpp -o bin/rshell
+
+ls:
+	mkdir -p bin
+
+	$(Compiler) $(Flags) src/ls.cpp -o bin/ls
+
+cp:
+	mkdir -p bin
+
+	$(Compiler) $(Flags) src/cp.cpp -o bin/cp
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ #We ddi[K[Kid not implement the flag portion. [K[K, but it will allow user to put a flag th[Ka[K[Kat the end of every[K[K[K[K[Ksource and destinatio n
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ #and if we[K[Kuser did not put ag[Krgument, it will just use method 3 which is the fasted [K[Kt [K[K[Kest method.
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ exit
+exit
+
+Script done on Tue 11 Nov 2014 06:18:07 PM PST
