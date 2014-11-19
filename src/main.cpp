@@ -5,10 +5,13 @@
 #include <stdio.h>
 #include <sys/unistd.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <sys/param.h>
 #include <stdlib.h>
+#include <fcntl.h>
 #include <vector>
+
 
 using namespace std;
 
@@ -21,8 +24,1397 @@ void string_parsing(string String,vector<string> & char_array){
 	}		
 }
 
+void pipe_2(vector<string> pipe_arr,int counter,int size)
+{
+	int fd[20][2];
+	for(int i = 0;i<size-1;i++)
+	{
+		if(pipe(fd[i])<0)
+		{
+			perror("pipe");
+			exit(0);
+		}
+		
+	}
+		vector <string> temp;
+		unsigned int n = 0;
+		char *argv[100];
+		int i = 0;
+		while(i < size -1)
+		{
+			bool in = false;
+			bool out = false;
+			bool app = false;
+			string input = pipe_arr[i];
+			for(unsigned int s = 0; s < input.size(); ++s)
+			{
+			
+				if(input[s] == '<')
+				{
+					in = true;	
+				}
+				if((input[s] == '>' && input[s+1] != '>') && (input[s]=='>' && input[s-1] != '>'))
+				{	
+					out = true;
+				}
+				if(input[s] == '>' && input[s+1] == '>')
+				{
+					app = true;
+				}
+			}
+		
+			if(in == true)
+			{
+					
+				string usr = pipe_arr[i];
+				char* tok = strtok(&usr[0],"<");
+				while(tok != NULL)
+				{
+					temp.push_back(tok);
+					tok = strtok(NULL,"<");
+				}
+				vector <string> temp2;
+				string input1 = temp[0];
+				string_parsing(input1,temp2);
+				for(n=0; n < temp2.size();n++)
+				{
+					argv[n] = new char[temp2[n].size()+1];
+				}
+				for(n=0;n<temp2.size();n++)
+				{
+					strcpy(argv[n],temp2[n].c_str());
+				}
+				argv[n] = NULL;
+				int check = 0;
+				while(temp[1][check] == ' ' )
+				{
+					temp[1].erase(0,1);
+				}
+				check = temp[1].size();
+				string t = temp[1];
+				while(t[t.length()-1] == ' ')
+				{
+					t = t.substr(0,t.size()-1);
+						
+				}
+				const char* c = t.c_str();
+				int inp = open(c,O_RDONLY);
+				if(inp < 0)
+				{
+					perror("open");
+					exit(0);
+				}
+				if(counter == 0)
+				{
+					counter ++;
+				}
+				int pid = fork();
+				if(pid == 0)
+				{
+						if( -1 == dup2(inp,0))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						dup2(fd[i][1],1);
+						if( -1 == close(inp))
+						{
+							perror("close");
+							exit(0);
+						}
+						
+						for(int i = 0 ; i < size-1 ; ++i)
+						{
+							if(-1 == close(fd[i][0]))
+							{
+								perror("close");
+								exit(0);
+							}
+							if(-1 == close(fd[i][1]))
+							{
+								perror("close");
+								exit(0);
+							}
+						}
+						if(-1 == execvp(argv[0],argv))
+							{
+								perror("execvp");
+								exit(1);
+							}
+				}
+				else if(pid == -1)
+				{
+					perror("fork");
+					exit(1);
+				}
+				
+			}
+			else if(out == true)
+			{
+			
+				string usr = pipe_arr[i];
+				char* tok = strtok(&usr[0],">");
+				while(tok != NULL)
+				{
+					temp.push_back(tok);
+					tok = strtok(NULL,">");
+				}
+				vector <string> temp2;
+				string input1 = temp[0];
+				string_parsing(input1,temp2);
+				for(n=0; n < temp2.size();n++)
+				{
+					argv[n] = new char[temp2[n].size()+1];
+				}
+				for(n=0;n<temp2.size();n++)
+				{
+					strcpy(argv[n],temp2[n].c_str());
+				}
+				argv[n] = NULL;
+				int check = 0;
+				while(temp[1][check] == ' ' )
+				{
+					temp[1].erase(0,1);
+				}
+				check = temp[1].size();
+				string t = temp[1];
+				while(t[t.length()-1] == ' ')
+				{
+					t = t.substr(0,t.size()-1);
+						
+				}
+				const char* c = t.c_str();
+				int out = open(c,O_WRONLY | O_TRUNC | O_CREAT ,S_IRUSR|S_IRGRP | S_IWGRP | S_IWUSR);
+				if(out < 0)
+				{
+					perror("open");
+				}
+				if(counter == 0)
+				{
+					counter ++ ;
+					int pid = fork();
+					if(pid==0)
+					{
+						if(-1 == dup2(out,1))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						if(-1 == close(out))
+						{
+							perror("close");
+							exit(0);
+						}
+						for(int i = 0 ; i < size-1 ; ++i)
+						{
+							if(-1 == close(fd[i][0]))
+							{
+								perror("close");
+								exit(0);
+							}
+							if(-1 == close(fd[i][1]))
+							{
+								perror("close");
+								exit(0);
+							}
+						}
+						if(-1 == execvp(*argv,argv))
+						{
+							perror("execvp");
+							exit(1);
+						}
+					}
+					else if(pid == -1)
+					{
+						perror("fork");
+						exit(1);
+					}
+					
+				}
+				else
+				{
+					int pid = fork();
+					if(pid==0)
+					{
+						if(-1 == dup2(fd[i-1][0],0))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						if(-1 == dup2(out,1))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						if(-1 == close(out))
+						{
+							perror("close");
+							exit(0);
+						}
+						for(int i = 0 ; i < size-1 ; ++i)
+						{
+							if(-1 == close(fd[i][0]))
+							{
+								perror("close");
+								exit(0);
+							}
+							if(-1 == close(fd[i][1]))
+							{
+								perror("close");
+								exit(0);
+							}
+						}
+						if(-1 == execvp(*argv,argv))
+						{
+							perror("execvp");
+							exit(0);
+						}
+					}
+					else if(pid == -1)
+					{
+						perror("fork");
+						exit(0);
+					}
+				}
+			
+		}
+		else if(app == true)
+		{
+		
+			string usr = pipe_arr[i];
+			char* tok = strtok(&usr[0],">>");
+			while(tok != NULL)
+			{
+				temp.push_back(tok);
+				tok = strtok(NULL,">>");
+			}
+			vector <string> temp2;
+			string input1 = temp[0];
+			string_parsing(input1,temp2);
+			for(n=0; n < temp2.size();n++)
+			{
+				argv[n] = new char[temp2[n].size()+1];
+			}
+			for(n=0;n<temp2.size();n++)
+			{
+				strcpy(argv[n],temp2[n].c_str());
+			}
+			argv[n] = NULL;
+			int check = 0;
+			while(temp[1][check] == ' ' )
+			{
+				temp[1].erase(0,1);
+			}
+			check = temp[1].size();
+			string t = temp[1];
+			while(t[t.length()-1] == ' ')
+			{
+				t = t.substr(0,t.size()-1);
+					
+			}
+			const char* c = t.c_str();
+			int out = open(c,O_WRONLY | O_CREAT | O_APPEND,S_IRUSR|S_IRGRP | S_IWGRP | S_IWUSR);
+				if(out < 0)
+				{
+					perror("open");
+					exit(0);
+				}
+				int pid = fork();
+				if(pid==0)
+				{
+					if(-1 == dup2(out,1))
+					{
+						perror("dup2");
+						exit(0);
+					}
+					if(-1 == dup2(fd[i-1][0],0))
+					{
+						perror("dup2");
+						exit(0);
+					}
+					for(int i = 0 ; i < size-1 ; ++i)
+					{
+						if(-1 == close(fd[i][0]))
+						{
+							perror("close");
+							exit(0);
+						}
+						if(-1 == close(fd[i][1]))
+						{
+							perror("close");
+							exit(0);
+						}
+					}
+					if(-1 == close(out))
+					{
+							perror("close");
+							exit(0);
+					}
+					if(-1 == execvp(*argv,argv))
+					{
+						perror("execvp");
+						exit(1);
+					}
+					
+				}
+				else if(pid == -1)
+				{
+					perror("fork");
+					exit(0);
+				}
+		}
+			else
+			{
+				string_parsing(input,temp);
+				for(n = 0; n < temp.size(); n++)
+				{
+					argv[n] = new char[temp[n].size()+1];
+				}
+				for(n = 0; n < temp.size(); n++)
+				{
+					strcpy(argv[n],temp[n].c_str());
+				}
+				argv[n] = NULL;
+				if(counter == 0)
+				{
+					counter ++;
+					int pid = fork();
+					if(pid==0)
+					{
+						if(-1 == dup2(fd[i][1],1))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						for(int i = 0 ; i < size-1 ; ++i)
+						{
+							if(-1 == close(fd[i][0]))
+							{
+								perror("close");
+								exit(0);
+							}
+							if(-1 == close(fd[i][1]))
+							{
+								perror("close");
+								exit(0);
+							}
+						}
+						if(-1 == execvp(*argv,argv))
+						{
+							perror("execvp");
+							exit(0);
+						}
+						
+					}
+					else if(pid == -1)
+					{
+						perror("fork");
+						exit(0);
+					}
+				}
+				else
+				{
+					int pid = fork();
+					if(pid == 0)
+					{
+						if(-1 == dup2(fd[i-1][0],0))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						if(-1 == dup2(fd[i][1],1))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						for(int i = 0 ; i < size-1 ; ++i)
+						{
+							if(-1 == close(fd[i][0]))
+							{
+								perror("close");
+								exit(0);
+							}
+							if(-1 == close(fd[i][1]))
+							{
+								perror("close");
+								exit(0);
+							}
+						}
+						if(-1 == execvp(*argv,argv))
+						{
+							perror("execvp");
+							exit(1);
+						}
+					}
+					else if(pid == -1)
+					{
+						perror("fork");
+						exit(0);
+					}
+				}
+			}
+				++i;
+				temp.clear();
 
-int main(){
+				delete[] *argv;
+		//		memset(argv,'\0',100);
+		}
+
+		
+		
+			bool in = false;
+			bool out = false;
+			bool app = false;
+			string input = pipe_arr[size-1];
+			for(unsigned int s = 0; s < input.size(); ++s)
+			{
+			
+				if(input[s] == '<')
+				{
+					in = true;	
+				}
+				if((input[s] == '>' && input[s+1] != '>') && (input[s]=='>' && input[s-1] != '>'))
+				{	
+					out = true;
+				}
+				if(input[s] == '>' && input[s+1] == '>')
+				{
+					app = true;
+				}
+			}
+		
+			if(in == true)
+			{
+					
+				string usr = pipe_arr[i];
+				char* tok = strtok(&usr[0],"<");
+				while(tok != NULL)
+				{
+					temp.push_back(tok);
+					tok = strtok(NULL,"<");
+				}
+				vector <string> temp2;
+				string input1 = temp[0];
+				string_parsing(input1,temp2);
+				for(n=0; n < temp2.size();n++)
+				{
+					argv[n] = new char[temp2[n].size()+1];
+				}
+				for(n=0;n<temp2.size();n++)
+				{
+					strcpy(argv[n],temp2[n].c_str());
+				}
+				argv[n] = NULL;
+				int check = 0;
+				while(temp[1][check] == ' ' )
+				{
+					temp[1].erase(0,1);
+				}
+				check = temp[1].size();
+				string t = temp[1];
+				while(t[t.length()-1] == ' ')
+				{
+					t = t.substr(0,t.size()-1);
+						
+				}
+				const char* c = t.c_str();
+				int inp = open(c,O_RDONLY);
+				if(inp < 0)
+				{
+					perror("open");
+				}
+				if(counter == 0)
+				{
+					counter ++;
+				}
+				int pid = fork();
+					if(pid == 0)
+					{
+						if(-1 == dup2(inp,0))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						if(-1 == dup2(fd[i][1],1))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						if(-1 == close(inp))
+						{
+							perror("close");
+							exit(0);
+						}
+						
+						for(int i = 0 ; i < size-1 ; ++i)
+						{
+							if(-1 == close(fd[i][0]))
+							{
+								perror("close");
+								exit(0);
+							}
+							if(-1 == close(fd[i][1]))
+							{
+								perror("close");
+								exit(0);
+							}
+						}
+						if(-1 == execvp(argv[0],argv))
+						{
+							perror("execvp");
+							exit(0);
+						}
+					}
+					else if(pid == -1)
+					{
+						perror("fork");
+						exit(0);
+					}
+			}
+			else if(out == true)
+			{
+			
+				string usr = pipe_arr[i];
+				char* tok = strtok(&usr[0],">");
+				while(tok != NULL)
+				{
+					temp.push_back(tok);
+					tok = strtok(NULL,">");
+				}
+				vector <string> temp2;
+				string input1 = temp[0];
+				string_parsing(input1,temp2);
+				for(n=0; n < temp2.size();n++)
+				{
+					argv[n] = new char[temp2[n].size()+1];
+				}
+				for(n=0;n<temp2.size();n++)
+				{
+					strcpy(argv[n],temp2[n].c_str());
+				}
+				argv[n] = NULL;
+				int check = 0;
+				while(temp[1][check] == ' ' )
+				{
+					temp[1].erase(0,1);
+				}
+				check = temp[1].size();
+				string t = temp[1];
+				while(t[t.length()-1] == ' ')
+				{
+					t = t.substr(0,t.size()-1);
+						
+				}
+				const char* c = t.c_str();
+				int out = open(c,O_WRONLY | O_TRUNC | O_CREAT ,S_IRUSR|S_IRGRP | S_IWGRP | S_IWUSR);
+			
+				if(out < 0)
+				{
+					perror("open");
+					exit(0);
+				}
+				if(counter == 0)
+				{
+					counter ++ ;
+					int pid = fork();
+					if(pid ==0)
+					{
+						if(-1==dup2(out,1))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						if(-1 == dup2(fd[i-1][0],0))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						if(-1 == close(out))
+						{
+							perror("close");
+							exit(0);
+						}
+						for(int i = 0 ; i < size-1 ; ++i)
+						{
+							if(-1 == close(fd[i][0]))
+							{
+								perror("close");
+								exit(0);
+							}
+							if(-1 == close(fd[i][1]))
+							{
+								perror("close");
+								exit(0);
+							}
+						}
+						if(-1 == execvp(*argv,argv))
+						{
+							perror("execvp");
+							exit(1);
+						}
+					}
+					else if(pid == -1)
+					{
+						perror("fork");
+						exit(0);
+					}
+				}
+				else
+				{
+					int pid = fork();
+					if(pid==0)
+					{
+						if(-1 == dup2(fd[i-1][0],0))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						if(-1 == dup2(out,1))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						if(-1 == close(out))
+						{
+							perror("close");
+							exit(0);
+						}
+						for(int i = 0 ; i < size-1 ; ++i)
+						{
+							if(-1 == close(fd[i][0]))
+							{
+								perror("close");
+								exit(0);
+							}
+							if(-1 == close(fd[i][1]))
+							{
+								perror("close");
+								exit(0);
+							}
+						}
+						if(-1 == execvp(*argv,argv))
+						{
+							perror("execvp");
+							exit(1);
+						}
+					}
+					else if(pid == -1)
+					{
+						perror("fork");
+						exit(0);
+					}
+				}
+			
+		}
+		else if(app == true)
+		{
+		
+			string usr = pipe_arr[i];
+			char* tok = strtok(&usr[0],">>");
+			while(tok != NULL)
+			{
+				temp.push_back(tok);
+				tok = strtok(NULL,">>");
+			}
+			vector <string> temp2;
+			string input1 = temp[0];
+			string_parsing(input1,temp2);
+			for(n=0; n < temp2.size();n++)
+			{
+				argv[n] = new char[temp2[n].size()+1];
+			}
+			for(n=0;n<temp2.size();n++)
+			{
+				strcpy(argv[n],temp2[n].c_str());
+			}
+			argv[n] = NULL;
+			int check = 0;
+			while(temp[1][check] == ' ' )
+			{
+				temp[1].erase(0,1);
+			}
+			check = temp[1].size();
+			string t = temp[1];
+			while(t[t.length()-1] == ' ')
+			{
+				t = t.substr(0,t.size()-1);
+					
+			}
+			const char* c = t.c_str();
+			int out = open(c,O_WRONLY | O_CREAT | O_APPEND,S_IRUSR|S_IRGRP | S_IWGRP | S_IWUSR);
+				if(out < 0)
+				{
+					perror("open");
+					exit(0);
+				}
+				int pid = fork();
+				if(pid==0)
+				{
+					if(-1==dup2(out,1))
+					{
+						perror("dup2");
+						exit(0);
+					}
+					if(-1 == dup2(fd[i-1][0],0))
+					{
+						perror("dup2");
+						exit(0);
+					}
+					if(-1 == close(out))
+					{
+						perror("close");
+						exit(0);
+					}
+						for(int i = 0 ; i < size-1 ; ++i)
+						{
+							if(-1 == close(fd[i][0]))
+							{
+								perror("close");
+								exit(0);
+							}
+							if(-1 == close(fd[i][1]))
+							{
+								perror("close");
+								exit(0);
+							}
+						}
+					if(-1 == execvp(*argv,argv))
+					{
+						perror("execvp");
+						exit(1);
+					}
+				}
+				else if(pid == -1)
+				{
+					perror("fork");
+					exit(0);
+				}
+		}
+		else
+		{
+				string input = pipe_arr[size-1];
+				string_parsing(input,temp);
+				for(n = 0; n < temp.size(); n++)
+				{
+					argv[n] = new char[temp[n].size()+1];
+				}
+				for(n = 0; n < temp.size(); n++)
+				{
+					strcpy(argv[n],temp[n].c_str());
+				}
+				argv[n] = NULL;
+				int pid = fork();
+				if(pid == 0)
+				{
+					if(-1 == dup2(fd[i-1][0],0))
+					{
+						perror("dup2");
+						exit(0);
+					}
+						for(int i = 0 ; i < size-1 ; ++i)
+						{
+							if(-1 == close(fd[i][0]))
+							{
+								perror("close");
+								exit(0);
+							}
+							if(-1 == close(fd[i][1]))
+							{
+								perror("close");
+								exit(0);
+							}
+						}
+					if(-1==execvp(*argv,argv))
+					{
+						perror("execvp");
+						exit(0);
+					}
+				}
+				else if(pid == -1)
+				{
+					perror("fork");
+					exit(0);
+				}
+
+		}
+
+			delete[] *argv;
+
+						for(int i = 0 ; i < size-1 ; ++i)
+						{
+							if(-1 == close(fd[i][0]))
+							{
+								perror("close");
+								exit(0);
+							}
+							if(-1 == close(fd[i][1]))
+							{
+								perror("close");
+								exit(0);
+							}
+						}
+
+				for(int i = 0; i < size; i++)
+				{
+					if(wait(0)<0)
+					{
+						perror("wait");
+						exit(0);
+					}
+					
+				}
+}	
+
+void input_output(string usr_input)
+{
+			int fd[2];
+			int fd1[2];
+			if(-1 == pipe(fd))
+			{
+				perror("pipe");
+				exit(0);
+			}
+			if(-1 == pipe(fd1))
+			{
+				perror("pipe");
+				exit(0);
+			}
+			int i =0;
+			int o =0;
+			int a =0;
+			bool in = false;
+			bool out = false;
+			bool app = false;
+			string input = usr_input; 
+			vector <string> temp;
+			unsigned int n = 0;
+			char *argv[100];
+			for(unsigned int s = 0; s < input.size(); ++s)
+			{
+			
+				if(input[s] == '<')
+				{
+					in = true;
+					i++;
+				}
+				if((input[s] == '>' && input[s+1] != '>') && (input[s]=='>' && input[s-1] != '>'))
+				{	
+					out = true;
+					o++;
+				}
+				if(input[s] == '>' && input[s+1] == '>')
+				{
+					app = true;
+					a++;
+				}
+			}
+			if( i > 1 || o > 1 || a > 1)
+			{
+				cout << "you may not use more than one of the same i/o redirection" << endl;
+				return;
+			}
+			if(in == true && out == true)
+			{
+			
+				char* tok = strtok(&input[0],"<");
+				while(tok != NULL)
+				{
+					temp.push_back(tok);
+					tok = strtok(NULL,"<>");
+				}
+				vector <string> temp2;
+				string input1 = temp[0];
+				string_parsing(input1,temp2);
+				for(n=0; n < temp2.size();n++)
+				{
+					argv[n] = new char[temp2[n].size()+1];
+				}
+				for(n=0;n<temp2.size();n++)
+				{
+					strcpy(argv[n],temp2[n].c_str());
+				}
+				argv[n] = NULL;
+				int check = 0;
+				while(temp[1][check] == ' ' )
+				{
+					temp[1].erase(0,1);
+				}
+				check = temp[1].size();
+				string t = temp[1];
+				while(t[t.length()-1] == ' ')
+				{
+					t = t.substr(0,t.size()-1);
+						
+				}
+				int check2 = 0;
+				while(temp[2][check2] == ' ' )
+				{
+					temp[2].erase(0,1);
+				}
+				check2 = temp[2].size();
+				string t1 = temp[2];
+				while(t1[t1.length()-1] == ' ')
+				{
+					t1 = t1.substr(0,t1.size()-1);
+						
+				}
+				const char* o = t1.c_str();
+				const char* c = t.c_str();
+				int in = open(c,O_RDONLY);
+				if(in < 0)
+				{
+					perror("open");
+					exit(0);
+				}
+				int out = open(o,O_WRONLY | O_TRUNC | O_CREAT ,S_IRUSR|S_IRGRP | S_IWGRP | S_IWUSR);
+				if(out < 0)
+				{
+					perror("open");
+					exit(0);
+				}
+				int pid = fork();
+					if(pid == 0)
+					{
+						if(-1 == dup2(in,0))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						if(-1 == dup2(out,1))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						if(-1 == close(out))
+						{
+							perror("close");
+							exit(0);
+						}
+						if(-1 == close(in))
+						{
+							perror("close");
+							exit(0);
+						}
+						if(-1 == close(fd[0]))
+						{
+							perror("close");
+							exit(0);
+						}
+						if(-1 == close(fd[1]))
+						{
+							perror("close");
+							exit(0);
+						}
+						if(-1 == close(fd1[0]))
+						{
+							perror("close");
+							exit(0);				
+						}
+						if(-1 == close(fd1[1]))
+						{
+							perror("close");
+							exit(0);
+						}
+						
+						if(-1 == execvp(argv[0],argv))
+						{
+							perror("execvp");
+							exit(0);
+						}
+					}
+					else if(pid == -1)
+					{
+						perror("fork");
+						exit(0);
+					}
+			}
+			else if(in == true && app == true)
+			{
+			
+				char* tok = strtok(&input[0],"<");
+				while(tok != NULL)
+				{
+					temp.push_back(tok);
+					tok = strtok(NULL,"<>>");
+				}
+				vector <string> temp2;
+				string input1 = temp[0];
+				string_parsing(input1,temp2);
+				for(n=0; n < temp2.size();n++)
+				{
+					argv[n] = new char[temp2[n].size()+1];
+				}
+				for(n=0;n<temp2.size();n++)
+				{
+					strcpy(argv[n],temp2[n].c_str());
+				}
+				argv[n] = NULL;
+				int check = 0;
+				while(temp[1][check] == ' ' )
+				{
+					temp[1].erase(0,1);
+				}
+				check = temp[1].size();
+				string t = temp[1];
+				while(t[t.length()-1] == ' ')
+				{
+					t = t.substr(0,t.size()-1);
+						
+				}
+				int check2 = 0;
+				while(temp[2][check2] == ' ' )
+				{
+					temp[2].erase(0,1);
+				}
+				check2 = temp[2].size();
+				string t1 = temp[2];
+				while(t1[t1.length()-1] == ' ')
+				{
+					t1 = t1.substr(0,t1.size()-1);
+						
+				}
+				const char* o = t1.c_str();
+				const char* c = t.c_str();
+				int in = open(c,O_RDONLY);
+				if(in < 0)
+				{
+					perror("open");
+					exit(0);
+				}
+				int out = open(o,O_WRONLY | O_APPEND | O_CREAT ,S_IRUSR|S_IRGRP | S_IWGRP | S_IWUSR);
+				if(out < 0)
+				{
+					perror("open");
+					exit(0);
+				}
+				int pid = fork();
+				if(pid == 0)
+				{
+						if(-1 == dup2(in,0))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						if(-1 == dup2(out,1))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						if(-1 == close(out))
+						{
+							perror("close");
+							exit(0);
+						}
+						if(-1 == close(in))
+						{
+							perror("close");
+							exit(0);
+						}
+						if(-1 == close(fd[0]))
+						{
+							perror("close");
+							exit(0);
+						}
+						if(-1 == close(fd[1]))
+						{
+							perror("close");
+							exit(0);
+						}
+						if(-1 == close(fd1[0]))
+						{
+							perror("close");
+							exit(0);				
+						}
+						if(-1 == close(fd1[1]))
+						{
+							perror("close");
+							exit(0);
+						}
+						
+						if(-1 == execvp(argv[0],argv))
+						{
+							perror("execvp");
+							exit(0);
+						}
+				}
+				else if(pid == -1)
+				{
+					perror("fork");
+					exit(0);
+				}
+			}
+			else if(in == true)
+			{
+				
+				char* tok = strtok(&input[0],"<");
+				while(tok != NULL)
+				{
+					temp.push_back(tok);
+					tok = strtok(NULL,"<>");
+				}
+				vector <string> temp2;
+				string input1 = temp[0];
+				string_parsing(input1,temp2);
+				for(n=0; n < temp2.size();n++)
+				{
+					argv[n] = new char[temp2[n].size()+1];
+				}
+				for(n=0;n<temp2.size();n++)
+				{
+					strcpy(argv[n],temp2[n].c_str());
+				}
+				argv[n] = NULL;
+				int check = 0;
+				while(temp[1][check] == ' ' )
+				{
+					temp[1].erase(0,1);
+				}
+				check = temp[1].size();
+				string t = temp[1];
+				while(t[t.length()-1] == ' ')
+				{
+					t = t.substr(0,t.size()-1);
+						
+				}
+				const char* c = t.c_str();
+				int inp = open(c,O_RDONLY);
+				if(inp < 0)
+				{
+					perror("open");
+					exit(0);
+				}
+				int pid = fork();
+					if(pid == 0)
+					{
+						if(-1 == dup2(inp,0))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						if(-1 == close(inp))
+						{
+							perror("close");
+							exit(0);
+						}
+						
+						if(-1 == close(fd[0]))
+						{
+							perror("close");
+							exit(0);
+						}
+						if(-1 == close(fd[1]))
+						{
+							perror("close");
+							exit(0);
+						}
+						if(-1 == close(fd1[0]))
+						{
+							perror("close");
+							exit(0);				
+						}
+						if(-1 == close(fd1[1]))
+						{
+							perror("close");
+							exit(0);
+						}
+						
+						if(-1 == execvp(argv[0],argv))
+						{
+							perror("execvp");
+							exit(0);
+						}
+					}
+					else if(pid == -1)
+					{
+						perror("fork");
+						exit(0);
+					}
+			}
+			else if(out == true)
+			{
+			
+				char* tok = strtok(&input[0],">");
+				while(tok != NULL)
+				{
+					temp.push_back(tok);
+					tok = strtok(NULL,"<>");
+				}
+				vector <string> temp2;
+				string input1 = temp[0];
+				string_parsing(input1,temp2);
+				for(n=0; n < temp2.size();n++)
+				{
+					argv[n] = new char[temp2[n].size()+1];
+				}
+				for(n=0;n<temp2.size();n++)
+				{
+					strcpy(argv[n],temp2[n].c_str());
+				}
+				argv[n] = NULL;
+				int check = 0;
+				while(temp[1][check] == ' ' )
+				{
+					temp[1].erase(0,1);
+				}
+				check = temp[1].size();
+				string t = temp[1];
+				while(t[t.length()-1] == ' ')
+				{
+					t = t.substr(0,t.size()-1);
+						
+				}
+				const char* c = t.c_str();
+				int out = open(c,O_WRONLY | O_TRUNC | O_CREAT ,S_IRUSR|S_IRGRP | S_IWGRP | S_IWUSR);
+				if(out < 0)
+				{
+					perror("open");
+					exit(0);
+				}
+				int pid = fork();
+					if(pid == 0)
+					{
+						if(-1 == dup2(out,1))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						if(-1 == close(out))
+						{
+							perror("close");
+							exit(0);
+						}
+						
+						if(-1 == close(fd[0]))
+						{
+							perror("close");
+							exit(0);
+						}
+						if(-1 == close(fd[1]))
+						{
+							perror("close");
+							exit(0);
+						}
+						if(-1 == close(fd1[0]))
+						{
+							perror("close");
+							exit(0);				
+						}
+						if(-1 == close(fd1[1]))
+						{
+							perror("close");
+							exit(0);
+						}
+						
+						if(-1 == execvp(argv[0],argv))
+						{
+							perror("execvp");
+							exit(0);
+						}
+					}
+					else if(pid == -1)
+					{
+						perror("fork");
+						exit(0);
+					}
+			}
+			else if(app == true)
+			{
+			
+				char* tok = strtok(&input[0],">>");
+				while(tok != NULL)
+				{
+					temp.push_back(tok);
+					tok = strtok(NULL,"<>>");
+				}
+				vector <string> temp2;
+				string input1 = temp[0];
+				string_parsing(input1,temp2);
+				for(n=0; n < temp2.size();n++)
+				{
+					argv[n] = new char[temp2[n].size()+1];
+				}
+				for(n=0;n<temp2.size();n++)
+				{
+					strcpy(argv[n],temp2[n].c_str());
+				}
+				argv[n] = NULL;
+				int check = 0;
+				while(temp[1][check] == ' ' )
+				{
+					temp[1].erase(0,1);
+				}
+				check = temp[1].size();
+				string t = temp[1];
+				while(t[t.length()-1] == ' ')
+				{
+					t = t.substr(0,t.size()-1);
+						
+				}
+				const char* c = t.c_str();
+				int out = open(c,O_WRONLY | O_APPEND | O_CREAT ,S_IRUSR|S_IRGRP | S_IWGRP | S_IWUSR);
+				if(out < 0)
+				{
+					perror("open");
+					exit(0);
+				}
+				int pid = fork();
+					if(pid == 0)
+					{
+						if(-1 == dup2(out,1))
+						{
+							perror("dup2");
+							exit(0);
+						}
+						if(-1 == close(out))
+						{
+							perror("close");
+							exit(0);
+						}
+						
+						if(-1 == close(fd[0]))
+						{
+							perror("close");
+							exit(0);
+						}
+						if(-1 == close(fd[1]))
+						{
+							perror("close");
+							exit(0);
+						}
+						if(-1 == close(fd1[0]))
+						{
+							perror("close");
+							exit(0);				
+						}
+						if(-1 == close(fd1[1]))
+						{
+							perror("close");
+							exit(0);
+						}
+						
+						if(-1 == execvp(argv[0],argv))
+						{
+							perror("execvp");
+							exit(0);
+						}	
+					}
+					else if(pid == -1)
+					{
+						perror("fork");
+						exit(0);
+					}
+			}
+	temp.clear();
+	delete[] *argv;
+	if(wait(0)<0)
+	{
+		perror("wait");
+		exit(0);
+	}
+}
+
+void commands()
+{
 	int status;
 	vector<string> char_array;
 	vector<string> pars_array;
@@ -59,7 +1451,8 @@ int main(){
 	
 	int trav_str = usr_input.size();
 	int str_ctr  = 0;
-	for(str_ctr=0;str_ctr < trav_str;++str_ctr){
+	for(str_ctr=0;str_ctr < trav_str;++str_ctr)
+	{
 												//this loop will go through to see what user has inputted (just single command,
 												//separated by ; or && or ||. (NOTE: this bash is not compatible with
 												//different arguments in one input. i.e. ls ; ls || ls && ls.
@@ -221,7 +1614,36 @@ int main(){
 		pars_array.clear();
 		goto end_of_while;
 		}
+		else if(usr_input[str_ctr] == '|') // go to pipe_2 function.
+		{
+				if(usr_input == "|")
+				{
+					goto beginning;
+				}
+				vector<string> char_array;
+				vector<string> pipe_array;
+				char* token1;
+				token1 = strtok(&usr_input[0], "|");
+				while(token1 != NULL)
+				{
+					pipe_array.push_back(token1);
+					token1 = strtok(NULL, "|");
+				}
+					int i = pipe_array.size();
+					int c = 0;
+					pipe_2(pipe_array,c,i);	
+					pipe_array.clear();
+					goto end_of_while;
 		}
+		}
+		for(int w = 0; w < trav_str; ++w) // this for loop will check if user inputted i/o redirection.
+		{
+			if(usr_input[w] == '>' || usr_input[w] == '<' )
+			{
+				input_output(usr_input);
+				goto end_of_while;
+			}
+		}		
 		if(!usr_input.empty()){	//when user just inputs no argument.
 	
 
@@ -261,5 +1683,15 @@ int main(){
 }
 
 
-	return 0;		
+}
+
+
+
+
+
+
+int main()
+{
+	commands();
+	return 0;
 }
