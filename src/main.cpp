@@ -26,7 +26,7 @@ void string_parsing(string String,vector<string> & char_array){
 
 void pipe_2(vector<string> pipe_arr,int counter,int size)
 {
-	int fd[20][2];
+	int fd[100][2];
 	for(int i = 0;i<size-1;i++)
 	{
 		if(pipe(fd[i])<0)

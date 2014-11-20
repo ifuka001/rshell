@@ -95,7 +95,7 @@ Known BUGS and ISSUES
 * For example: `cp` only runs by inputting `bin/cp "sourcefile" destinationfile"` or `bin/cp "sourcefile" destinationfile" "flag"`
 * `rshell` piping does not support multiple i/o redirection within the pipe itself (for example, cat< Makefile| cat < Makefile >> new1)
 * `rshell` also does not allow multiple input and output redirections. it does not also allow output and append to be on same line of command
-
+* `rshell` only supports up to 100 pipes. If you call more, it will cause errors.
 
 
 
