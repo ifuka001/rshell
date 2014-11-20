@@ -1,0 +1,364 @@
+Script started on Wed 19 Nov 2014 09:23:10 PM PST
+]0;ifuka001@ifuka001-UX32A: ~/rshell/testsifuka001@ifuka001-UX32A:~/rshell/tests$ cd ..
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ make
+mkdir -p bin
+g++ -Wall -Werror -ansi -pedantic src/main.cpp -o bin/rshell
+g++ -Wall -Werror -ansi -pedantic src/cp.cpp -o bin/cp
+g++ -Wall -Werror -ansi -pedantic src/ls.cpp -o bin/ls
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/rshell
+getlogin: No such file or directory
+@ifuka001-UX32A$ls -l > out #simple output redirection
+getlogin: No such file or directory
+@ifuka001-UX32A$cat out
+total 28
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 21:23 bin
+-rw-rw-r-- 1 ifuka001 ifuka001 1484 Nov 11 14:50 LICENSE
+-rw-rw-r-- 1 ifuka001 ifuka001  444 Nov 15 16:10 Makefile
+-rw-rw---- 1 ifuka001 ifuka001    0 Nov 19 21:23 out
+drwx------ 2 ifuka001 ifuka001 4096 Nov 19 15:41 pipe
+-rw-rw-r-- 1 ifuka001 ifuka001 2995 Nov 11 18:25 README.md
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 17:46 src
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 21:23 tests
+getlogin: No such file or directory
+@ifuka001-UX32A$e wc < out #simple intpu   put redirection
+  9  74 451
+getlogin: No such file or directory
+@ifuka001-UX32A$wc-  -l < out > out2 #simple input and output redirection
+getlogin: No such file or directory
+@ifuka001-UX32A$cat out2
+9
+getlogin: No such file or directory
+@ifuka001-UX32A$cat < out >> out2 #simple inu put and append
+getlogin: No such file or directory
+@ifuka001-UX32A$cat out2
+9
+total 28
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 21:23 bin
+-rw-rw-r-- 1 ifuka001 ifuka001 1484 Nov 11 14:50 LICENSE
+-rw-rw-r-- 1 ifuka001 ifuka001  444 Nov 15 16:10 Makefile
+-rw-rw---- 1 ifuka001 ifuka001    0 Nov 19 21:23 out
+drwx------ 2 ifuka001 ifuka001 4096 Nov 19 15:41 pipe
+-rw-rw-r-- 1 ifuka001 ifuka001 2995 Nov 11 18:25 README.md
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 17:46 src
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 21:23 tests
+getlogin: No such file or directory
+@ifuka001-UX32A$ls -l<            out #nospace^[[D^[[D^[[D            
+total 36
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 21:23 bin
+-rw-rw-r-- 1 ifuka001 ifuka001 1484 Nov 11 14:50 LICENSE
+-rw-rw-r-- 1 ifuka001 ifuka001  444 Nov 15 16:10 Makefile
+-rw-rw---- 1 ifuka001 ifuka001  451 Nov 19 21:23 out
+-rw-rw---- 1 ifuka001 ifuka001  453 Nov 19 21:24 out2
+drwx------ 2 ifuka001 ifuka001 4096 Nov 19 15:41 pipe
+-rw-rw-r-- 1 ifuka001 ifuka001 2995 Nov 11 18:25 README.md
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 17:46 src
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 21:23 tests
+getlogin: No such file or directory
+@ifuka001-UX32A$ls -l >       >     out
+getlogin: No such file or directory
+@ifuka001-UX32A$cat out #top command with spaces
+total 32
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 21:23 bin
+-rw-rw-r-- 1 ifuka001 ifuka001 1484 Nov 11 14:50 LICENSE
+-rw-rw-r-- 1 ifuka001 ifuka001  444 Nov 15 16:10 Makefile
+-rw-rw---- 1 ifuka001 ifuka001    0 Nov 19 21:25 out
+-rw-rw---- 1 ifuka001 ifuka001  453 Nov 19 21:24 out2
+drwx------ 2 ifuka001 ifuka001 4096 Nov 19 15:41 pipe
+-rw-rw-r-- 1 ifuka001 ifuka001 2995 Nov 11 18:25 README.md
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 17:46 src
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 21:23 tests
+getlogin: No such file or directory
+@ifuka001-UX32A$wc -l  <out>>out2 #input and output with no spaces
+getlogin: No such file or directory
+@ifuka001-UX32A$cat out2
+9
+total 28
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 21:23 bin
+-rw-rw-r-- 1 ifuka001 ifuka001 1484 Nov 11 14:50 LICENSE
+-rw-rw-r-- 1 ifuka001 ifuka001  444 Nov 15 16:10 Makefile
+-rw-rw---- 1 ifuka001 ifuka001    0 Nov 19 21:23 out
+drwx------ 2 ifuka001 ifuka001 4096 Nov 19 15:41 pipe
+-rw-rw-r-- 1 ifuka001 ifuka001 2995 Nov 11 18:25 README.md
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 17:46 src
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 21:23 tests
+10
+getlogin: No such file or directory
+@ifuka001-UX32A$wc -l  <out          <   >>  out2 #with sno  n  no space and space
+getlogin: No such file or directory
+@ifuka001-UX32A$cat out2
+10
+getlogin: No such file or directory
+@ifuka001-UX32A$<
+no arguments
+getlogin: No such file or directory
+@ifuka001-UX32A$>
+no arguments
+getlogin: No such file or directory
+@ifuka001-UX32A$>>
+no arguments
+getlogin: No such file or directory
+@ifuka001-UX32A$#without the     any arguments
+There was an error: No such file or directory
+getlogin: No such file or directory
+@ifuka001-UX32A$cat < 
+open: No such file or directory
+getlogin: No such file or directory
+@ifuka001-UX32A$exit
+Exiting...
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/rshell
+getlogin: No such file or directory
+@ifuka001-UX32A$cat< #not enough argument
+open: No such file or directory
+getlogin: No such file or directory
+@ifuka001-UX32A$cat> #not enough argument
+open: No such file or directory
+getlogin: No such file or directory
+@ifuka001-UX32A$cat < new1<         out2 < out1 < out2 #s multiple redirection error me essage
+you may not use more than one of the same i/o redirection
+getlogin: No such file or directory
+@ifuka001-UX32A$ls > out > out1 2 #using 2 output rd edirection
+you may not use more than one of the same i/o redirection
+getlogin: No such file or directory
+@ifuka001-UX32A$ls > out >> out2 #using 2   out and append (se  gives error message)
+does not support multiple output redirection
+getlogin: No such file or directory
+@ifuka001-UX32A$<> #with no argument
+not enough argument
+getlogin: No such file or directory
+@ifuka001-UX32A$< >
+not enough argument
+getlogin: No such file or directory
+@ifuka001-UX32A$cat < out2 | tr a-z A-Z #siple     mple pipe
+10
+getlogin: No such file or directory
+@ifuka001-UX32A$ls > out2
+getlogin: No such file or directory
+@ifuka001-UX32A$cat < out2 | tr a-z A-Z | tee new1 | tr a A-Z a-a z > new2
+getlogin: No such file or directory
+@ifuka001-UX32A$#ml ultiple piping  
+There was an error: No such file or directory
+getlogin: No such file or directory
+@ifuka001-UX32A$cat new1
+BIN
+LICENSE
+MAKEFILE
+OUT
+OUT2
+PIPE
+README.MD
+SRC
+TESTS
+getlogin: No such file or directory
+@ifuka001-UX32A$cat new2
+bin
+license
+makefile
+out
+out2
+pipe
+readme.md
+src
+tests
+getlogin: No such file or directory
+@ifuka001-UX32A$cat < out2 | tr a-z A-Z | tee new3 | tr A-Z a-z >> new1 #append 
+getlogin: No such file or directory
+@ifuka001-UX32A$cat new1
+BIN
+LICENSE
+MAKEFILE
+OUT
+OUT2
+PIPE
+README.MD
+SRC
+TESTS
+bin
+license
+makefile
+out
+out2
+pipe
+readme.md
+src
+tests
+getlogin: No such file or directory
+@ifuka001-UX32A$ls | tail -3 | tr a-z A-Z #no i/o redirections
+README.MD
+SRC
+TESTS
+getlogin: No such file or directory
+@ifuka001-UX32A$ls|  | tail -3 | tail -2 > new2 | tail -1 #with i/o in the middle of it
+getlogin: No such file or directory
+@ifuka001-UX32A$cat new2
+src
+tests
+getlogin: No such file or directory
+@ifuka001-UX32A$#only       cat < Makefile | tail -5 > new5 | ls | ls -l | >> new6 #adding multiple randome pipe commands
+getlogin: No such file or directory
+@ifuka001-UX32A$cat new5
+
+cp:
+	mkdir -p bin
+
+	$(Compiler) $(Flags) src/cp.cpp -o bin/cp
+getlogin: No such file or directory
+@ifuka001-UX32A$at    cat new6
+total 52
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 21:23 bin
+-rw-rw-r-- 1 ifuka001 ifuka001 1484 Nov 11 14:50 LICENSE
+-rw-rw-r-- 1 ifuka001 ifuka001  444 Nov 15 16:10 Makefile
+-rw-rw-r-- 1 ifuka001 ifuka001  110 Nov 19 21:30 new1
+-rw-rw---- 1 ifuka001 ifuka001   10 Nov 19 21:32 new2
+-rw-rw-r-- 1 ifuka001 ifuka001   55 Nov 19 21:30 new3
+-rw-rw---- 1 ifuka001 ifuka001   63 Nov 19 21:32 new5
+-rw-rw---- 1 ifuka001 ifuka001    0 Nov 19 21:32 new6
+-rw-rw---- 1 ifuka001 ifuka001  505 Nov 19 21:25 out
+-rw-rw---- 1 ifuka001 ifuka001   55 Nov 19 21:29 out2
+drwx------ 2 ifuka001 ifuka001 4096 Nov 19 15:41 pipe
+-rw-rw-r-- 1 ifuka001 ifuka001 2995 Nov 11 18:25 README.md
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 17:46 src
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 21:23 tests
+getlogin: No such file or directory
+@ifuka001-UX32A$cat < Makefile | tail -3 >  > new4 5 | cat < Makefile | tail -3
+	mkdir -p bin
+
+	$(Compiler) $(Flags) src/cp.cpp -o bin/cp
+getlogin: No such file or directory
+@ifuka001-UX32A$cat<out2|tr a-z A-Z  |tee new|tr A-Z a-z  >new2 #with no spaces
+getlogin: No such file or directory
+@ifuka001-UX32A$cat new
+BIN
+LICENSE
+MAKEFILE
+OUT
+OUT2
+PIPE
+README.MD
+SRC
+TESTS
+getlogin: No such file or directory
+@ifuka001-UX32A$cat new2
+bin
+license
+makefile
+out
+out2
+pipe
+readme.md
+src
+tests
+getlogin: No such file or directory
+@ifuka001-UX32A$cat  <     out2 | tr a-z A   a-  A-Z   | t      tee new       |       tr A-Z a-z > new2
+getlogin: No such file or directory
+@ifuka001-UX32A$cat out2
+bin
+LICENSE
+Makefile
+out
+out2
+pipe
+README.md
+src
+tests
+getlogin: No such file or directory
+@ifuka001-UX32A$cat new
+BIN
+LICENSE
+MAKEFILE
+OUT
+OUT2
+PIPE
+README.MD
+SRC
+TESTS
+getlogin: No such file or directory
+@ifuka001-UX32A$cat new2
+bin
+license
+makefile
+out
+out2
+pipe
+readme.md
+src
+tests
+getlogin: No such file or directory
+@ifuka001-UX32A$cat<out2 | tail  il-  -3 |    |tr a-z A-Z   |    |   head -2>>new2
+getlogin: No such file or directory
+@ifuka001-UX32A$cat out       cat new2
+bin
+license
+makefile
+out
+out2
+pipe
+readme.md
+src
+tests
+README.MD
+SRC
+getlogin: No such file or directory
+@ifuka001-UX32A$#added the 2 line from top in sie de       side out2 making everything capital letter
+There was an error: No such file or directory
+getlogin: No such file or directory
+@ifuka001-UX32A$#does not supposr  rt input    /  n  nput and output redirection inside pipe.
+There was an error: No such file or directory
+getlogin: No such file or directory
+@ifuka001-UX32A$#does not also supposr  rt multiple inputs and ouputs ^[[D                and output redirections.
+There was an error: No such file or directory
+getlogin: No such file or directory
+@ifuka001-UX32A$ls #normal commands still work fine
+bin	 Makefile  new1  new3  new6  out2  README.md  tests
+LICENSE  new	   new2  new5  out   pipe  src
+getlogin: No such file or directory
+@ifuka001-UX32A$ls ; ls -l
+bin	 Makefile  new1  new3  new6  out2  README.md  tests
+LICENSE  new	   new2  new5  out   pipe  src
+total 60
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 21:23 bin
+-rw-rw-r-- 1 ifuka001 ifuka001 1484 Nov 11 14:50 LICENSE
+-rw-rw-r-- 1 ifuka001 ifuka001  444 Nov 15 16:10 Makefile
+-rw-rw-r-- 1 ifuka001 ifuka001   55 Nov 19 21:35 new
+-rw-rw-r-- 1 ifuka001 ifuka001  110 Nov 19 21:30 new1
+-rw-rw---- 1 ifuka001 ifuka001   69 Nov 19 21:36 new2
+-rw-rw-r-- 1 ifuka001 ifuka001   55 Nov 19 21:30 new3
+-rw-rw---- 1 ifuka001 ifuka001  121 Nov 19 21:33 new5
+-rw-rw---- 1 ifuka001 ifuka001  775 Nov 19 21:32 new6
+-rw-rw---- 1 ifuka001 ifuka001  505 Nov 19 21:25 out
+-rw-rw---- 1 ifuka001 ifuka001   55 Nov 19 21:29 out2
+drwx------ 2 ifuka001 ifuka001 4096 Nov 19 15:41 pipe
+-rw-rw-r-- 1 ifuka001 ifuka001 2995 Nov 11 18:25 README.md
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 17:46 src
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 21:23 tests
+getlogin: No such file or directory
+@ifuka001-UX32A$ls ;    ls && ls -l
+bin	 Makefile  new1  new3  new6  out2  README.md  tests
+LICENSE  new	   new2  new5  out   pipe  src
+total 60
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 21:23 bin
+-rw-rw-r-- 1 ifuka001 ifuka001 1484 Nov 11 14:50 LICENSE
+-rw-rw-r-- 1 ifuka001 ifuka001  444 Nov 15 16:10 Makefile
+-rw-rw-r-- 1 ifuka001 ifuka001   55 Nov 19 21:35 new
+-rw-rw-r-- 1 ifuka001 ifuka001  110 Nov 19 21:30 new1
+-rw-rw---- 1 ifuka001 ifuka001   69 Nov 19 21:36 new2
+-rw-rw-r-- 1 ifuka001 ifuka001   55 Nov 19 21:30 new3
+-rw-rw---- 1 ifuka001 ifuka001  121 Nov 19 21:33 new5
+-rw-rw---- 1 ifuka001 ifuka001  775 Nov 19 21:32 new6
+-rw-rw---- 1 ifuka001 ifuka001  505 Nov 19 21:25 out
+-rw-rw---- 1 ifuka001 ifuka001   55 Nov 19 21:29 out2
+drwx------ 2 ifuka001 ifuka001 4096 Nov 19 15:41 pipe
+-rw-rw-r-- 1 ifuka001 ifuka001 2995 Nov 11 18:25 README.md
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 17:46 src
+drwxrwxr-x 2 ifuka001 ifuka001 4096 Nov 19 21:23 tests
+getlogin: No such file or directory
+@ifuka001-UX32A$la s || ls -l
+bin	 Makefile  new1  new3  new6  out2  README.md  tests
+LICENSE  new	   new2  new5  out   pipe  src
+getlogin: No such file or directory
+@ifuka001-UX32A$exit
+Exiting...
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ exit[K[K[K[K#that is end o[Kfor this script
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ exit
+exit
+
+Script done on Wed 19 Nov 2014 09:38:28 PM PST
