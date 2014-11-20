@@ -41,6 +41,8 @@ main.cpp
 
 ls.script
 exec.script
+pipe.script
+redirect.script
 ```
 
 How to run file once you have it cloned into your machine.
@@ -71,6 +73,8 @@ Features of this program
 * Added ls and cp. ls has 3 flags -l -a and -R and they can be used in many ways. ( -l, -Ra, -lRa, etc)
 * Added cp. if an argument was passed through after the Source and the Destination (it can be anything), it will output 3 different methods and how long each one took to output it to the file.
 * Note that the cp cannot take flags in the beginning or between the source file and the destination file.
+11/19/2014:
+* Added input/output redirection and piping in rshell program. It is able to do simple input "<" and output ">" redirection ( and append ">>")
 Known BUGS and ISSUES
 ---
 * `rshell` cannot use the command 'cd' at this time because it is not implemented.
@@ -82,7 +86,8 @@ Known BUGS and ISSUES
 * `ls` recommended bash size is 80width to show the output neat.
 * `cp` can only take flag parameter at the end of destination or it will not run properly.
 * For example: `cp` only runs by inputting `bin/cp "sourcefile" destinationfile"` or `bin/cp "sourcefile" destinationfile" "flag"`
-
+* `rshell` piping does not support multiple i/o redirection within the pipe itself (for example, cat< Makefile| cat <Makefile >> new1)
+* `rshell` also does not allow multiple input and output redirections. it does not also allow output and append to be on same line of command
 
 
 
