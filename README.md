@@ -60,6 +60,10 @@ Rshell should be now opened instead of your bash and it will be able to execute 
 
 updated(11/11/2014):
 added ls feature and cp feature. these will work like the actualy ls and cp. (ls only has -R -l and -a flags compatible.)
+
+updated(11/19/2014):
+added i/o redirection and pipe in rshell.
+
 Features of this program
 ---
 
@@ -73,6 +77,7 @@ Features of this program
 * Added ls and cp. ls has 3 flags -l -a and -R and they can be used in many ways. ( -l, -Ra, -lRa, etc)
 * Added cp. if an argument was passed through after the Source and the Destination (it can be anything), it will output 3 different methods and how long each one took to output it to the file.
 * Note that the cp cannot take flags in the beginning or between the source file and the destination file.
+
 11/19/2014:
 * Added input/output redirection and piping in rshell program. It is able to do simple input "<" and output ">" redirection ( and append ">>")
 
