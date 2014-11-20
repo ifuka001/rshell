@@ -32,7 +32,8 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 		if(pipe(fd[i])<0)
 		{
 			perror("pipe");
-			exit(0);
+			//exit(0);
+			return;
 		}
 		
 	}
@@ -102,7 +103,8 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				if(inp < 0)
 				{
 					perror("open");
-					exit(0);
+				//	exit(0);
+					return;
 				}
 				if(counter == 0)
 				{
@@ -188,6 +190,7 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				if(out < 0)
 				{
 					perror("open");
+					return;
 				}
 				if(counter == 0)
 				{
@@ -317,7 +320,8 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				if(out < 0)
 				{
 					perror("open");
-					exit(0);
+				//	exit(0);
+					return;
 				}
 				int pid = fork();
 				if(pid==0)
@@ -360,7 +364,8 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				else if(pid == -1)
 				{
 					perror("fork");
-					exit(0);
+					//exit(0);
+					return;
 				}
 		}
 			else
@@ -409,7 +414,8 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 					else if(pid == -1)
 					{
 						perror("fork");
-						exit(0);
+						//exit(0);
+						return;
 					}
 				}
 				else
@@ -449,7 +455,8 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 					else if(pid == -1)
 					{
 						perror("fork");
-						exit(0);
+						//exit(0);
+						return;
 					}
 				}
 			}
@@ -522,6 +529,7 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				if(inp < 0)
 				{
 					perror("open");
+					return;
 				}
 				if(counter == 0)
 				{
@@ -568,7 +576,8 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 					else if(pid == -1)
 					{
 						perror("fork");
-						exit(0);
+						//exit(0);
+						return;
 					}
 			}
 			else if(out == true)
@@ -611,7 +620,9 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				if(out < 0)
 				{
 					perror("open");
-					exit(0);
+					//exit(0);
+					return;
+				
 				}
 				if(counter == 0)
 				{
@@ -656,7 +667,8 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 					else if(pid == -1)
 					{
 						perror("fork");
-						exit(0);
+						//exit(0);
+						return;
 					}
 				}
 				else
@@ -701,7 +713,8 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 					else if(pid == -1)
 					{
 						perror("fork");
-						exit(0);
+						//exit(0);
+						return;
 					}
 				}
 			
@@ -745,7 +758,8 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				if(out < 0)
 				{
 					perror("open");
-					exit(0);
+					//exit(0);
+					return;
 				}
 				int pid = fork();
 				if(pid==0)
@@ -787,7 +801,8 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				else if(pid == -1)
 				{
 					perror("fork");
-					exit(0);
+					//exit(0);
+					return;
 				}
 		}
 		else
@@ -833,7 +848,8 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				else if(pid == -1)
 				{
 					perror("fork");
-					exit(0);
+					//exit(0);
+					return;
 				}
 
 		}
@@ -845,7 +861,8 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 							if(-1 == close(fd[i][0]))
 							{
 								perror("close");
-								exit(0);
+								//exit(0);
+								return;
 							}
 							if(-1 == close(fd[i][1]))
 							{
@@ -859,7 +876,8 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 					if(wait(0)<0)
 					{
 						perror("wait");
-						exit(0);
+						//exit(0);
+						return;
 					}
 					
 				}
@@ -867,17 +885,24 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 
 void input_output(string usr_input)
 {
+	if(usr_input == "<" || usr_input == ">" || usr_input == ">>")
+	{
+		cout << "no arguments"<< endl;
+		return;
+	}
 			int fd[2];
 			int fd1[2];
 			if(-1 == pipe(fd))
 			{
 				perror("pipe");
-				exit(0);
+				//exit(0);
+				return;
 			}
 			if(-1 == pipe(fd1))
 			{
 				perror("pipe");
-				exit(0);
+				//exit(0);
+				return;
 			}
 			int i =0;
 			int o =0;
@@ -913,6 +938,11 @@ void input_output(string usr_input)
 				cout << "you may not use more than one of the same i/o redirection" << endl;
 				return;
 			}
+			if( app == true && out ==true)
+			{
+				cout << "does not support multiple output redirection" << endl;
+				return;
+			}
 			if(in == true && out == true)
 			{
 			
@@ -921,6 +951,11 @@ void input_output(string usr_input)
 				{
 					temp.push_back(tok);
 					tok = strtok(NULL,"<>");
+				}
+				if(temp.size() <3)
+				{
+					cout << "not enough argument" << endl;
+					return;
 				}
 				vector <string> temp2;
 				string input1 = temp[0];
@@ -964,13 +999,15 @@ void input_output(string usr_input)
 				if(in < 0)
 				{
 					perror("open");
-					exit(0);
+					//exit(0);
+					return;
 				}
 				int out = open(o,O_WRONLY | O_TRUNC | O_CREAT ,S_IRUSR|S_IRGRP | S_IWGRP | S_IWUSR);
 				if(out < 0)
 				{
 					perror("open");
-					exit(0);
+				//	exit(0);
+					return;
 				}
 				int pid = fork();
 					if(pid == 0)
@@ -1025,7 +1062,8 @@ void input_output(string usr_input)
 					else if(pid == -1)
 					{
 						perror("fork");
-						exit(0);
+					//	exit(0);
+						return;
 					}
 			}
 			else if(in == true && app == true)
@@ -1036,6 +1074,11 @@ void input_output(string usr_input)
 				{
 					temp.push_back(tok);
 					tok = strtok(NULL,"<>>");
+				}
+				if(temp.size() < 3 )
+				{
+					cout << "not enough argument"<<endl;
+					return;
 				}
 				vector <string> temp2;
 				string input1 = temp[0];
@@ -1079,13 +1122,15 @@ void input_output(string usr_input)
 				if(in < 0)
 				{
 					perror("open");
-					exit(0);
+					//exit(0);
+					return;
 				}
 				int out = open(o,O_WRONLY | O_APPEND | O_CREAT ,S_IRUSR|S_IRGRP | S_IWGRP | S_IWUSR);
 				if(out < 0)
 				{
 					perror("open");
-					exit(0);
+				//	exit(0);
+					return;
 				}
 				int pid = fork();
 				if(pid == 0)
@@ -1140,17 +1185,22 @@ void input_output(string usr_input)
 				else if(pid == -1)
 				{
 					perror("fork");
-					exit(0);
+					//exit(0);
+					return;
 				}
 			}
 			else if(in == true)
 			{
-				
 				char* tok = strtok(&input[0],"<");
 				while(tok != NULL)
 				{
 					temp.push_back(tok);
 					tok = strtok(NULL,"<>");
+				}
+				if(temp.size() < 2)
+				{
+					cout << "not enough argument"<<endl;
+					return;
 				}
 				vector <string> temp2;
 				string input1 = temp[0];
@@ -1181,7 +1231,8 @@ void input_output(string usr_input)
 				if(inp < 0)
 				{
 					perror("open");
-					exit(0);
+					//exit(0);
+					return;
 				}
 				int pid = fork();
 					if(pid == 0)
@@ -1227,17 +1278,22 @@ void input_output(string usr_input)
 					else if(pid == -1)
 					{
 						perror("fork");
-						exit(0);
+						//exit(0);
+						return;
 					}
 			}
 			else if(out == true)
 			{
-			
 				char* tok = strtok(&input[0],">");
 				while(tok != NULL)
 				{
 					temp.push_back(tok);
 					tok = strtok(NULL,"<>");
+				}
+				if(temp.size() < 2)
+				{
+					cout << "not enough argument"<<endl;
+					return;
 				}
 				vector <string> temp2;
 				string input1 = temp[0];
@@ -1268,7 +1324,8 @@ void input_output(string usr_input)
 				if(out < 0)
 				{
 					perror("open");
-					exit(0);
+					//exit(0);
+					return;
 				}
 				int pid = fork();
 					if(pid == 0)
@@ -1314,17 +1371,22 @@ void input_output(string usr_input)
 					else if(pid == -1)
 					{
 						perror("fork");
-						exit(0);
+						//exit(0);
+						return;
 					}
 			}
 			else if(app == true)
 			{
-			
 				char* tok = strtok(&input[0],">>");
 				while(tok != NULL)
 				{
 					temp.push_back(tok);
 					tok = strtok(NULL,"<>>");
+				}
+				if(temp.size() < 2)
+				{
+					cout << "not enough argument"<<endl;
+					return;
 				}
 				vector <string> temp2;
 				string input1 = temp[0];
@@ -1355,7 +1417,8 @@ void input_output(string usr_input)
 				if(out < 0)
 				{
 					perror("open");
-					exit(0);
+					//exit(0);
+					return;
 				}
 				int pid = fork();
 					if(pid == 0)
@@ -1401,7 +1464,8 @@ void input_output(string usr_input)
 					else if(pid == -1)
 					{
 						perror("fork");
-						exit(0);
+						//exit(0);
+						return;
 					}
 			}
 	temp.clear();
@@ -1409,7 +1473,8 @@ void input_output(string usr_input)
 	if(wait(0)<0)
 	{
 		perror("wait");
-		exit(0);
+		//exit(0);
+		return;
 	}
 }
 
