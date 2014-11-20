@@ -93,7 +93,7 @@ Known BUGS and ISSUES
 * `ls` recommended bash size is 80width to show the output neat.
 * `cp` can only take flag parameter at the end of destination or it will not run properly.
 * For example: `cp` only runs by inputting `bin/cp "sourcefile" destinationfile"` or `bin/cp "sourcefile" destinationfile" "flag"`
-* `rshell` piping does not support multiple i/o redirection within the pipe itself (for example, cat< Makefile| cat <Makefile >> new1)
+* `rshell` piping does not support multiple i/o redirection within the pipe itself (for example, cat< Makefile| cat < Makefile >> new1)
 * `rshell` also does not allow multiple input and output redirections. it does not also allow output and append to be on same line of command
 
 
