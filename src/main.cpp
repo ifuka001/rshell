@@ -14,7 +14,7 @@
 
 
 using namespace std;
-
+//parses string according to " " space
 void string_parsing(string String,vector<string> & char_array){
 	char *token_1;
 	token_1 = strtok(&String[0], " ");
@@ -24,6 +24,7 @@ void string_parsing(string String,vector<string> & char_array){
 	}		
 }
 
+//gets called when pipe was used in command.
 void pipe_2(vector<string> pipe_arr,int counter,int size)
 {
 	int fd[100][2];
@@ -41,12 +42,14 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 		unsigned int n = 0;
 		char *argv[100];
 		int i = 0;
+		//this is where it goes through each pipe and executes it.
 		while(i < size -1)
 		{
 			bool in = false;
 			bool out = false;
 			bool app = false;
 			string input = pipe_arr[i];
+			//goes through to see what command user used.
 			for(unsigned int s = 0; s < input.size(); ++s)
 			{
 			
@@ -466,7 +469,7 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				delete[] *argv;
 		//		memset(argv,'\0',100);
 		}
-
+		//this is where the last pipe gets called. it's separated because it uses different file descriptor.
 		
 		
 			bool in = false;
@@ -883,6 +886,7 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				}
 }	
 
+//this is where user only inputs i/o redirections.
 void input_output(string usr_input)
 {
 	if(usr_input == "<" || usr_input == ">" || usr_input == ">>")
@@ -914,6 +918,7 @@ void input_output(string usr_input)
 			vector <string> temp;
 			unsigned int n = 0;
 			char *argv[100];
+			//checks for what i/o they used
 			for(unsigned int s = 0; s < input.size(); ++s)
 			{
 			
@@ -943,6 +948,7 @@ void input_output(string usr_input)
 				cout << "does not support multiple output redirection" << endl;
 				return;
 			}
+			//for < and > used
 			if(in == true && out == true)
 			{
 			
@@ -1066,6 +1072,7 @@ void input_output(string usr_input)
 						return;
 					}
 			}
+			//goes in this statement when < and >> is used.
 			else if(in == true && app == true)
 			{
 			
@@ -1189,6 +1196,7 @@ void input_output(string usr_input)
 					return;
 				}
 			}
+			// this is when < is true.
 			else if(in == true)
 			{
 				char* tok = strtok(&input[0],"<");
@@ -1282,6 +1290,7 @@ void input_output(string usr_input)
 						return;
 					}
 			}
+			//used when > is only command used.
 			else if(out == true)
 			{
 				char* tok = strtok(&input[0],">");
@@ -1375,6 +1384,7 @@ void input_output(string usr_input)
 						return;
 					}
 			}
+			//goes in when >> is the only i/o used.
 			else if(app == true)
 			{
 				char* tok = strtok(&input[0],">>");
@@ -1478,6 +1488,7 @@ void input_output(string usr_input)
 	}
 }
 
+//this is where main part of rshell happens.
 void commands()
 {
 	int status;
