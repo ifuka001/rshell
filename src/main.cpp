@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <unistd.h>
 #include <string.h>
 #include <string>
@@ -13,8 +14,26 @@
 #include <vector>
 
 
+static int sig_count = 0;
+char *login_name;
+char host_name[MAXHOSTNAMELEN];
 
 using namespace std;
+
+
+void killsignal(int signum)
+{
+	if(sig_count < 1)
+	{
+		cerr << endl << login_name  << "@" << host_name << "$ "; 
+	}
+	else
+	{
+		cerr << endl;
+	}
+}
+
+
 //parses string according to " " space
 void string_parsing(string String,vector<string> & char_array){
 	char *token_1;
@@ -107,7 +126,6 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				if(inp < 0)
 				{
 					perror("open");
-				//	exit(0);
 					return;
 				}
 				if(counter == 0)
@@ -122,7 +140,11 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 							perror("dup2");
 							exit(0);
 						}
-						dup2(fd[i][1],1);
+						if( -1 == dup2(fd[i][1],1))
+						{
+							perror("dup2");
+							exit(0);
+						}
 						if( -1 == close(inp))
 						{
 							perror("close");
@@ -1489,20 +1511,88 @@ void input_output(string usr_input)
 	}
 }
 
+
+
+void run_command(char *argv[])
+{
+	vector<string> temp;
+	char * token;
+	const char *var = "PATH";
+	char *path = getenv(var);
+	if(path == NULL)
+	{
+		perror("getenv");
+		exit(0);
+	}
+	string var2 = string(path);
+	token = strtok(&var2[0], ":");
+	while(token != NULL)
+	{
+		temp.push_back(token);
+		token = strtok(NULL,":");
+	}
+	for(unsigned int  i = 0; i < temp.size(); i++)
+	{
+		temp[i].append("/");
+		temp[i].append(argv[0]);
+		ifstream infile(temp[i].c_str());	
+		if(infile.good())
+		{
+			strcpy(argv[0],temp[i].c_str());
+			break;
+		}
+		else
+		{
+			infile.close();
+		}
+	}
+	if(execv(argv[0],argv) == -1)
+	{
+		perror("execv");
+		exit(0);
+	}
+	
+
+}
+
+
+void change_dir(char *argv[])
+{	
+	//const char *new_path;
+	char buf[BUFSIZ];	
+	if(getcwd(buf,sizeof(buf))== NULL)
+	{
+		perror("getcwd");
+		return;
+	}
+}
+
+
+
 //this is where main part of rshell happens.
 void commands()
 {
 	int status;
 	vector<string> char_array;
 	vector<string> pars_array;
-	char *login_name;
+	//char *login_name;
 	int n;
 	int i;
 	int pid;
 	login_name = getlogin();
-	char host_name[MAXHOSTNAMELEN];
-	if(gethostname(host_name,sizeof host_name) == -1){perror("hostname");//check to see if we can obtain host name.
-	strcpy(host_name,"");
+	//char host_name[MAXHOSTNAMELEN];
+		
+	if(!login_name)
+	{
+		perror("getlogin");//check to see if we can obtain login info
+		strcpy(login_name,"");
+	}
+	else{
+	}
+	if(gethostname(host_name,sizeof host_name) == -1)
+	{
+		perror("hostname");//check to see if we can obtain host name.
+		strcpy(host_name,"");
 	}	
 	string usr_input;
 	string usr_input2;	
@@ -1510,15 +1600,10 @@ void commands()
 
 	while(usr_input != "exit"){
 	beginning:
-	if(!login_name){perror("getlogin");//check to see if we can obtain login info
-	}
-	else{
-	printf("%s",login_name);
-	}
-	cout  << "@" << host_name << "$"; // outputs $ and waits for user input.
+	cout  << login_name <<  "@" << host_name << "$ "; // outputs $ and waits for user input.
 	getline(cin, usr_input);
 	string usr_input2;
-	if(usr_input.empty()){//Checks to see if user just clicked enter and not input anything.
+if(usr_input.empty()){//Checks to see if user just clicked enter and not input anything.
 		goto beginning;
 		}
 			
@@ -1533,7 +1618,7 @@ void commands()
 												//this loop will go through to see what user has inputted (just single command,
 												//separated by ; or && or ||. (NOTE: this bash is not compatible with
 												//different arguments in one input. i.e. ls ; ls || ls && ls.
-		
+		sig_count++;	
 		if(usr_input == "exit"){ //will check if user wants to end program.
 		cout << "Exiting..."<< endl;
 		char_array.clear();
@@ -1568,14 +1653,12 @@ void commands()
 				perror("There was error with fork().");
 				exit(1);}
 			else if(pid == 0){
-				if(-1 == execvp(argv[0],argv)){
-					perror("There was an error");	
-				}
-				exit(1);
+				run_command(argv);
 			}	
 			else if(pid > 0){
 				if(-1 == wait(0)){perror("There was an error with wait().");}	
 			}			
+			free(*argv);
 			char_array.clear();
 			}
 		char_array.clear();
@@ -1618,20 +1701,19 @@ void commands()
 				perror("There was error with fork().");
 				exit(1);}
 			else if(pid == 0){
-				if( -1 == execvp(argv[0],argv)){
-					perror("There was an error");	
-					exit(1);
-					}
+				run_command(argv);
 			}	
 			wait(&status);
 			if(WIFEXITED(status)){
 			if(WEXITSTATUS(status) != 0){
 				
+			free(*argv);
 			goto end_of_while;
 			}
 			}
 			
 					
+			free(*argv);
 			char_array.clear();
 
 			}
@@ -1671,20 +1753,18 @@ void commands()
 				perror("There was error with fork().");
 				exit(1);}
 			else if(pid == 0){
-				if(-1 == execvp(argv[0],argv)){
-					perror("There was an error");	
-					exit(1);
-						}
-					
+				run_command(argv);
 			}	
 			wait(&status);
 			if(WIFEXITED(status)){
 			if(WEXITSTATUS(status) == 0){
 				
+			free(*argv);
 			goto end_of_while;
 			}
 			}
 		
+			free(*argv);
 			char_array.clear();
 			}
 		char_array.clear();
@@ -1740,23 +1820,24 @@ void commands()
 			if(pid == -1){
 				perror("There was error with fork().");
 				exit(1);}
-			else if(pid == 0){
-				if(-1 == execvp(argv[0],argv)){
-					perror("There was an error");	
-					}
-				exit(1);
+			else if(pid == 0)
+			{
+				//signal(SIGINT,killsignal);
+				run_command(argv);
 			}		
 			else if(pid > 0){
 				if(-1 == wait(0)){perror("There was an error with wait().");}
 			}
 			char_array.clear();
 			pars_array.clear();
+			free(*argv);
 			}
 	end_of_while://this will go back to the beginning (while(!=exit)). It will also clear char_array and pars_array.
 	if(char_array.size() > 0){
 	char_array.clear();}
 	if(pars_array.size() > 0){
 	pars_array.clear();}	
+	sig_count = 0;
 }
 
 
@@ -1769,6 +1850,9 @@ void commands()
 
 int main()
 {
+
+
+	signal(SIGINT,killsignal);
 	commands();
 	return 0;
 }
