@@ -23,9 +23,16 @@ using namespace std;
 
 void killsignal(int signum)
 {
+	string cwd = "";
+	char buf[BUFSIZ];
+	if(getcwd(buf,sizeof(buf))== NULL)
+	{
+		perror("getcwd");
+		strcpy(buf,cwd.c_str());
+	}
 	if(sig_count < 1)
 	{
-		cerr << endl << login_name  << "@" << host_name << "$ "; 
+	cerr  << login_name <<  "@" << host_name << ":" << buf <<  "$ "; 
 	}
 	else
 	{
@@ -1610,7 +1617,7 @@ void run_command(char *argv[])
 	if(execv(argv[0],argv) == -1)
 	{
 		perror("execv");
-		exit(0);
+		exit(1);
 	}
 	
 
@@ -1714,7 +1721,10 @@ if(usr_input.empty()){//Checks to see if user just clicked enter and not input a
 				run_command(argv);
 			}	
 			else if(pid > 0){
-				if(-1 == wait(0)){perror("There was an error with wait().");}	
+				if(-1 == wait(0))
+				{
+					perror("There was an error with wait().");
+				}	
 			}			
 			free(*argv);
 			char_array.clear();
@@ -1761,10 +1771,14 @@ if(usr_input.empty()){//Checks to see if user just clicked enter and not input a
 			else if(pid == 0){
 				run_command(argv);
 			}	
-			wait(&status);
+			if(wait(&status) == -1)
+			{
+				perror("wait");
+				exit(0);
+			}
 			if(WIFEXITED(status)){
-			if(WEXITSTATUS(status) != 0){
-				
+			if(WEXITSTATUS(status) != 0)
+			{	
 			free(*argv);
 			goto end_of_while;
 			}
@@ -1813,13 +1827,19 @@ if(usr_input.empty()){//Checks to see if user just clicked enter and not input a
 			else if(pid == 0){
 				run_command(argv);
 			}	
-			wait(&status);
-			if(WIFEXITED(status)){
-			if(WEXITSTATUS(status) == 0){
-				
-			free(*argv);
-			goto end_of_while;
+			if(wait(&status) == -1)
+			{
+				perror("wait");
+				exit(0);
 			}
+			if(WIFEXITED(status))
+			{
+				if(WEXITSTATUS(status) == 0)
+				{
+				
+					free(*argv);
+					goto end_of_while;
+				}
 			}
 		
 			free(*argv);
