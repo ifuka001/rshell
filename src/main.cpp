@@ -1512,6 +1512,66 @@ void input_output(string usr_input)
 }
 
 
+void change_dir(char *argv[])
+{	
+	const char *new_path;
+	char buf[BUFSIZ];	
+	if(getcwd(buf,sizeof(buf))== NULL)
+	{
+		perror("getcwd");
+		return;
+	}
+	string old_path = string(buf);
+	if(!argv[1])
+	{
+		cout << "No where to change directory to" << endl;
+		return;
+	}
+	else if(strcmp(argv[1],".") == 0)
+	{
+		return;
+	}
+	else if(strcmp(argv[1],"..") == 0)
+	{
+		while(old_path[old_path.length()-1] != '/')
+		{
+			old_path = old_path.substr(0,old_path.size()-1);
+		}
+		
+		old_path = old_path.substr(0,old_path.size()-1);
+		new_path = old_path.c_str();
+		if(chdir(new_path) == -1)
+		{
+			perror("chdir");
+		return;
+		}
+		return;
+	}
+	string old_path2 = string(argv[1]);
+	if(old_path2.at(0) == '/')
+	{
+		new_path = old_path2.c_str();
+		if(chdir(new_path) == -1)
+		{
+			perror("chdir");
+			return;
+		}
+		return;
+	}
+	else
+	{
+		old_path.append("/");
+		old_path.append(old_path2);
+		new_path = old_path.c_str();
+		if(chdir(new_path) == -1)
+		{
+			perror("chdir");
+			return;
+		}
+		return;
+	}
+	return;
+}
 
 void run_command(char *argv[])
 {
@@ -1538,6 +1598,7 @@ void run_command(char *argv[])
 		ifstream infile(temp[i].c_str());	
 		if(infile.good())
 		{
+			argv[0] = new char[temp[i].size()+1];
 			strcpy(argv[0],temp[i].c_str());
 			break;
 		}
@@ -1556,17 +1617,6 @@ void run_command(char *argv[])
 }
 
 
-void change_dir(char *argv[])
-{	
-	//const char *new_path;
-	char buf[BUFSIZ];	
-	if(getcwd(buf,sizeof(buf))== NULL)
-	{
-		perror("getcwd");
-		return;
-	}
-}
-
 
 
 //this is where main part of rshell happens.
@@ -1575,6 +1625,8 @@ void commands()
 	int status;
 	vector<string> char_array;
 	vector<string> pars_array;
+	string cwd = "";
+
 	//char *login_name;
 	int n;
 	int i;
@@ -1600,7 +1652,13 @@ void commands()
 
 	while(usr_input != "exit"){
 	beginning:
-	cout  << login_name <<  "@" << host_name << "$ "; // outputs $ and waits for user input.
+	char buf[BUFSIZ];
+	if(getcwd(buf,sizeof(buf))== NULL)
+	{
+		perror("getcwd");
+		strcpy(buf,cwd.c_str());
+	}
+	cout  << login_name <<  "@" << host_name << ":" << buf <<  "$ "; // outputs $ and waits for user input.
 	getline(cin, usr_input);
 	string usr_input2;
 if(usr_input.empty()){//Checks to see if user just clicked enter and not input anything.
@@ -1816,21 +1874,39 @@ if(usr_input.empty()){//Checks to see if user just clicked enter and not input a
 				strcpy(argv[n], char_array[n].c_str());
 			}
 			argv[n] = NULL;
+			if(strcmp(argv[0],"cd")==0)
+			{
+				change_dir(argv);
+				for(n = 0; n <= i-1; ++n)
+				{
+					delete[] argv[n];
+				}
+				goto end_of_while;
+			}
+			else
+			{
 			pid = fork();//will fork program and let child run execvp and then waits for child process to tell parent it is done.
 			if(pid == -1){
 				perror("There was error with fork().");
 				exit(1);}
 			else if(pid == 0)
 			{
-				//signal(SIGINT,killsignal);
 				run_command(argv);
 			}		
 			else if(pid > 0){
-				if(-1 == wait(0)){perror("There was an error with wait().");}
+			}	
 			}
+			if(-1 == wait(0))
+			{
+				perror("There was an error with wait().");
+			}
+			for(n = 0; n <= i-1; ++n)
+			{
+				delete[] argv[n];
+			}
+			
 			char_array.clear();
 			pars_array.clear();
-			free(*argv);
 			}
 	end_of_while://this will go back to the beginning (while(!=exit)). It will also clear char_array and pars_array.
 	if(char_array.size() > 0){
