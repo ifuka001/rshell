@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <vector>
-
+#include <signal.h>
 
 static int sig_count = 0;
 char *login_name;
@@ -23,7 +23,7 @@ using namespace std;
 
 void killsignal(int signum)
 {
-	string cwd = "";
+/*	string cwd = "";
 	char buf[BUFSIZ];
 	if(getcwd(buf,sizeof(buf))== NULL)
 	{
@@ -32,14 +32,130 @@ void killsignal(int signum)
 	}
 	if(sig_count < 1)
 	{
-	cerr  << login_name <<  "@" << host_name << ":" << buf <<  "$ "; 
+	cerr <<  endl << login_name <<  "@" << host_name << ":" << buf <<  "$ "; 
 	}
 	else
 	{
 		cerr << endl;
+	}*/
+	cout << endl;
+	if(-1 ==kill(getpid(),SIGCHLD))
+	{
+		perror("kill");
 	}
 }
 
+int change_dir(char *argv[])
+{	
+	const char *var = "HOME";
+	char *path = getenv(var);
+	if(path == NULL)
+	{
+		cout << "Trouble finding PATH" << endl;
+		exit(-1);
+	}
+	const char *new_path;
+	char buf[BUFSIZ];	
+	if(getcwd(buf,sizeof(buf))== NULL)
+	{
+		perror("getcwd");
+		return -1;
+	}
+	string old_path = string(buf);
+	if(!argv[1])
+	{	
+		chdir(path);		
+		return 0;
+	}
+	else if(strcmp(argv[1],".") == 0)
+	{
+		return 0;
+	}
+	else if(strcmp(argv[1],"..") == 0)
+	{
+		while(old_path[old_path.length()-1] != '/')
+		{
+			old_path = old_path.substr(0,old_path.size()-1);
+		}
+		
+		old_path = old_path.substr(0,old_path.size()-1);
+		new_path = old_path.c_str();
+		if(chdir(new_path) == -1)
+		{
+			perror("chdir");
+		return 0;
+		}
+		return 0;
+	}
+	string old_path2 = string(argv[1]);
+	if(old_path2.at(0) == '/')
+	{
+		new_path = old_path2.c_str();
+		if(chdir(new_path) == -1)
+		{
+			perror("chdir");
+			return -1;
+		}
+		return 0;
+	}
+	else
+	{
+		old_path.append("/");
+		old_path.append(old_path2);
+		new_path = old_path.c_str();
+		if(chdir(new_path) == -1)
+		{
+			perror("chdir");
+			return -1;
+		}
+		return 0;
+	}
+	return 0;
+}
+
+
+void run_command(char *argv[])
+{
+	vector<string> temp;
+	char * token;
+	const char *var = "PATH";
+	char *path = getenv(var);
+	if(path == NULL)
+	{
+		cout << "Trouble finding PATH" << endl;
+		exit(1);
+	}
+	string var2 = string(path);
+	token = strtok(&var2[0], ":");
+	while(token != NULL)
+	{
+		temp.push_back(token);
+		token = strtok(NULL,":");
+	}
+	for(unsigned int  i = 0; i < temp.size(); i++)
+	{
+		temp[i].append("/");
+		temp[i].append(argv[0]);
+		ifstream infile(temp[i].c_str());	
+		if(infile.good())
+		{
+			argv[0] = new char[temp[i].size()+1];
+			strcpy(argv[0],temp[i].c_str());
+			break;
+		}
+		else
+		{
+			infile.close();
+		}
+	}
+	if(execv(argv[0],argv) == -1)
+	{
+		perror("execv");
+		exit(1);
+	}
+	
+
+}
 
 //parses string according to " " space
 void string_parsing(string String,vector<string> & char_array){
@@ -139,6 +255,12 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				{
 					counter ++;
 				}
+				if(strcmp(argv[0],"cd")==0)
+				{
+					change_dir(argv);
+				}
+				else
+				{
 				int pid = fork();
 				if(pid == 0)
 				{
@@ -171,18 +293,14 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 								exit(0);
 							}
 						}
-						if(-1 == execvp(argv[0],argv))
-							{
-								perror("execvp");
-								exit(1);
-							}
+					run_command(argv);
 				}
 				else if(pid == -1)
 				{
 					perror("fork");
 					exit(1);
 				}
-				
+				}
 			}
 			else if(out == true)
 			{
@@ -228,6 +346,12 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				if(counter == 0)
 				{
 					counter ++ ;
+					if(strcmp(argv[0],"cd")==0)
+					{
+						change_dir(argv);
+					}
+					else
+					{
 					int pid = fork();
 					if(pid==0)
 					{
@@ -254,21 +378,24 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 								exit(0);
 							}
 						}
-						if(-1 == execvp(*argv,argv))
-						{
-							perror("execvp");
-							exit(1);
-						}
+						run_command(argv);
 					}
 					else if(pid == -1)
 					{
 						perror("fork");
 						exit(1);
 					}
+					}
 					
 				}
 				else
 				{
+					if(strcmp(argv[0],"cd")==0)
+					{
+						change_dir(argv);
+					}
+					else
+					{
 					int pid = fork();
 					if(pid==0)
 					{
@@ -300,16 +427,13 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 								exit(0);
 							}
 						}
-						if(-1 == execvp(*argv,argv))
-						{
-							perror("execvp");
-							exit(0);
-						}
+						run_command(argv);
 					}
 					else if(pid == -1)
 					{
 						perror("fork");
 						exit(0);
+					}
 					}
 				}
 			
@@ -356,6 +480,12 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				//	exit(0);
 					return;
 				}
+				if(strcmp(argv[0],"cd")==0)
+				{
+					change_dir(argv);
+				}
+				else
+				{
 				int pid = fork();
 				if(pid==0)
 				{
@@ -387,11 +517,7 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 							perror("close");
 							exit(0);
 					}
-					if(-1 == execvp(*argv,argv))
-					{
-						perror("execvp");
-						exit(1);
-					}
+						run_command(argv);
 					
 				}
 				else if(pid == -1)
@@ -399,6 +525,7 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 					perror("fork");
 					//exit(0);
 					return;
+				}
 				}
 		}
 			else
@@ -416,6 +543,12 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				if(counter == 0)
 				{
 					counter ++;
+					if(strcmp(argv[0],"cd")==0)
+					{
+						change_dir(argv);
+					}
+					else
+					{
 					int pid = fork();
 					if(pid==0)
 					{
@@ -437,11 +570,7 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 								exit(0);
 							}
 						}
-						if(-1 == execvp(*argv,argv))
-						{
-							perror("execvp");
-							exit(0);
-						}
+						run_command(argv);
 						
 					}
 					else if(pid == -1)
@@ -450,9 +579,16 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 						//exit(0);
 						return;
 					}
+					}
 				}
 				else
 				{
+					if(strcmp(argv[0],"cd")==0)
+					{
+						change_dir(argv);
+					}
+					else
+					{
 					int pid = fork();
 					if(pid == 0)
 					{
@@ -479,11 +615,7 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 								exit(0);
 							}
 						}
-						if(-1 == execvp(*argv,argv))
-						{
-							perror("execvp");
-							exit(1);
-						}
+						run_command(argv);
 					}
 					else if(pid == -1)
 					{
@@ -491,12 +623,16 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 						//exit(0);
 						return;
 					}
+					}
 				}
 			}
 				++i;
+				for(unsigned int i = 0; i < temp.size(); ++i)
+				{
+					delete[] argv[i];
+				}
 				temp.clear();
 
-				delete[] *argv;
 		//		memset(argv,'\0',100);
 		}
 		//this is where the last pipe gets called. it's separated because it uses different file descriptor.
@@ -568,6 +704,12 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				{
 					counter ++;
 				}
+				if(strcmp(argv[0],"cd")==0)
+				{
+					change_dir(argv);
+				}
+				else
+				{
 				int pid = fork();
 					if(pid == 0)
 					{
@@ -600,17 +742,14 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 								exit(0);
 							}
 						}
-						if(-1 == execvp(argv[0],argv))
-						{
-							perror("execvp");
-							exit(0);
-						}
+						run_command(argv);
 					}
 					else if(pid == -1)
 					{
 						perror("fork");
 						//exit(0);
 						return;
+					}
 					}
 			}
 			else if(out == true)
@@ -660,6 +799,12 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 				if(counter == 0)
 				{
 					counter ++ ;
+					if(strcmp(argv[0],"cd")==0)
+					{
+						change_dir(argv);
+					}
+					else
+					{
 					int pid = fork();
 					if(pid ==0)
 					{
@@ -691,11 +836,7 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 								exit(0);
 							}
 						}
-						if(-1 == execvp(*argv,argv))
-						{
-							perror("execvp");
-							exit(1);
-						}
+						run_command(argv);
 					}
 					else if(pid == -1)
 					{
@@ -703,9 +844,16 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 						//exit(0);
 						return;
 					}
+					}
 				}
 				else
 				{
+					if(strcmp(argv[0],"cd")==0)
+					{
+						change_dir(argv);
+					}
+					else
+					{
 					int pid = fork();
 					if(pid==0)
 					{
@@ -737,17 +885,14 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 								exit(0);
 							}
 						}
-						if(-1 == execvp(*argv,argv))
-						{
-							perror("execvp");
-							exit(1);
-						}
+						run_command(argv);
 					}
 					else if(pid == -1)
 					{
 						perror("fork");
 						//exit(0);
 						return;
+					}
 					}
 				}
 			
@@ -794,6 +939,12 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 					//exit(0);
 					return;
 				}
+				if(strcmp(argv[0],"cd")==0)
+				{
+					change_dir(argv);
+				}
+				else
+				{
 				int pid = fork();
 				if(pid==0)
 				{
@@ -825,17 +976,14 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 								exit(0);
 							}
 						}
-					if(-1 == execvp(*argv,argv))
-					{
-						perror("execvp");
-						exit(1);
-					}
+						run_command(argv);
 				}
 				else if(pid == -1)
 				{
 					perror("fork");
 					//exit(0);
 					return;
+				}
 				}
 		}
 		else
@@ -851,6 +999,12 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 					strcpy(argv[n],temp[n].c_str());
 				}
 				argv[n] = NULL;
+				if(strcmp(argv[0],"cd")==0)
+				{
+					change_dir(argv);
+				}
+				else
+				{
 				int pid = fork();
 				if(pid == 0)
 				{
@@ -872,11 +1026,7 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 								exit(0);
 							}
 						}
-					if(-1==execvp(*argv,argv))
-					{
-						perror("execvp");
-						exit(0);
-					}
+						run_command(argv);
 				}
 				else if(pid == -1)
 				{
@@ -884,11 +1034,12 @@ void pipe_2(vector<string> pipe_arr,int counter,int size)
 					//exit(0);
 					return;
 				}
-
+				}
 		}
-
-			delete[] *argv;
-
+			for(unsigned int i = 0; i < temp.size(); ++i)
+			{
+				delete[] argv[i];
+			}
 						for(int i = 0 ; i < size-1 ; ++i)
 						{
 							if(-1 == close(fd[i][0]))
@@ -1045,6 +1196,12 @@ void input_output(string usr_input)
 				//	exit(0);
 					return;
 				}
+				if(strcmp(argv[0],"cd")==0)
+				{
+					change_dir(argv);
+				}
+				else
+				{
 				int pid = fork();
 					if(pid == 0)
 					{
@@ -1089,11 +1246,7 @@ void input_output(string usr_input)
 							exit(0);
 						}
 						
-						if(-1 == execvp(argv[0],argv))
-						{
-							perror("execvp");
-							exit(0);
-						}
+						run_command(argv);
 					}
 					else if(pid == -1)
 					{
@@ -1101,6 +1254,7 @@ void input_output(string usr_input)
 					//	exit(0);
 						return;
 					}
+				}
 			}
 			//goes in this statement when < and >> is used.
 			else if(in == true && app == true)
@@ -1169,6 +1323,12 @@ void input_output(string usr_input)
 				//	exit(0);
 					return;
 				}
+				if(strcmp(argv[0],"cd")==0)
+				{
+					change_dir(argv);
+				}
+				else
+				{
 				int pid = fork();
 				if(pid == 0)
 				{
@@ -1213,17 +1373,14 @@ void input_output(string usr_input)
 							exit(0);
 						}
 						
-						if(-1 == execvp(argv[0],argv))
-						{
-							perror("execvp");
-							exit(0);
-						}
+						run_command(argv);
 				}
 				else if(pid == -1)
 				{
 					perror("fork");
 					//exit(0);
 					return;
+				}
 				}
 			}
 			// this is when < is true.
@@ -1272,6 +1429,12 @@ void input_output(string usr_input)
 					//exit(0);
 					return;
 				}
+				if(strcmp(argv[0],"cd")==0)
+				{
+					change_dir(argv);
+				}
+				else
+				{
 				int pid = fork();
 					if(pid == 0)
 					{
@@ -1307,11 +1470,7 @@ void input_output(string usr_input)
 							exit(0);
 						}
 						
-						if(-1 == execvp(argv[0],argv))
-						{
-							perror("execvp");
-							exit(0);
-						}
+						run_command(argv);
 					}
 					else if(pid == -1)
 					{
@@ -1319,6 +1478,7 @@ void input_output(string usr_input)
 						//exit(0);
 						return;
 					}
+				}
 			}
 			//used when > is only command used.
 			else if(out == true)
@@ -1366,6 +1526,12 @@ void input_output(string usr_input)
 					//exit(0);
 					return;
 				}
+				if(strcmp(argv[0],"cd")==0)
+				{
+					change_dir(argv);
+				}
+				else
+				{
 				int pid = fork();
 					if(pid == 0)
 					{
@@ -1401,11 +1567,7 @@ void input_output(string usr_input)
 							exit(0);
 						}
 						
-						if(-1 == execvp(argv[0],argv))
-						{
-							perror("execvp");
-							exit(0);
-						}
+						run_command(argv);
 					}
 					else if(pid == -1)
 					{
@@ -1413,6 +1575,7 @@ void input_output(string usr_input)
 						//exit(0);
 						return;
 					}
+				}
 			}
 			//goes in when >> is the only i/o used.
 			else if(app == true)
@@ -1495,11 +1658,7 @@ void input_output(string usr_input)
 							exit(0);
 						}
 						
-						if(-1 == execvp(argv[0],argv))
-						{
-							perror("execvp");
-							exit(0);
-						}	
+						run_command(argv);
 					}
 					else if(pid == -1)
 					{
@@ -1508,8 +1667,11 @@ void input_output(string usr_input)
 						return;
 					}
 			}
+	for(unsigned int i = 0; i < temp.size(); ++i)
+	{
+		delete[] argv[i];
+	}
 	temp.clear();
-	delete[] *argv;
 	if(wait(0)<0)
 	{
 		perror("wait");
@@ -1519,109 +1681,7 @@ void input_output(string usr_input)
 }
 
 
-void change_dir(char *argv[])
-{	
-	const char *new_path;
-	char buf[BUFSIZ];	
-	if(getcwd(buf,sizeof(buf))== NULL)
-	{
-		perror("getcwd");
-		return;
-	}
-	string old_path = string(buf);
-	if(!argv[1])
-	{
-		cout << "No where to change directory to" << endl;
-		return;
-	}
-	else if(strcmp(argv[1],".") == 0)
-	{
-		return;
-	}
-	else if(strcmp(argv[1],"..") == 0)
-	{
-		while(old_path[old_path.length()-1] != '/')
-		{
-			old_path = old_path.substr(0,old_path.size()-1);
-		}
-		
-		old_path = old_path.substr(0,old_path.size()-1);
-		new_path = old_path.c_str();
-		if(chdir(new_path) == -1)
-		{
-			perror("chdir");
-		return;
-		}
-		return;
-	}
-	string old_path2 = string(argv[1]);
-	if(old_path2.at(0) == '/')
-	{
-		new_path = old_path2.c_str();
-		if(chdir(new_path) == -1)
-		{
-			perror("chdir");
-			return;
-		}
-		return;
-	}
-	else
-	{
-		old_path.append("/");
-		old_path.append(old_path2);
-		new_path = old_path.c_str();
-		if(chdir(new_path) == -1)
-		{
-			perror("chdir");
-			return;
-		}
-		return;
-	}
-	return;
-}
 
-void run_command(char *argv[])
-{
-	vector<string> temp;
-	char * token;
-	const char *var = "PATH";
-	char *path = getenv(var);
-	if(path == NULL)
-	{
-		perror("getenv");
-		exit(0);
-	}
-	string var2 = string(path);
-	token = strtok(&var2[0], ":");
-	while(token != NULL)
-	{
-		temp.push_back(token);
-		token = strtok(NULL,":");
-	}
-	for(unsigned int  i = 0; i < temp.size(); i++)
-	{
-		temp[i].append("/");
-		temp[i].append(argv[0]);
-		ifstream infile(temp[i].c_str());	
-		if(infile.good())
-		{
-			argv[0] = new char[temp[i].size()+1];
-			strcpy(argv[0],temp[i].c_str());
-			break;
-		}
-		else
-		{
-			infile.close();
-		}
-	}
-	if(execv(argv[0],argv) == -1)
-	{
-		perror("execv");
-		exit(1);
-	}
-	
-
-}
 
 
 
@@ -1713,20 +1773,30 @@ if(usr_input.empty()){//Checks to see if user just clicked enter and not input a
 				strcpy(argv[n], char_array[n].c_str());
 			}
 			argv[n] = NULL;
-			int pid = fork();//will fork program and let child run execvp and then waits for child process to tell parent it is done.
-			if(pid == -1){
-				perror("There was error with fork().");
-				exit(1);}
-			else if(pid == 0){
-				run_command(argv);
-			}	
-			else if(pid > 0){
-				if(-1 == wait(0))
-				{
-					perror("There was an error with wait().");
+			if(strcmp(argv[0],"cd")==0)
+			{
+				change_dir(argv);
+			}
+			else
+			{
+				int pid = fork();//will fork program and let child run execvp and then waits for child process to tell parent it is done.
+				if(pid == -1){
+					perror("There was error with fork().");
+					exit(1);}
+				else if(pid == 0){
+					run_command(argv);
 				}	
-			}			
-			free(*argv);
+				else if(pid > 0){
+					if(-1 == wait(0))
+					{
+						perror("There was an error with wait().");
+					}	
+				}
+			}	
+				for(n = 0; n <= i-1; ++n)
+				{
+					delete[] argv[n];
+				}
 			char_array.clear();
 			}
 		char_array.clear();
@@ -1763,6 +1833,21 @@ if(usr_input.empty()){//Checks to see if user just clicked enter and not input a
 				strcpy(argv[n], char_array[n].c_str());
 			}
 			argv[n] = NULL;
+			
+			if(strcmp(argv[0],"cd")==0)
+			{
+				if(change_dir(argv) == -1)
+				{
+					
+					for(n = 0; n <= i-1; ++n)
+					{
+						delete[] argv[n];
+					}
+					goto end_of_while;
+				}
+			}
+			else
+			{
 			int pid = fork();//will fork program and let child run execvp and then waits for child process to tell parent it is done.
 		
 			if(pid == -1){
@@ -1779,13 +1864,19 @@ if(usr_input.empty()){//Checks to see if user just clicked enter and not input a
 			if(WIFEXITED(status)){
 			if(WEXITSTATUS(status) != 0)
 			{	
-			free(*argv);
+			for(n = 0; n <= i-1; ++n)
+			{
+				delete[] argv[n];
+			}
 			goto end_of_while;
 			}
 			}
-			
+			}
 					
-			free(*argv);
+			for(n = 0; n <= i-1; ++n)
+			{
+				delete[] argv[n];
+			}
 			char_array.clear();
 
 			}
@@ -1820,6 +1911,21 @@ if(usr_input.empty()){//Checks to see if user just clicked enter and not input a
 				strcpy(argv[n], char_array[n].c_str());
 			}
 			argv[n] = NULL;
+			if(strcmp(argv[0],"cd")==0)
+			{
+				if(change_dir(argv) == 0)
+				{
+					
+					for(n = 0; n <= i-1; ++n)
+					{
+						delete[] argv[n];
+					}
+					goto end_of_while;
+				}
+				char_array.clear();
+			}
+			else
+			{
 			int pid = fork();//will fork program and let child run execvp and then waits for child process to tell parent it is done.
 			if(pid == -1){
 				perror("There was error with fork().");
@@ -1837,13 +1943,20 @@ if(usr_input.empty()){//Checks to see if user just clicked enter and not input a
 				if(WEXITSTATUS(status) == 0)
 				{
 				
-					free(*argv);
+					for(n = 0; n <= i-1; ++n)
+					{
+						delete[] argv[n];
+					}
 					goto end_of_while;
 				}
 			}
 		
-			free(*argv);
 			char_array.clear();
+			}
+			for(n = 0; n <= i-1; ++n)
+			{
+				delete[] argv[n];
+			}
 			}
 		char_array.clear();
 		pars_array.clear();
@@ -1946,7 +2059,6 @@ if(usr_input.empty()){//Checks to see if user just clicked enter and not input a
 
 int main()
 {
-
 
 	signal(SIGINT,killsignal);
 	commands();
