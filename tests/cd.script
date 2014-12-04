@@ -1,0 +1,120 @@
+Script started on Wed 03 Dec 2014 07:26:21 PM PST
+]0;ifuka001@ifuka001-UX32A: ~/rshell/testsifuka001@ifuka001-UX32A:~/rshell/tests$ cd ..
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ make
+mkdir -p bin
+g++ -Wall -Werror -ansi -pedantic src/main.cpp -o bin/rshell
+g++ -Wall -Werror -ansi -pedantic src/cp.cpp -o bin/cp
+g++ -Wall -Werror -ansi -pedantic src/ls.cpp -o bin/ls
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin[K[K[Kcd[Kppcheck sr/[Kc/main.cpp #cppchcek[K[K[Keck
+Checking src/main.cpp...
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ m[Kvalgrind bin/rshell #valgrind
+==647== Memcheck, a memory error detector
+==647== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==647== Using Valgrind-3.10.0.SVN and LibVEX; rerun with -h for copyright info
+==647== Command: bin/rshell
+==647== 
+getlogin: No such file or directory
+@ifuka001-UX32A:/home/ifuka001/rshell$ ls
+bin  cat2      cat3  cat5     LICENSE	new	   src
+cat  cat2.txt  cat4  cat.txt  Makefile	README.md  tests
+@ifuka001-UX32A:/home/ifuka001/rshell$ cd ..
+@ifuka001-UX32A:/home/ifuka001$ e ca  tail    cat   ls | tail -3 | tr a-z A-Z
+TEMPLATES
+UCR-CS100
+VIDEOS
+@ifuka001-UX32A:/home/ifuka001$ cat
+^C
+@ifuka001-UX32A:/home/ifuka001$ exit
+Exiting...
+==647== 
+==647== HEAP SUMMARY:
+==647==     in use at exit: 0 bytes in 0 blocks
+==647==   total heap usage: 124 allocs, 124 frees, 11,072 bytes allocated
+==647== 
+==647== All heap blocks were freed -- no leaks are possible
+==647== 
+==647== For counts of detected and suppressed errors, rerun with: -v
+==647== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ bin/rshell
+getlogin: No such file or directory
+@ifuka001-UX32A:/home/ifuka001/rshell$ cd src #c simple cd
+@ifuka001-UX32A:/home/ifuka001/rshell/src$ cd .. #going t back a a directory
+@ifuka001-UX32A:/home/ifuka001/rshell$ ls
+bin  cat2      cat3  cat5     LICENSE	new	   src
+cat  cat2.txt  cat4  cat.txt  Makefile	README.md  tests
+@ifuka001-UX32A:/home/ifuka001/rshell$ cd .. #going to home
+@ifuka001-UX32A:/home/ifuka001$ ls
+deja-dup  Documents  examples.desktop  Pictures  rshell     ucr-cs100
+Desktop   Downloads  Music	       Public	 Templates  Videos
+@ifuka001-UX32A:/home/ifuka001$ cd rshell   src #it will wo  only take in first argument
+@ifuka001-UX32A:/home/ifuka001/rshell$ cd # cd by itself will bring to O HO  hom   HOMER  directory
+@ifuka001-UX32A:/home/ifuka001$ cd ~ #outputs error
+chdir: No such file or directory
+@ifuka001-UX32A:/home/ifuka001$ cd / rshell/src #moving in two directory
+@ifuka001-UX32A:/home/ifuka001/rshell/src$ cd .    c /  d/    / #moves to /
+@ifuka001-UX32A:/$ ls
+bin   cdrom  etc   initrd.img  lib64	   media  opt	root  sbin  sys  usr  vmlinuz
+boot  dev    home  lib	       lost+found  mnt	  proc	run   srv   tmp  var
+@ifuka001-UX32A:/$ cd #back to home
+@ifuka001-UX32A:/home/ifuka001$ cd .   sr  rshell ;   ls # with arg   command arguments
+bin  cat2      cat3  cat5     LICENSE	new	   src
+cat  cat2.txt  cat4  cat.txt  Makefile	README.md  tests
+@ifuka001-UX32A:/home/ifuka001/rshell$ cd src        lsa || cd  cd src #will move to src because of ||
+execv: No such file or directory
+@ifuka001-UX32A:/home/ifuka001/rshell/src$ cd ..
+@ifuka001-UX32A:/home/ifuka001/rshell$ lsa ||       s || cd #it will not move because ls will asu   suce ceed
+bin  cat2      cat3  cat5     LICENSE	new	   src
+cat  cat2.txt  cat4  cat.txt  Makefile	README.md  tests
+@ifuka001-UX32A:/home/ifuka001/rshell$ ls && cd src #it willl do both because o f  f &&
+bin  cat2      cat3  cat5     LICENSE	new	   src
+cat  cat2.txt  cat4  cat.txt  Makefile	README.md  tests
+@ifuka001-UX32A:/home/ifuka001/rshell/src$ cd .
+@ifuka001-UX32A:/home/ifuka001/rshell/src$ cd c d ..
+@ifuka001-UX32A:/home/ifuka001/rshell$ lsa && cd src #will do nothing
+execv: No such file or directory
+@ifuka001-UX32A:/home/ifuka001/rshell$ #now to check the interrupt
+execv: No such file or directory
+@ifuka001-UX32A:/home/ifuka001/rshell$ 
+@ifuka001-UX32A:/home/ifuka001/rshell$ cd    #I'm sorry before the we need to check spacing
+execv: No such file or directory
+@ifuka001-UX32A:/home/ifuka001/rshell$ # cd                    sr sr  rc #with a lot of space
+@ifuka001-UX32A:/home/ifuka001/rshell/src$ cd ..
+@ifuka001-UX32A:/home/ifuka001/rshell$ cdsrc #will not work like rsh   regular bac sh because it' 'll interr pt it as cdsrc as the o                      cdsrc as command
+execv: No such file or directory
+@ifuka001-UX32A:/home/ifuka001/rshell$ #now to check interrupt
+execv: No such file or directory
+@ifuka001-UX32A:/home/ifuka001/rshell$ cat  
+^C
+@ifuka001-UX32A:/home/ifuka001/rshell$ #still in b rshell
+execv: No such file or directory
+@ifuka001-UX32A:/home/ifuka001/rshell$ cd src
+@ifuka001-UX32A:/home/ifuka001/rshell/src$ l
+execv: No such file or directory
+@ifuka001-UX32A:/home/ifuka001/rshell/src$ ls
+a.out  check.cpp  cp.cpp  ls.cpp  main.cpp  signal.cpp	test.cpp  Timer.h
+@ifuka001-UX32A:/home/ifuka001/rshell/src$ g++ test.cpp
+@ifuka001-UX32A:/home/ifuka001/rshell/src$ # ./a.out #simple test that asks for input and outputs it^[[D     
+ls
+ls
+@ifuka001-UX32A:/home/ifuka001/rshell/src$ ./a.out #  now to interrupt it
+^C
+@ifuka001-UX32A:/home/ifuka001/rshell/src$ #now to check if ctrl c wont exit program
+execv: No such file or directory
+@ifuka001-UX32A:/home/ifuka001/rshell/src$ ^C
+^C
+^C
+^C
+^C
+^C
+^C
+ls
+a.out  check.cpp  cp.cpp  ls.cpp  main.cpp  signal.cpp	test.cpp  Timer.h
+@ifuka001-UX32A:/home/ifuka001/rshell/src$ # #still in program
+execv: No such file or directory
+@ifuka001-UX32A:/home/ifuka001/rshell/src$ exit
+Exiting...
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ ls[K[K#now exited program
+]0;ifuka001@ifuka001-UX32A: ~/rshellifuka001@ifuka001-UX32A:~/rshell$ exit
+exit
+
+Script done on Wed 03 Dec 2014 07:34:16 PM PST
