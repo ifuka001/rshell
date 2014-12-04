@@ -35,6 +35,7 @@ ls.cpp
 Timer.h
 cp.cpp
 main.cpp
+test.cpp
 ```
 ```
 ./tests:
@@ -43,6 +44,7 @@ ls.script
 exec.script
 pipe.script
 redirect.script
+cd.script
 ```
 
 How to run file once you have it cloned into your machine.
@@ -64,6 +66,9 @@ added ls feature and cp feature. these will work like the actualy ls and cp. (ls
 updated(11/19/2014):
 added i/o redirection and pipe in rshell.
 
+updated(12/3/2014):
+added `cd` command and added signal interrupt so Ctrl+C does not close rshell.
+
 Features of this program
 ---
 
@@ -81,6 +86,10 @@ Features of this program
 11/19/2014:
 * Added input/output redirection and piping in rshell program. It is able to do simple input "<" and output ">" redirection ( and append ">>")
 
+12/03/2014:
+* Added the `cd` command so user can change directory inside rshell.
+* Also added signal interrupt so Ctrl+C does not close rshell instead close the process running at that time.
+
 
 Known BUGS and ISSUES
 ---
@@ -96,6 +105,7 @@ Known BUGS and ISSUES
 * `rshell` piping does not support multiple i/o redirection within the pipe itself (for example, cat< Makefile| cat < Makefile >> new1)
 * `rshell` also does not allow multiple input and output redirections. it does not also allow output and append to be on same line of command
 * `rshell` only supports up to 100 pipes. If you call more, it will cause errors.
-
+* `rshell` will not support `cd ~` because `~` is a bash unique character.
+* `rshell` will not print out a new prompt like regular bash when `Ctrl+C` is clicked to interrupt program. (But it will after you use a command.)
 
 
